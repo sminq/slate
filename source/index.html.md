@@ -22,99 +22,136 @@ Welcome to the Sminq API!
 # Business
 ## Login
 
-> To authorize, use this code:
+> Business login :
 
 
 ```shell
-curl "http://example.com/api/kittens"
-  -H "Authorization: meowmeowmeow"
+curl "https://api.sminq.com/v1/business/login"
+  -H "Authorization: XXXXXXXXXX"
 ```
 
-> The above command returns JSON structured like this:
+> The above api returns JSON structured like this if OTP is required:
 
 ```json
-[
-  {
-    "id": 1,
-    "name": "Fluffums",
-    "breed": "calico",
-    "fluffiness": 6,
-    "cuteness": 7
-  },
-  {
-    "id": 2,
-    "name": "Max",
-    "breed": "unknown",
-    "fluffiness": 5,
-    "cuteness": 10
+{
+  "success": true,
+  "httpCode": 200,
+  "status": {
+    "otp": {
+      "password": "XjartdfgFpj6rYV/3oK0zQ==",
+      "mobile": "9393939393",
+    },
+    "verified": false,
   }
-]
+}
+```
+> The above api returns JSON structured like this if PIN is provided:
+
+```json
+{
+  "success": true,
+  "httpCode": 200,
+  "status": {
+    "sessionKey": "IEEJdv/UnoQTZyhqoFhooOHwi65TEW+APGJ4aMwdLfD/9O1njWCbAIxiwJxxse/RgfVqgKuPvTXcrAXl3dnTFCo+dB3L0yLj/jmZLUtKr9Vt3/m6IPNQqzC4P2FO99Cv",
+    "offlineDataUrl": "https://d35hf7a7nc5458.cloudfront.net/offline/",
+    "verified": true,
+    "business": {
+      "businessId": 14,
+      "businessName": "SminqIndia",
+      "businessLatitude": 18.519489464507107,
+      "businessLongitude": 73.90624713897705,
+      "mobile": "9393939393",
+      "countryCode": "+91",
+      "contactId": 13,
+      "address": "Pune",
+      "cityName": "Pune",
+      "cityId": 1,
+      "verticalType": "clinic"
+    }
+  }
+}
+
 ```
 
-This endpoint retrieves all kittens.
+This endpoint retrieves business details after a successful login.
 
 ### HTTP Request
 
-`GET http://example.com/api/kittens`
+`POST http://api.sminq.com/v1/business/login`
 
-### Query Parameters
+### POST Parameters
 
 Parameter | Default | Description
 --------- | ------- | -----------
-include_cats | false | If set to true, the result will also include cats.
-available | true | If set to false, the result will include kittens that have already been adopted.
+mobile | 9xxxxxxxxxx | The business primary contact.
+isSmsOtp | 1 | If set to 1, sms will be sent with OTP for verification.
+pin | null | If value is set, then sms verification will be skipped.
 
-<aside class="success">
-Remember — a happy kitten is an authenticated kitten!
-</aside>
+### Error codes
+
+Code | Description
+--------- | -----------
+111 |  Invalid PIN.
+100 |  This mobile is not registered.
 
 ## Verify
 
-> To authorize, use this code:
+> Business login verification, if OTP is enabled:
 
 
 ```shell
-curl "http://example.com/api/kittens"
-  -H "Authorization: meowmeowmeow"
+curl "https://api.sminq.com/v1/business/verify"
+  -H "Authorization: XXXXXXXXXX"
 ```
 
-> The above command returns JSON structured like this:
+> The above api returns JSON structured like this if OTP is correct:
 
 ```json
-[
-  {
-    "id": 1,
-    "name": "Fluffums",
-    "breed": "calico",
-    "fluffiness": 6,
-    "cuteness": 7
-  },
-  {
-    "id": 2,
-    "name": "Max",
-    "breed": "unknown",
-    "fluffiness": 5,
-    "cuteness": 10
+{
+  "success": true,
+  "httpCode": 200,
+  "status": {
+    "sessionKey": "IEEJdv/UnoQTZyhqoFhooOHwi65TEW+APGJ4aMwdLfD/9O1njWCbAIxiwJxxse/RgfVqgKuPvTXcrAXl3dnTFCo+dB3L0yLj/jmZLUtKr9Vt3/m6IPNQqzC4P2FO99Cv",
+    "offlineDataUrl": "https://d35hf7a7nc5458.cloudfront.net/offline/",
+    "verified": true,
+    "business": {
+      "businessId": 14,
+      "businessName": "SminqIndia",
+      "businessLatitude": 18.519489464507107,
+      "businessLongitude": 73.90624713897705,
+      "mobile": "9393939393",
+      "countryCode": "+91",
+      "contactId": 13,
+      "address": "Pune",
+      "cityName": "Pune",
+      "cityId": 1,
+      "verticalType": "clinic"
+    }
   }
-]
+}
+
 ```
 
-This endpoint retrieves all kittens.
+This endpoint retrieves business details after a successful verification.
 
 ### HTTP Request
 
-`GET http://example.com/api/kittens`
+`POST http://api.sminq.com/v1/business/login`
 
-### Query Parameters
+### POST Parameters
 
 Parameter | Default | Description
 --------- | ------- | -----------
-include_cats | false | If set to true, the result will also include cats.
-available | true | If set to false, the result will include kittens that have already been adopted.
+mobile | 9xxxxxxxxxx | The business primary contact.
+password | xxxxxx | 4-6 digit OTP for verification.
 
-<aside class="success">
-Remember — a happy kitten is an authenticated kitten!
-</aside>
+
+### Error codes
+
+Code | Description
+--------- | -----------
+100 |  This mobile is not registered.
+301 |  One time password verification failed.
 
 ## Device Register
 
