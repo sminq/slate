@@ -1195,228 +1195,300 @@ Code | Description
 
 
 ```shell
-curl "http://example.com/api/kittens"
-  -H "Authorization: meowmeowmeow"
+curl "http://api.sminq.com/v1/user/login"
+  -H "Authorization: xxxxxx"
 ```
 
 > The above command returns JSON structured like this:
 
 ```json
-[
-  {
-    "id": 1,
-    "name": "Fluffums",
-    "breed": "calico",
-    "fluffiness": 6,
-    "cuteness": 7
-  },
-  {
-    "id": 2,
-    "name": "Max",
-    "breed": "unknown",
-    "fluffiness": 5,
-    "cuteness": 10
+{
+  "success": true,
+  "httpCode": 200,
+  "status": {
+    "otp": {
+      "password": "LfbsOey9yciSpch9TjHidA==",
+      "mobile": "9898989897",
+      "expire": null
+    },
+    "verified": false
   }
-]
+}
 ```
 
-This endpoint retrieves all kittens.
+This endpoint is used for user login, verification is required if PIN is not entered.
 
 ### HTTP Request
 
-`GET http://example.com/api/kittens`
+`POST http://api.sminq.com/v1/user/login`
 
-### Query Parameters
+### POST Parameters
 
 Parameter | Default | Description
 --------- | ------- | -----------
-include_cats | false | If set to true, the result will also include cats.
-available | true | If set to false, the result will include kittens that have already been adopted.
+mobile | true | Registered user mobile.
+pin | true | Registered user mobile.
 
-<aside class="success">
-Remember — a happy kitten is an authenticated kitten!
-</aside>
+### Error codes
 
-## Verify
+Code | Description
+--------- | -----------
+341 |  Mobile number is not registered.
+
+
+## Verify Login
 
 ```shell
-curl "http://example.com/api/kittens"
-  -H "Authorization: meowmeowmeow"
+curl "http://api.sminq.com/v1/user/login/verify"
+  -H "Authorization: xxxxxx"
 ```
 
 > The above command returns JSON structured like this:
 
 ```json
-[
-  {
-    "id": 1,
-    "name": "Fluffums",
-    "breed": "calico",
-    "fluffiness": 6,
-    "cuteness": 7
-  },
-  {
-    "id": 2,
-    "name": "Max",
-    "breed": "unknown",
-    "fluffiness": 5,
-    "cuteness": 10
+{
+  "success": true,
+  "httpCode": 200,
+  "status": {
+    "otp": null,
+    "user": {
+      "userId": 29,
+      "userName": "Test",
+      "userEmail": null,
+      "userMobile": "9898989897",
+      "createdOn": null,
+      "isBusinessOwner": null,
+      "userVerified": 1,
+      "userCityId": 1,
+      "countryCode": null,
+      "pin": "0",
+      "appVersion": null,
+      "canBusinessEdit": null
+    },
+    "sessionKey": "dcmn+5mPRA8F/VToB2/Kj1uAhEaV+ljx1Rr/jsz4G/IVacTDhLmdolXB4lw10SCE7y3W1zmd0rGR9bzcvpbYFk5hqJusAmST2N1dbSFODwelnfyZC1L6MkBkB4f4RMlS",
+    "verified": null
   }
-]
+}
 ```
 
-This endpoint retrieves all kittens.
+This endpoint retrieves user profile information after successful login.
 
 ### HTTP Request
 
-`GET http://example.com/api/kittens`
+`http://api.sminq.com/v1/user/login/verify`
 
-### Query Parameters
+### POST Parameters
 
 Parameter | Default | Description
 --------- | ------- | -----------
-include_cats | false | If set to true, the result will also include cats.
-available | true | If set to false, the result will include kittens that have already been adopted.
+mobile | true | Registered user mobile number.
+password | true | OTP sent to registered mobile number.
 
-<aside class="success">
-Remember — a happy kitten is an authenticated kitten!
-</aside>
+### Error codes
+
+Code | Description
+--------- | -----------
+341 |  Mobile number is not registered.
+342 |  OTP failed.
+
 
 ## Signup
 
+> Registers a new user, OTP verification is required.
+
 ```shell
-curl "http://example.com/api/kittens"
-  -H "Authorization: meowmeowmeow"
+curl "http://api.sminq.com/v1/user/signup"
+  -H "Authorization: xxxxxx"
 ```
 
 > The above command returns JSON structured like this:
 
 ```json
-[
-  {
-    "id": 1,
-    "name": "Fluffums",
-    "breed": "calico",
-    "fluffiness": 6,
-    "cuteness": 7
-  },
-  {
-    "id": 2,
-    "name": "Max",
-    "breed": "unknown",
-    "fluffiness": 5,
-    "cuteness": 10
+{
+  "success": true,
+  "httpCode": 200,
+  "status": {
+    "id": null,
+    "password": "CHOXAxxmOrZfzRoOGsXNRg==",
+    "mobile": "9797979797"
   }
-]
+}
 ```
 
-This endpoint retrieves all kittens.
+This endpoint registers a user, and sends a verification code to the mobile entered.
 
 ### HTTP Request
 
-`GET http://example.com/api/kittens`
+`POST http://api.sminq.com/v1/user/signup`
 
-### Query Parameters
+### POST Parameters
 
 Parameter | Default | Description
 --------- | ------- | -----------
-include_cats | false | If set to true, the result will also include cats.
-available | true | If set to false, the result will include kittens that have already been adopted.
+userName | true | Name for user.
+userMobile | true | Unique user mobile.
+userVerified | true | set to 1.
+isBusinessOwner | true | set to 0.
+userCityId | true | city of user.
 
-<aside class="success">
-Remember — a happy kitten is an authenticated kitten!
-</aside>
+### Error codes
 
+Code | Description
+--------- | -----------
+336 |  User name cannot be empty.
+337 |  User mobile cannot be empty.
+340 |  User mobile is already registered.
 
-## Device register
+## Verify New user
+
+> Registers a new user, OTP verification is required.
 
 ```shell
-curl "http://example.com/api/kittens"
-  -H "Authorization: meowmeowmeow"
+curl "http://api.sminq.com/v1/user/verify"
+  -H "Authorization: xxxxxx"
 ```
 
 > The above command returns JSON structured like this:
 
 ```json
-[
-  {
-    "id": 1,
-    "name": "Fluffums",
-    "breed": "calico",
-    "fluffiness": 6,
-    "cuteness": 7
-  },
-  {
-    "id": 2,
-    "name": "Max",
-    "breed": "unknown",
-    "fluffiness": 5,
-    "cuteness": 10
+{
+  "success": true,
+  "httpCode": 200,
+  "status": {
+    "otp": null,
+    "user": {
+      "userId": 30,
+      "userName": "Signup",
+      "userEmail": null,
+      "userMobile": "9797979797",
+      "createdOn": null,
+      "isBusinessOwner": null,
+      "userVerified": 0,
+      "userCityId": 1,
+      "countryCode": null,
+      "pin": "0",
+      "appVersion": null,
+      "canBusinessEdit": null
+    },
+    "sessionKey": "p+WdYAo3HQa4qZGQt5sElRsta0ckvwAmuH+4FVZ9Nb7LH9Ph9WW7HtEO0OqiUyHzr/pFgk36aJ3GIf+57oPLnjvMlFYdVHOa+94pjHKQxKglYlVt+AUoylpQRuC1fTb/",
+    "verified": true
   }
-]
+}
 ```
 
-This endpoint retrieves all kittens.
+This endpoint registers a user, and sends a verification code to the mobile entered.
 
 ### HTTP Request
 
-`GET http://example.com/api/kittens`
+`POST http://api.sminq.com/v1/user/verify`
 
-### Query Parameters
+### POST Parameters
 
 Parameter | Default | Description
 --------- | ------- | -----------
-include_cats | false | If set to true, the result will also include cats.
-available | true | If set to false, the result will include kittens that have already been adopted.
+mobile | true | Registered mobile.
+password | true | verification code sent to mobile.
 
-<aside class="success">
-Remember — a happy kitten is an authenticated kitten!
-</aside>
+### Error codes
 
-## Device Un-register
+Code | Description
+--------- | -----------
+342 |  User OTP failed.
+337 |  User mobile cannot be empty.
+336 |  User name cannot be empty.
+
+
+## Device Register
+
+> this will register user device for push notifications
+
 
 ```shell
-curl "http://example.com/api/kittens"
-  -H "Authorization: meowmeowmeow"
+curl "http://api.sminq.com/v1/user/device/register"
+  -H "Authorization: xxxxxxxx"
 ```
 
 > The above command returns JSON structured like this:
 
 ```json
-[
-  {
+{
+  "success": true,
+  "httpCode": 200,
+  "status": {
     "id": 1,
-    "name": "Fluffums",
-    "breed": "calico",
-    "fluffiness": 6,
-    "cuteness": 7
-  },
-  {
-    "id": 2,
-    "name": "Max",
-    "breed": "unknown",
-    "fluffiness": 5,
-    "cuteness": 10
+    "userId": 1,
+    "deviceType": "android",
+    "registrationId": "ZElwXzU1Z29JZU06QVBBOTFiRTlHQ0MtVk5tMzNyWUlYQjZ4ckU3U2xUaTdIT0RVd0oweF9DaU1QbC1JbGlEWUFKRGJvaTdUMHFWX1pRVDhZS1A4RGdmUkZOdmMxZXRNTkU0TnNDbjBISHQ1QktreS1XX2xScmpXdkpweWpyVThfRHdvZXJ1c25MQjhUck1kYWNuQktvN18=",
+    "deviceEndpointArn": "YXJuOmF3czpzbnM6YXAtc291dGhlYXN0LTE6Mjg4Nzg5MzU0MjQ4OmVuZHBvaW50L0dDTS9TbWlucUJ1c2luZXNzQXBwLzJlMTYxNWM5LTBmNzUtM2I4YS05Njg1LWIxNjk0ZTAwMDliMw==",
+    "deviceStatus": 1
   }
-]
+}
 ```
 
-This endpoint retrieves all kittens.
+This endpoint registers a business device for push notifications.
 
 ### HTTP Request
 
-`GET http://example.com/api/kittens`
+`POST http://api.sminq.com/v1/user/device/register`
 
-### Query Parameters
+### POST Parameters
 
 Parameter | Default | Description
 --------- | ------- | -----------
-include_cats | false | If set to true, the result will also include cats.
-available | true | If set to false, the result will include kittens that have already been adopted.
+userId | true | Unique ID for user.
+deviceType | true | values can be "android" or "ios".
+registrationId | true | values returned from GCM or APNS.
 
-<aside class="success">
-Remember — a happy kitten is an authenticated kitten!
-</aside>
+
+### Error codes
+
+Code | Description
+--------- | -----------
+101 |  Invalid user ID.
+303 |  Registration ID cannot be empty.
+
+
+## Device Un-Register
+
+> unregister business device for notifications
+
+```shell
+curl "http://api.sminq.com/v1/user/device/unregister"
+  -H "Authorization: xxxxxxxx"
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+  "success": true,
+  "httpCode": 200,
+  "status": null
+}
+```
+
+### HTTP Request
+
+`POST http://api.sminq.com/v1/user/device/unregister`
+
+### Query Parameters
+
+### POST Parameters
+
+Parameter | Default | Description
+--------- | ------- | -----------
+userId | true | Unique ID for User.
+deviceType | true | values can be "android" or "ios".
+registrationId | true | values returned from GCM or APNS.
+
+
+### Error codes
+
+Code | Description
+--------- | -----------
+101 |  Invalid business ID.
+303 |  Registration ID cannot be empty.
+
 
 ## Update profile
 
