@@ -1962,7 +1962,7 @@ Code | Description
 
 
 ```shell
-curl "http://example.com/api/kittens"
+curl "http://api.sminq.com/v1/user/business/search"
   -H "Authorization: xxxxxx"
 ```
 
@@ -1972,90 +1972,104 @@ curl "http://example.com/api/kittens"
 {
   "success": true,
   "httpCode": 200,
-  "status": {
-    "mobile": null,
-    "password": null,
-    "optEnabled": 0
-  }
+  "status": [
+    {
+      "businessId": 43,
+      "businessCategoryId": 1,
+      "businessName": "Aadhar Hospital",
+      "businessLatitude": 18.519489464507107,
+      "businessLongitude": 73.90624713897705,
+      "mobile": "9822052621",
+      "address": "Dr. Ravindrakumar Katkar, 36, Inna Appt, Opp. Pune Mahila Mandal, Parvati, Pune",
+      "cityName": "Pune",
+      "cityId": 1,
+      "tags": "General Medicine",
+      "openQueues": 1,
+      "verticalType": "clinic",
+      "enableAdvanceBooking": 1,
+      "enablePayments": 0,
+      "queueId": 61
+    },
+    {
+      "businessId": 24,
+      "businessCategoryId": 1,
+      "businessName": "Dr Bhalerao Children Hospital",
+      "businessLatitude": 18.5793178,
+      "businessLongitude": 18.5793178,
+      "mobile": "9850198501",
+      "address": "4 - B, Narsinha Colony, Narsinha School Lane, Old Sangavi, Pune",
+      "cityName": "Pune",
+      "cityId": 1,
+      "tags": "Pediatrician",
+      "openQueues": 2,
+      "verticalType": "clinic",
+      "enableAdvanceBooking": 1,
+      "enablePayments": 1,
+      "queueId": 32
+    }
+  ]
 }
 ```
 
-> The above command returns JSON structured like this if mobile is entered (OTP verification is required):
+This endpoint retrieves all business.
+
+### HTTP Request
+
+`GET http://api.sminq.com/v1/user/business/search`
+
+### Query Parameters
+
+Parameter | Default | Description
+--------- | ------- | -----------
+cityId | true | City of user to search for business.
+categoryId | true | business category.
+cityName | false | name of city.
+categoryName | false | name of category.
+location | false | location name.
+tags | false | business speciality.
+limit | false | for pagination.
+page | false | for pagination.
+
+
+
+## Check availability
+
+> check calendar availability for a business queue.
+
+```shell
+curl "http://api.sminq.com/v1/user/queue/availability"
+  -H "Authorization: xxxxxx"
+```
+
+> The above command returns JSON structured like this:
 
 ```json
 {
   "success": true,
   "httpCode": 200,
   "status": {
-    "mobile": "9797979777",
-    "password": "fvFB4K3ZZ1GLMU7yVMBHug==",
-    "optEnabled": 1
+    "nextTimeSlot": "19:00:00",
+    "availableSlotCount": 15,
+    "joinDate": "2016-08-16",
+    "groupStartTime": "18:00:00",
+    "groupEndTime": "20:55:00",
+    "message": "FULL NOW\nNext available at 07:00 PM\n(ONLY 15 places)"
   }
 }
 ```
 
-This endpoint adds a member for the user.
+This endpoint checks calendar availability for a business queue.
 
 ### HTTP Request
 
-`GET http://example.com/api/kittens`
+`GET http://api.sminq.com/v1/user/queue/availability`
 
 ### Query Parameters
 
 Parameter | Default | Description
 --------- | ------- | -----------
-include_cats | false | If set to true, the result will also include cats.
-available | true | If set to false, the result will include kittens that have already been adopted.
+queueId | true | unique business queue ID.
 
-<aside class="success">
-Remember — a happy kitten is an authenticated kitten!
-</aside>
-
-## Check availability
-
-
-```shell
-curl "http://example.com/api/kittens"
-  -H "Authorization: meowmeowmeow"
-```
-
-> The above command returns JSON structured like this:
-
-```json
-[
-  {
-    "id": 1,
-    "name": "Fluffums",
-    "breed": "calico",
-    "fluffiness": 6,
-    "cuteness": 7
-  },
-  {
-    "id": 2,
-    "name": "Max",
-    "breed": "unknown",
-    "fluffiness": 5,
-    "cuteness": 10
-  }
-]
-```
-
-This endpoint retrieves all kittens.
-
-### HTTP Request
-
-`GET http://example.com/api/kittens`
-
-### Query Parameters
-
-Parameter | Default | Description
---------- | ------- | -----------
-include_cats | false | If set to true, the result will also include cats.
-available | true | If set to false, the result will include kittens that have already been adopted.
-
-<aside class="success">
-Remember — a happy kitten is an authenticated kitten!
-</aside>
 
 ## Add Online payment
 
