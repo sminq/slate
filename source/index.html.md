@@ -156,6 +156,49 @@ Code | Description
 100 |  This mobile is not registered.
 301 |  One time password verification failed.
 
+## Create Pin
+
+> Business can create a PIN to login, to avoid OTP verification on every login.
+
+```shell
+curl "http://api.sminq.com/v1/business/pin/generate"
+  -H "Authorization: xxxxxx"
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+  "success": true,
+  "httpCode": 200,
+  "status": {
+    "mobile": "9797979798",
+    "pin": "F1JhJzIT6EkTf+saemUtRQ==",
+    "password": null
+  }
+}
+```
+
+This endpoint sets PIN for business .
+
+### HTTP Request
+
+`POST http://api.sminq.com/v1/business/pin/generate`
+
+### Query Parameters
+
+Parameter | Default | Description
+--------- | ------- | -----------
+mobile | true | Registered user mobile.
+pin | true | User 4 digit pin.
+
+### Error codes
+
+Code | Description
+--------- | -----------
+337 |  Business mobile cannot be empty.
+100 |  Business is not registered.
+
 ## Device Register
 
 > this will register business device for future push notifications
@@ -1492,396 +1535,466 @@ Code | Description
 
 ## Update profile
 
+> updated the user profile, OTP verification is required of mobile is changed
+
 ```shell
-curl "http://example.com/api/kittens"
-  -H "Authorization: meowmeowmeow"
+curl "http://api.sminq.com/v1/user/profile/update"
+  -H "Authorization: xxxxxx"
 ```
 
-> The above command returns JSON structured like this:
+> The above command returns JSON structured like this if mobile is not changed:
 
 ```json
-[
-  {
-    "id": 1,
-    "name": "Fluffums",
-    "breed": "calico",
-    "fluffiness": 6,
-    "cuteness": 7
-  },
-  {
-    "id": 2,
-    "name": "Max",
-    "breed": "unknown",
-    "fluffiness": 5,
-    "cuteness": 10
+{
+  "success": true,
+  "httpCode": 200,
+  "status": {
+    "mobile": "9797979797",
+    "password": null,
+    "optEnabled": 0
   }
-]
+}
 ```
 
-This endpoint retrieves all kittens.
+> The above command returns JSON structured like this if mobile is  changed:
+
+```json
+{
+  "success": true,
+  "httpCode": 200,
+  "status": {
+    "mobile": "9797979798",
+    "password": "WA/blE5Y58DHJ2rZL8tafg==",
+    "optEnabled": 1
+  }
+}
+```
+
+This endpoint updates a user profile.
 
 ### HTTP Request
 
-`GET http://example.com/api/kittens`
+`POST http://api.sminq.com/v1/user/profile/update`
 
-### Query Parameters
+### POST Parameters
 
 Parameter | Default | Description
 --------- | ------- | -----------
-include_cats | false | If set to true, the result will also include cats.
-available | true | If set to false, the result will include kittens that have already been adopted.
+userName | true | User full name.
+userMobile | true | User mobile.
+userEmail | false | User email.
+userCityId | true | User city ID.
+userId | true | Unique user ID.
 
-<aside class="success">
-Remember — a happy kitten is an authenticated kitten!
-</aside>
+### Error codes
+
+Code | Description
+--------- | -----------
+110 |  Invalid user ID.
+336 |  User name cannot be empty.
+337 | User mobile cannot be empty.
+104 | invalid city ID
+350 | User already exists (incase of mobile number change)
+
 
 ## Verify profile
 
 ```shell
-curl "http://example.com/api/kittens"
-  -H "Authorization: meowmeowmeow"
+curl "http://api.sminq.com/v1/user/profile/verify"
+  -H "Authorization: xxxxxx"
 ```
 
 > The above command returns JSON structured like this:
 
 ```json
-[
-  {
-    "id": 1,
-    "name": "Fluffums",
-    "breed": "calico",
-    "fluffiness": 6,
-    "cuteness": 7
-  },
-  {
-    "id": 2,
-    "name": "Max",
-    "breed": "unknown",
-    "fluffiness": 5,
-    "cuteness": 10
+{
+  "success": true,
+  "httpCode": 200,
+  "status": {
+    "userId": 30,
+    "userName": "Signup1",
+    "userEmail": "demo@sminq.com",
+    "userMobile": "9797979798",
+    "createdOn": null,
+    "isBusinessOwner": null,
+    "userVerified": null,
+    "userCityId": 1,
+    "countryCode": null,
+    "pin": null,
+    "appVersion": null,
+    "canBusinessEdit": null
   }
-]
+}
 ```
 
-This endpoint retrieves all kittens.
+This endpoint updates user profile after verification.
 
 ### HTTP Request
 
-`GET http://example.com/api/kittens`
+`GET http://api.sminq.com/v1/user/profile/verify`
 
-### Query Parameters
+### POST Parameters
+
+### POST Parameters
 
 Parameter | Default | Description
 --------- | ------- | -----------
-include_cats | false | If set to true, the result will also include cats.
-available | true | If set to false, the result will include kittens that have already been adopted.
+userName | true | User full name.
+userMobile | true | User mobile.
+userEmail | false | User email.
+userCityId | true | User city ID.
+userId | true | Unique user ID.
+password | true | Verification code sent to new mobile number.
 
-<aside class="success">
-Remember — a happy kitten is an authenticated kitten!
-</aside>
+### Error codes
+
+Code | Description
+--------- | -----------
+110 |  Invalid user ID.
+336 |  User name cannot be empty.
+337 | User mobile cannot be empty.
+104 | invalid city ID
+350 | User already exists (incase of mobile number change)
+342 | User OTP failed.
 
 ## Create Pin
 
+> User can create a PIN to login, to avoid OTP verification on every login.
+
 ```shell
-curl "http://example.com/api/kittens"
-  -H "Authorization: meowmeowmeow"
+curl "http://api.sminq.com/v1/user/pin/generate"
+  -H "Authorization: xxxxxx"
 ```
 
 > The above command returns JSON structured like this:
 
 ```json
-[
-  {
-    "id": 1,
-    "name": "Fluffums",
-    "breed": "calico",
-    "fluffiness": 6,
-    "cuteness": 7
-  },
-  {
-    "id": 2,
-    "name": "Max",
-    "breed": "unknown",
-    "fluffiness": 5,
-    "cuteness": 10
+{
+  "success": true,
+  "httpCode": 200,
+  "status": {
+    "mobile": "9797979798",
+    "pin": "F1JhJzIT6EkTf+saemUtRQ==",
+    "password": null
   }
-]
+}
 ```
 
-This endpoint retrieves all kittens.
+This endpoint sets PIN for user .
 
 ### HTTP Request
 
-`GET http://example.com/api/kittens`
+`POST http://api.sminq.com/v1/user/pin/generate`
 
 ### Query Parameters
 
 Parameter | Default | Description
 --------- | ------- | -----------
-include_cats | false | If set to true, the result will also include cats.
-available | true | If set to false, the result will include kittens that have already been adopted.
+mobile | true | Registered user mobile.
+pin | true | User 4 digit pin.
 
-<aside class="success">
-Remember — a happy kitten is an authenticated kitten!
-</aside>
+### Error codes
+
+Code | Description
+--------- | -----------
+337 |  User mobile cannot be empty.
+341 |  User does not exist.
 
 ## Add member
 
 ```shell
-curl "http://example.com/api/kittens"
-  -H "Authorization: meowmeowmeow"
+curl "http://api.sminq.com/v1/user/member"
+  -H "Authorization: xxxxxx"
 ```
 
-> The above command returns JSON structured like this:
+> The above command returns JSON structured like this if mobile is not entered:
 
 ```json
-[
-  {
-    "id": 1,
-    "name": "Fluffums",
-    "breed": "calico",
-    "fluffiness": 6,
-    "cuteness": 7
-  },
-  {
-    "id": 2,
-    "name": "Max",
-    "breed": "unknown",
-    "fluffiness": 5,
-    "cuteness": 10
+{
+  "success": true,
+  "httpCode": 200,
+  "status": {
+    "mobile": null,
+    "password": null,
+    "optEnabled": 0
   }
-]
+}
 ```
 
-This endpoint retrieves all kittens.
+> The above command returns JSON structured like this if mobile is entered (OTP verification is required):
+
+```json
+{
+  "success": true,
+  "httpCode": 200,
+  "status": {
+    "mobile": "9797979777",
+    "password": "fvFB4K3ZZ1GLMU7yVMBHug==",
+    "optEnabled": 1
+  }
+}
+```
+
+This endpoint adds a member for user, if mobile is entered then verification will be required.
 
 ### HTTP Request
 
-`GET http://example.com/api/kittens`
+`POST http://api.sminq.com/v1/user/member`
 
-### Query Parameters
+### POST Parameters
 
 Parameter | Default | Description
 --------- | ------- | -----------
-include_cats | false | If set to true, the result will also include cats.
-available | true | If set to false, the result will include kittens that have already been adopted.
+mobile | false | member mobile.
+name | true | member name.
+userId | true | The user for which member needs to be added.
 
-<aside class="success">
-Remember — a happy kitten is an authenticated kitten!
-</aside>
+### Error codes
+
+Code | Description
+--------- | -----------
+110 |  Invalid user ID.
+353 |  Name cannot be empty.
+350 | member exists (if mobile is entered).
 
 ## Get members
 
+> fetch members for a user.
+
 ```shell
-curl "http://example.com/api/kittens"
-  -H "Authorization: meowmeowmeow"
+curl "http://api.sminq.com/v1/user/member"
+  -H "Authorization: xxxxxx"
 ```
 
 > The above command returns JSON structured like this:
 
 ```json
-[
-  {
-    "id": 1,
-    "name": "Fluffums",
-    "breed": "calico",
-    "fluffiness": 6,
-    "cuteness": 7
-  },
-  {
-    "id": 2,
-    "name": "Max",
-    "breed": "unknown",
-    "fluffiness": 5,
-    "cuteness": 10
-  }
-]
+{
+  "success": true,
+  "httpCode": 200,
+  "status": [
+    {
+      "groupId": 3,
+      "userId": 30,
+      "name": "Family",
+      "mobile": null,
+      "status": 1,
+      "verified": 1,
+      "createdOn": null
+    }
+  ]
+}
 ```
 
-This endpoint retrieves all kittens.
+This endpoint retrieves all members associated with a user.
 
 ### HTTP Request
 
-`GET http://example.com/api/kittens`
+`GET http://api.sminq.com/v1/user/member`
 
 ### Query Parameters
 
 Parameter | Default | Description
 --------- | ------- | -----------
-include_cats | false | If set to true, the result will also include cats.
-available | true | If set to false, the result will include kittens that have already been adopted.
+userId | true | Unique user ID.
 
-<aside class="success">
-Remember — a happy kitten is an authenticated kitten!
-</aside>
+Code | Description
+--------- | -----------
+110 |  Invalid user ID.
 
 
 ## Verify member
 
 ```shell
-curl "http://example.com/api/kittens"
-  -H "Authorization: meowmeowmeow"
+curl "http://api.sminq.com/v1/user/member/verify"
+  -H "Authorization: xxxxxx"
 ```
 
 > The above command returns JSON structured like this:
 
 ```json
-[
-  {
-    "id": 1,
-    "name": "Fluffums",
-    "breed": "calico",
-    "fluffiness": 6,
-    "cuteness": 7
-  },
-  {
-    "id": 2,
-    "name": "Max",
-    "breed": "unknown",
-    "fluffiness": 5,
-    "cuteness": 10
-  }
-]
+{
+  "success": true,
+  "httpCode": 200,
+  "status": null
+}
 ```
 
-This endpoint retrieves all kittens.
+This endpoint verifies member mobile number.
 
 ### HTTP Request
 
-`GET http://example.com/api/kittens`
+`POST http://api.sminq.com/v1/user/member/verify`
 
-### Query Parameters
+### POST Parameters
 
 Parameter | Default | Description
 --------- | ------- | -----------
-include_cats | false | If set to true, the result will also include cats.
-available | true | If set to false, the result will include kittens that have already been adopted.
+mobile | false | member mobile.
+name | true | member name.
+userId | true | The user for which member needs to be added.
+status | true | 1
+password | true | OTP sent to member mobile.
 
-<aside class="success">
-Remember — a happy kitten is an authenticated kitten!
-</aside>
+### Error codes
+
+Code | Description
+--------- | -----------
+110 |  Invalid user ID.
+353 |  Name cannot be empty.
+355 | Mobile cannot be empty.
+342 | OTP verification failed.
 
 ## Update member
 
 ```shell
-curl "http://example.com/api/kittens"
-  -H "Authorization: meowmeowmeow"
+curl "http://api.sminq.com/v1/user/member/5"
+  -H "Authorization: xxxxxx"
 ```
 
-> The above command returns JSON structured like this:
+> The above command returns JSON structured like this if mobile is not entered:
 
 ```json
-[
-  {
-    "id": 1,
-    "name": "Fluffums",
-    "breed": "calico",
-    "fluffiness": 6,
-    "cuteness": 7
-  },
-  {
-    "id": 2,
-    "name": "Max",
-    "breed": "unknown",
-    "fluffiness": 5,
-    "cuteness": 10
+{
+  "success": true,
+  "httpCode": 200,
+  "status": {
+    "mobile": null,
+    "password": null,
+    "optEnabled": 0
   }
-]
+}
 ```
 
-This endpoint retrieves all kittens.
+> The above command returns JSON structured like this if mobile is entered (OTP verification is required):
+
+```json
+{
+  "success": true,
+  "httpCode": 200,
+  "status": {
+    "mobile": "9797979777",
+    "password": "fvFB4K3ZZ1GLMU7yVMBHug==",
+    "optEnabled": 1
+  }
+}
+```
+
+This endpoint update a member for user, if mobile is entered then verification will be required.
 
 ### HTTP Request
 
-`GET http://example.com/api/kittens`
+`POST http://api.sminq.com/v1/user/member/{groupId}`
 
-### Query Parameters
+### POST Parameters
 
 Parameter | Default | Description
 --------- | ------- | -----------
-include_cats | false | If set to true, the result will also include cats.
-available | true | If set to false, the result will include kittens that have already been adopted.
+mobile | false | member mobile.
+name | true | member name.
+userId | true | The user for which member needs to be added.
+groupId | true | The unique member ID
 
-<aside class="success">
-Remember — a happy kitten is an authenticated kitten!
-</aside>
+### Error codes
+
+Code | Description
+--------- | -----------
+110 |  Invalid user ID.
+353 |  Name cannot be empty.
+350 | member exists (if mobile is entered).
+
 
 ## Verify member update
 
+> verify the updated mamber if mobile was changed.
 
 ```shell
-curl "http://example.com/api/kittens"
-  -H "Authorization: meowmeowmeow"
+curl "http://api.sminq.com/v1/user/member/verify/{id}"
+  -H "Authorization: xxxxxx"
 ```
 
 > The above command returns JSON structured like this:
 
+
 ```json
-[
-  {
-    "id": 1,
-    "name": "Fluffums",
-    "breed": "calico",
-    "fluffiness": 6,
-    "cuteness": 7
-  },
-  {
-    "id": 2,
-    "name": "Max",
-    "breed": "unknown",
-    "fluffiness": 5,
-    "cuteness": 10
-  }
-]
+{
+  "success": true,
+  "httpCode": 200,
+  "status": [
+    {
+      "groupId": 3,
+      "userId": 30,
+      "name": "Family",
+      "mobile": 999999999,
+      "status": 1,
+      "verified": 1,
+      "createdOn": null
+    }
+  ]
+}
 ```
 
-This endpoint retrieves all kittens.
+This endpoint updateds member after new mobile is verified.
 
 ### HTTP Request
 
-`GET http://example.com/api/kittens`
-
-### Query Parameters
+### POST Parameters
 
 Parameter | Default | Description
 --------- | ------- | -----------
-include_cats | false | If set to true, the result will also include cats.
-available | true | If set to false, the result will include kittens that have already been adopted.
+mobile | false | member mobile.
+name | true | member name.
+userId | true | The user for which member needs to be added.
+status | true | 1
+password | true | OTP sent to member mobile.
 
-<aside class="success">
-Remember — a happy kitten is an authenticated kitten!
-</aside>
+
+### Error codes
+
+Code | Description
+--------- | -----------
+110 |  Invalid user ID.
+353 |  Name cannot be empty.
+355 | Mobile cannot be empty.
+342 | OTP verification failed.
 
 ## Business search
 
 
 ```shell
 curl "http://example.com/api/kittens"
-  -H "Authorization: meowmeowmeow"
+  -H "Authorization: xxxxxx"
 ```
 
-> The above command returns JSON structured like this:
+> The above command returns JSON structured like this if mobile is not entered:
 
 ```json
-[
-  {
-    "id": 1,
-    "name": "Fluffums",
-    "breed": "calico",
-    "fluffiness": 6,
-    "cuteness": 7
-  },
-  {
-    "id": 2,
-    "name": "Max",
-    "breed": "unknown",
-    "fluffiness": 5,
-    "cuteness": 10
+{
+  "success": true,
+  "httpCode": 200,
+  "status": {
+    "mobile": null,
+    "password": null,
+    "optEnabled": 0
   }
-]
+}
 ```
 
-This endpoint retrieves all kittens.
+> The above command returns JSON structured like this if mobile is entered (OTP verification is required):
+
+```json
+{
+  "success": true,
+  "httpCode": 200,
+  "status": {
+    "mobile": "9797979777",
+    "password": "fvFB4K3ZZ1GLMU7yVMBHug==",
+    "optEnabled": 1
+  }
+}
+```
+
+This endpoint adds a member for the user.
 
 ### HTTP Request
 
