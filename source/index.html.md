@@ -363,372 +363,512 @@ Code | Description
 
 ## Queue calendar
 
-> To authorize, use this code:
+> Get the queue calendar for date:
 
 
 ```shell
-curl "http://example.com/api/kittens"
-  -H "Authorization: meowmeowmeow"
+curl "http://api.sminq.com/v1/business/queue/calendar"
+  -H "Authorization: xxxxxxx"
 ```
 
 > The above command returns JSON structured like this:
 
 ```json
-[
-  {
-    "id": 1,
-    "name": "Fluffums",
-    "breed": "calico",
-    "fluffiness": 6,
-    "cuteness": 7
-  },
-  {
-    "id": 2,
-    "name": "Max",
-    "breed": "unknown",
-    "fluffiness": 5,
-    "cuteness": 10
-  }
-]
+{
+  "success": true,
+  "httpCode": 200,
+  "status": [
+    {
+      "tokenQueueId": 1,
+      "tokenId": 2,
+      "appType": 1,
+      "userId": 11,
+      "userName": "demo17",
+      "userEmail": null,
+      "userMobile": "3616483770",
+      "userGroupMobile": null,
+      "userGroupName": null,
+      "userCityId": 1,
+      "tokenNumber": 1102,
+      "queueName": "ENT",
+      "businessName": "Sahyadri Clinic",
+      "statusType": "T_CREATE",
+      "joinDate": "2016-08-16",
+      "joinTime": "11:10:00",
+      "tokenMetadata": null,
+      "slotGroupName": "Morning",
+      "slotGroup": "09:00:00 - 12:55:00",
+      "billAmount": null,
+      "refundAmount": null,
+      "billingType": null,
+      "billingId": null,
+      "isPaid": null,
+      "clientUuid": "9a6ff998-f085-4183-b2c1-067e7a6d3001",
+      "enablePayments": 0,
+      "forcePayment": 1
+    },
+    {
+      "tokenQueueId": 1,
+      "tokenId": 3,
+      "appType": 1,
+      "userId": 14,
+      "userName": "demo18",
+      "userEmail": null,
+      "userMobile": "7805802928",
+      "userGroupMobile": null,
+      "userGroupName": null,
+      "userCityId": 1,
+      "tokenNumber": 1103,
+      "queueName": "ENT",
+      "businessName": "Sahyadri Clinic",
+      "statusType": "T_CREATE",
+      "joinDate": "2016-08-16",
+      "joinTime": "11:10:00",
+      "tokenMetadata": null,
+      "slotGroupName": "Morning",
+      "slotGroup": "09:00:00 - 12:55:00",
+      "billAmount": null,
+      "refundAmount": null,
+      "billingType": null,
+      "billingId": null,
+      "isPaid": null,
+      "clientUuid": "8e76d11f-45db-4780-810f-93734064c423",
+      "enablePayments": 0,
+      "forcePayment": 1
+    }
+  ]
+}
 ```
 
-This endpoint retrieves all kittens.
+This endpoint retrieves the queue calendar to view appointments.
 
 ### HTTP Request
 
-`GET http://example.com/api/kittens`
+`GET http://api.sminq.com/v1/business/queue/calendar`
 
 ### Query Parameters
 
 Parameter | Default | Description
 --------- | ------- | -----------
-include_cats | false | If set to true, the result will also include cats.
-available | true | If set to false, the result will include kittens that have already been adopted.
+queueId | true | Unique queueId .
+type | true | available values "live" for live appointments, "upcoming" for future appointments.
+limit | false | for pagination
+page | false | for pagination
 
-<aside class="success">
-Remember — a happy kitten is an authenticated kitten!
-</aside>
+### Error codes
+
+Code | Description
+--------- | -----------
+102 |  Invalid queue ID.
 
 ## Get alerts
 
-> To authorize, use this code:
+> Get all alerts set for a queue:
 
 ```shell
-curl "http://example.com/api/kittens"
+curl "http://api.sminq.com/v1/business/queue/alert"
   -H "Authorization: meowmeowmeow"
 ```
 
 > The above command returns JSON structured like this:
 
 ```json
-[
-  {
-    "id": 1,
-    "name": "Fluffums",
-    "breed": "calico",
-    "fluffiness": 6,
-    "cuteness": 7
-  },
-  {
-    "id": 2,
-    "name": "Max",
-    "breed": "unknown",
-    "fluffiness": 5,
-    "cuteness": 10
-  }
-]
+{
+  "success": true,
+  "httpCode": 200,
+  "status": [
+    {
+      "id": 3,
+      "queueId": 1,
+      "message": "Dr will not be available today, you can take appointments with Assistant",
+      "liveDate": "2016-08-16",
+      "endDate": "2016-08-17",
+      "startTime": null,
+      "endTime": null,
+      "status": 1,
+      "stopQueue": 0,
+      "allDay": 0,
+      "sendToExisting": null
+    }
+  ]
+}
 ```
 
-This endpoint retrieves all kittens.
+This endpoint retrieves all alerts set for a business queue.
 
 ### HTTP Request
 
-`GET http://example.com/api/kittens`
+`GET http://api.sminq.com/v1/business/queue/alert`
 
 ### Query Parameters
 
 Parameter | Default | Description
 --------- | ------- | -----------
-include_cats | false | If set to true, the result will also include cats.
-available | true | If set to false, the result will include kittens that have already been adopted.
+queueId | true | unique business queue ID.
 
-<aside class="success">
-Remember — a happy kitten is an authenticated kitten!
-</aside>
 
 ## Add alert
 
-> To authorize, use this code:
+> Add a queue alert to inform users:
 
 
 ```shell
-curl "http://example.com/api/kittens"
-  -H "Authorization: meowmeowmeow"
+curl "http://api.sminq.com/v1/business/queue/alert"
+  -H "Authorization: xxxxxx"
 ```
 
 > The above command returns JSON structured like this:
 
 ```json
-[
-  {
-    "id": 1,
-    "name": "Fluffums",
-    "breed": "calico",
-    "fluffiness": 6,
-    "cuteness": 7
-  },
-  {
-    "id": 2,
-    "name": "Max",
-    "breed": "unknown",
-    "fluffiness": 5,
-    "cuteness": 10
+{
+  "success": true,
+  "httpCode": 200,
+  "status": {
+    "id": 3,
+    "queueId": 1,
+    "message": "Dr will not be available today, you can take appointments with Assistant",
+    "liveDate": "2016-08-16",
+    "endDate": "2016-08-17",
+    "startTime": null,
+    "endTime": null,
+    "status": 1,
+    "stopQueue": 0,
+    "allDay": 0,
+    "sendToExisting": null
   }
-]
+}
 ```
 
-This endpoint retrieves all kittens.
+This endpoint adds an alert for business queue.
 
 ### HTTP Request
 
-`GET http://example.com/api/kittens`
+`POST http://api.sminq.com/v1/business/queue/alert`
 
-### Query Parameters
+### POST Parameters
 
 Parameter | Default | Description
 --------- | ------- | -----------
-include_cats | false | If set to true, the result will also include cats.
-available | true | If set to false, the result will include kittens that have already been adopted.
+queueId | true | Unique queue ID for business.
+liveDate | true | The date alert should be activated.
+endDate | true | The date alert should be de-activated.
+allDay | true | set to 1 for all day alert.
+startTime | false | set time of the day alert should be active.
+endTime | false | set time of the day alert should be active.
+stopQueue | false | if set to 1 block new appointments.
+sendToExisting | false | Alert users who have already taken appointment.
 
-<aside class="success">
-Remember — a happy kitten is an authenticated kitten!
-</aside>
+### Error codes
+
+Code | Description
+--------- | -----------
+102 |  Invalid queue ID.
+314 | Alert message cannot be empty
+315 | please enter correct date range
 
 ## Update alert
 
-> To authorize, use this code:
+> Update an alert set for a queue:
 
 
 ```shell
-curl "http://example.com/api/kittens"
-  -H "Authorization: meowmeowmeow"
+curl "http://api.sminq.com/v1/business/queue/alert/3"
+  -H "Authorization: xxxxxx"
 ```
 
 > The above command returns JSON structured like this:
 
 ```json
-[
-  {
-    "id": 1,
-    "name": "Fluffums",
-    "breed": "calico",
-    "fluffiness": 6,
-    "cuteness": 7
-  },
-  {
-    "id": 2,
-    "name": "Max",
-    "breed": "unknown",
-    "fluffiness": 5,
-    "cuteness": 10
+{
+  "success": true,
+  "httpCode": 200,
+  "status": {
+    "queueId": 1,
+    "message": "Dr will not be available today, you can take appointments with Assistant",
+    "liveDate": "2016-08-16",
+    "endDate": "2016-08-16",
+    "startTime": null,
+    "endTime": null,
+    "status": null,
+    "stopQueue": 0,
+    "allDay": 1,
+    "sendToExisting": null
   }
-]
+}
 ```
 
 This endpoint retrieves all kittens.
 
 ### HTTP Request
 
-`GET http://example.com/api/kittens`
+`POST http://api.sminq.com/v1/business/queue/alert/{id}`
 
-### Query Parameters
+### POST Parameters
 
 Parameter | Default | Description
 --------- | ------- | -----------
-include_cats | false | If set to true, the result will also include cats.
-available | true | If set to false, the result will include kittens that have already been adopted.
+queueId | true | Unique queue ID for business.
+liveDate | true | The date alert should be activated.
+endDate | true | The date alert should be de-activated.
+allDay | true | set to 1 for all day alert.
+startTime | false | set time of the day alert should be active.
+endTime | false | set time of the day alert should be active.
+stopQueue | false | if set to 1 block new appointments.
+sendToExisting | false | Alert users who have already taken appointment.
 
-<aside class="success">
-Remember — a happy kitten is an authenticated kitten!
-</aside>
+### Error codes
 
+Code | Description
+--------- | -----------
+102 |  Invalid queue ID.
+314 | Alert message cannot be empty
+315 | please enter correct date range
 
 ## Appointment notify
 
+> Notify a user about update to appointment
+
 ```shell
-curl "http://example.com/api/kittens"
-  -H "Authorization: meowmeowmeow"
+curl "http://api.sminq.com/v1/appointment/notify"
+  -H "Authorization: xxxxxx"
 ```
 
 > The above command returns JSON structured like this:
 
 ```json
-[
-  {
-    "id": 1,
-    "name": "Fluffums",
-    "breed": "calico",
-    "fluffiness": 6,
-    "cuteness": 7
-  },
-  {
-    "id": 2,
-    "name": "Max",
-    "breed": "unknown",
-    "fluffiness": 5,
-    "cuteness": 10
+{
+  "success": true,
+  "httpCode": 200,
+  "status": {
+    "tokenId": 10,
+    "peopleAhead": 3,
+    "queueId": 1
   }
-]
+}
 ```
 
-This endpoint retrieves all kittens.
+This endpoint send a notification to a user who has an appointment.
 
 ### HTTP Request
 
-`GET http://example.com/api/kittens`
+`POST http://api.sminq.com/v1/appointment/notify`
 
-### Query Parameters
+### POST Parameters
 
 Parameter | Default | Description
 --------- | ------- | -----------
-include_cats | false | If set to true, the result will also include cats.
-available | true | If set to false, the result will include kittens that have already been adopted.
+tokenId | true | Unique appointment ID.
+queueId | true | Unique business queue ID.
+peopleAhead | true | notify how many people ahead
 
-<aside class="success">
-Remember — a happy kitten is an authenticated kitten!
-</aside>
+### Error codes
 
-##Group appointment cancel
+Code | Description
+--------- | -----------
+103 |  Invalid token ID.
+
+##Group appointment cancel/close
 
 ```shell
-curl "http://example.com/api/kittens"
-  -H "Authorization: meowmeowmeow"
+curl "http://api.sminq.com/v1/appointment/status/all"
+  -H "Authorization: xxxxxx"
 ```
 
 > The above command returns JSON structured like this:
 
 ```json
-[
-  {
-    "id": 1,
-    "name": "Fluffums",
-    "breed": "calico",
-    "fluffiness": 6,
-    "cuteness": 7
-  },
-  {
-    "id": 2,
-    "name": "Max",
-    "breed": "unknown",
-    "fluffiness": 5,
-    "cuteness": 10
+{
+  "success": true,
+  "httpCode": 200,
+  "status": {
+    "queueId": 1,
+    "statusType": "T_CANCEL",
+    "queueId": 1,
+    "date": '2016-8-16'
   }
-]
+}
 ```
 
-This endpoint retrieves all kittens.
+This endpoint changes status for a group of tokens.
 
 ### HTTP Request
 
-`GET http://example.com/api/kittens`
+`POST http://api.sminq.com/v1/appointment/status/all`
 
-### Query Parameters
+### POST Parameters
 
 Parameter | Default | Description
 --------- | ------- | -----------
-include_cats | false | If set to true, the result will also include cats.
-available | true | If set to false, the result will include kittens that have already been adopted.
+queueId | true | Unique business queue ID.
+statusType | true | T_CANCEL or T_CLOSED.
+date | true | date for which appointments need to be updated
 
-<aside class="success">
-Remember — a happy kitten is an authenticated kitten!
-</aside>
+Code | Description
+--------- | -----------
+102 |  Invalid queue ID.
+109 |  Invalid statusType.
 
-
-## Get live summary
+## Get appointment summary
 
 ```shell
-curl "http://example.com/api/kittens"
-  -H "Authorization: meowmeowmeow"
+curl "http://api.sminq.com/v1/business/reports/summary"
+  -H "Authorization: xxxxxx"
 ```
 
 > The above command returns JSON structured like this:
 
 ```json
-[
-  {
-    "id": 1,
-    "name": "Fluffums",
-    "breed": "calico",
-    "fluffiness": 6,
-    "cuteness": 7
-  },
-  {
-    "id": 2,
-    "name": "Max",
-    "breed": "unknown",
-    "fluffiness": 5,
-    "cuteness": 10
+{
+  "success": true,
+  "httpCode": 200,
+  "status": {
+    "queueId": null,
+    "joinDate": null,
+    "totalClosed": 1,
+    "totalCancelled": 2,
+    "totalTokens": 24,
+    "availableTimeSlot": null,
+    "peopleAhead": null,
+    "totalPresent": 0,
+    "totalAbsent": 0,
+    "totalCash": 0,
+    "weeklyAvgWaitTime": null,
+    "totalOnline": 0
   }
-]
+}
 ```
 
-This endpoint retrieves all kittens.
+This endpoint retrieves the appointment summary for a date.
 
 ### HTTP Request
 
-`GET http://example.com/api/kittens`
+`GET http://api.sminq.com/v1/business/reports/summary`
 
 ### Query Parameters
 
 Parameter | Default | Description
 --------- | ------- | -----------
-include_cats | false | If set to true, the result will also include cats.
-available | true | If set to false, the result will include kittens that have already been adopted.
-
-<aside class="success">
-Remember — a happy kitten is an authenticated kitten!
-</aside>
+queueId | true | Unique business queue ID.
+date | true | date to fetch report for.
 
 ## Get appointment report
 
 ```shell
-curl "http://example.com/api/kittens"
-  -H "Authorization: meowmeowmeow"
+curl "http://api.sminq.com/v1/business/reports/appointments"
+  -H "Authorization: xxxxxx"
 ```
 
 > The above command returns JSON structured like this:
 
 ```json
-[
-  {
-    "id": 1,
-    "name": "Fluffums",
-    "breed": "calico",
-    "fluffiness": 6,
-    "cuteness": 7
-  },
-  {
-    "id": 2,
-    "name": "Max",
-    "breed": "unknown",
-    "fluffiness": 5,
-    "cuteness": 10
-  }
-]
+{
+  "success": true,
+  "httpCode": 200,
+  "status": [
+    {
+      "tokenQueueId": 1,
+      "tokenId": 1,
+      "appType": 1,
+      "userId": 7,
+      "userName": "demo16",
+      "userEmail": null,
+      "userMobile": "6552853332",
+      "userGroupMobile": null,
+      "userGroupName": null,
+      "userCityId": 1,
+      "tokenNumber": 1101,
+      "queueName": "ENT",
+      "businessName": "Sahyadri Clinic",
+      "statusType": "T_CLOSED",
+      "joinDate": "2016-08-16",
+      "joinTime": "11:10:00",
+      "tokenMetadata": null,
+      "slotGroupName": "Morning",
+      "slotGroup": "09:00:00 - 12:55:00",
+      "billAmount": null,
+      "refundAmount": null,
+      "billingType": null,
+      "billingId": null,
+      "isPaid": null,
+      "clientUuid": "eda6ae1e-10f7-437c-801d-fe65465d41e3",
+      "enablePayments": 0,
+      "forcePayment": 1
+    },
+    {
+      "tokenQueueId": 1,
+      "tokenId": 2,
+      "appType": 1,
+      "userId": 11,
+      "userName": "demo17",
+      "userEmail": null,
+      "userMobile": "3616483770",
+      "userGroupMobile": null,
+      "userGroupName": null,
+      "userCityId": 1,
+      "tokenNumber": 1102,
+      "queueName": "ENT",
+      "businessName": "Sahyadri Clinic",
+      "statusType": "T_CREATE",
+      "joinDate": "2016-08-16",
+      "joinTime": "11:10:00",
+      "tokenMetadata": null,
+      "slotGroupName": "Morning",
+      "slotGroup": "09:00:00 - 12:55:00",
+      "billAmount": null,
+      "refundAmount": null,
+      "billingType": null,
+      "billingId": null,
+      "isPaid": null,
+      "clientUuid": "9a6ff998-f085-4183-b2c1-067e7a6d3001",
+      "enablePayments": 0,
+      "forcePayment": 1
+    },
+    {
+      "tokenQueueId": 1,
+      "tokenId": 3,
+      "appType": 1,
+      "userId": 14,
+      "userName": "demo18",
+      "userEmail": null,
+      "userMobile": "7805802928",
+      "userGroupMobile": null,
+      "userGroupName": null,
+      "userCityId": 1,
+      "tokenNumber": 1103,
+      "queueName": "ENT",
+      "businessName": "Sahyadri Clinic",
+      "statusType": "T_CREATE",
+      "joinDate": "2016-08-16",
+      "joinTime": "11:10:00",
+      "tokenMetadata": null,
+      "slotGroupName": "Morning",
+      "slotGroup": "09:00:00 - 12:55:00",
+      "billAmount": null,
+      "refundAmount": null,
+      "billingType": null,
+      "billingId": null,
+      "isPaid": null,
+      "clientUuid": "8e76d11f-45db-4780-810f-93734064c423",
+      "enablePayments": 0,
+      "forcePayment": 1
+    }
+  ]
+}
 ```
 
-This endpoint retrieves all kittens.
+This endpoint retrieves appointment report for business given a date range.
 
 ### HTTP Request
 
-`GET http://example.com/api/kittens`
+`GET http://api.sminq.com/v1/business/reports/appointments`
 
 ### Query Parameters
 
 Parameter | Default | Description
 --------- | ------- | -----------
-include_cats | false | If set to true, the result will also include cats.
-available | true | If set to false, the result will include kittens that have already been adopted.
+queueId | true | Unique business queue Id.
+fromDate | true | Start date range.
+toDate | true | End date range.
 
 <aside class="success">
 Remember — a happy kitten is an authenticated kitten!
