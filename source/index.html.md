@@ -17,6 +17,9 @@ search: true
 # Introduction
 
 Welcome to the Sminq API! 
+<aside class="notice">
+An authorization key will be required to test the api calls.
+</aside>
 
 
 # Business
@@ -155,99 +158,96 @@ Code | Description
 
 ## Device Register
 
-> To authorize, use this code:
+> this will register business device for future push notifications
 
 
 ```shell
-curl "http://example.com/api/kittens"
-  -H "Authorization: meowmeowmeow"
+curl "http://api.sminq.com/v1/business/device/register"
+  -H "Authorization: xxxxxxxx"
 ```
 
 > The above command returns JSON structured like this:
 
 ```json
-[
-  {
+{
+  "success": true,
+  "httpCode": 200,
+  "status": {
     "id": 1,
-    "name": "Fluffums",
-    "breed": "calico",
-    "fluffiness": 6,
-    "cuteness": 7
-  },
-  {
-    "id": 2,
-    "name": "Max",
-    "breed": "unknown",
-    "fluffiness": 5,
-    "cuteness": 10
+    "businessId": 1,
+    "deviceType": "android",
+    "registrationId": "ZElwXzU1Z29JZU06QVBBOTFiRTlHQ0MtVk5tMzNyWUlYQjZ4ckU3U2xUaTdIT0RVd0oweF9DaU1QbC1JbGlEWUFKRGJvaTdUMHFWX1pRVDhZS1A4RGdmUkZOdmMxZXRNTkU0TnNDbjBISHQ1QktreS1XX2xScmpXdkpweWpyVThfRHdvZXJ1c25MQjhUck1kYWNuQktvN18=",
+    "deviceEndpointArn": "YXJuOmF3czpzbnM6YXAtc291dGhlYXN0LTE6Mjg4Nzg5MzU0MjQ4OmVuZHBvaW50L0dDTS9TbWlucUJ1c2luZXNzQXBwLzJlMTYxNWM5LTBmNzUtM2I4YS05Njg1LWIxNjk0ZTAwMDliMw==",
+    "deviceStatus": 1
   }
-]
+}
 ```
 
-This endpoint retrieves all kittens.
+This endpoint registers a business device for push notifications.
 
 ### HTTP Request
 
-`GET http://example.com/api/kittens`
+`POST http://api.sminq.com/v1/business/device/register`
 
-### Query Parameters
+### POST Parameters
 
 Parameter | Default | Description
 --------- | ------- | -----------
-include_cats | false | If set to true, the result will also include cats.
-available | true | If set to false, the result will include kittens that have already been adopted.
+businessId | true | Unique ID for business.
+deviceType | true | values can be "android" or "ios".
+registrationId | true | values returned from GCM or APNS.
 
-<aside class="success">
-Remember — a happy kitten is an authenticated kitten!
-</aside>
+
+### Error codes
+
+Code | Description
+--------- | -----------
+101 |  Invalid business ID.
+303 |  Registration ID cannot be empty.
+
 
 ## Device Un-Register
 
-> To authorize, use this code:
-
+> unregister business device for notifications
 
 ```shell
-curl "http://example.com/api/kittens"
-  -H "Authorization: meowmeowmeow"
+curl "http://api.sminq.com/v1/business/device/unregister"
+  -H "Authorization: xxxxxxxx"
 ```
 
 > The above command returns JSON structured like this:
 
 ```json
-[
-  {
-    "id": 1,
-    "name": "Fluffums",
-    "breed": "calico",
-    "fluffiness": 6,
-    "cuteness": 7
-  },
-  {
-    "id": 2,
-    "name": "Max",
-    "breed": "unknown",
-    "fluffiness": 5,
-    "cuteness": 10
-  }
-]
+{
+  "success": true,
+  "httpCode": 200,
+  "status": null
+}
 ```
-
-This endpoint retrieves all kittens.
 
 ### HTTP Request
 
-`GET http://example.com/api/kittens`
+`POST http://api.sminq.com/v1/business/device/unregister`
 
 ### Query Parameters
 
+### POST Parameters
+
 Parameter | Default | Description
 --------- | ------- | -----------
-include_cats | false | If set to true, the result will also include cats.
-available | true | If set to false, the result will include kittens that have already been adopted.
+businessId | true | Unique ID for business.
+deviceType | true | values can be "android" or "ios".
+registrationId | true | values returned from GCM or APNS.
 
-<aside class="success">
-Remember — a happy kitten is an authenticated kitten!
-</aside>
+
+### Error codes
+
+Code | Description
+--------- | -----------
+101 |  Invalid business ID.
+303 |  Registration ID cannot be empty.
+
+
 ## Queue search
 
 > To authorize, use this code:
