@@ -703,6 +703,8 @@ queueId | true | Unique business queue ID.
 statusType | true | T_CANCEL or T_CLOSED.
 date | true | date for which appointments need to be updated
 
+### Error codes
+
 Code | Description
 --------- | -----------
 102 |  Invalid queue ID.
@@ -870,280 +872,323 @@ queueId | true | Unique business queue Id.
 fromDate | true | Start date range.
 toDate | true | End date range.
 
-<aside class="success">
-Remember — a happy kitten is an authenticated kitten!
-</aside>
 
 ## Add user
 
+> Register user from the business side.
+
 ```shell
-curl "http://example.com/api/kittens"
-  -H "Authorization: meowmeowmeow"
+curl "http://api.sminq.com/v1/business/user"
+  -H "Authorization: xxxxxx"
 ```
 
 > The above command returns JSON structured like this:
 
 ```json
-[
-  {
-    "id": 1,
-    "name": "Fluffums",
-    "breed": "calico",
-    "fluffiness": 6,
-    "cuteness": 7
-  },
-  {
-    "id": 2,
-    "name": "Max",
-    "breed": "unknown",
-    "fluffiness": 5,
-    "cuteness": 10
+{
+  "success": true,
+  "httpCode": 200,
+  "status": {
+    "userId": 29,
+    "userName": "test",
+    "userEmail": null,
+    "userMobile": "9898989898",
+    "createdOn": null,
+    "isBusinessOwner": 0,
+    "userVerified": 1,
+    "userCityId": 1,
+    "countryCode": null,
+    "pin": null,
+    "appVersion": null,
+    "canBusinessEdit": null
   }
-]
+}
 ```
 
-This endpoint retrieves all kittens.
+This endpoint registers a user from the business side, no verification required here.
 
 ### HTTP Request
 
-`GET http://example.com/api/kittens`
+`POST http://api.sminq.com/v1/business/user`
 
 ### Query Parameters
 
 Parameter | Default | Description
 --------- | ------- | -----------
-include_cats | false | If set to true, the result will also include cats.
-available | true | If set to false, the result will include kittens that have already been adopted.
+userName | true | Name for user.
+userMobile | true | Unique user mobile.
+userVerified | true | set to 1.
+isBusinessOwner | true | set to 0.
+userCityId | true | city of user.
 
-<aside class="success">
-Remember — a happy kitten is an authenticated kitten!
-</aside>
+### Error codes
+
+Code | Description
+--------- | -----------
+336 |  User name cannot be empty.
+337 |  User mobile cannot be empty.
+
 
 ## Update user
 
 ```shell
-curl "http://example.com/api/kittens"
-  -H "Authorization: meowmeowmeow"
+curl "http://api.sminq.com/v1/user/profile/10"
+  -H "Authorization: xxxxxx"
 ```
 
 > The above command returns JSON structured like this:
 
 ```json
-[
-  {
-    "id": 1,
-    "name": "Fluffums",
-    "breed": "calico",
-    "fluffiness": 6,
-    "cuteness": 7
-  },
-  {
-    "id": 2,
-    "name": "Max",
-    "breed": "unknown",
-    "fluffiness": 5,
-    "cuteness": 10
+{
+  "success": true,
+  "httpCode": 200,
+  "status": {
+    "userName": "test",
+    "userEmail": null,
+    "userMobile": "9898989897",
+    "oauthId": null,
+    "isBusinessOwner": 0,
+    "userVerified": 1,
+    "userCityId": 1,
+    "deviceId": null,
+    "pin": null,
+    "countryCode": null,
+    "appVersion": null,
+    "userId": null
   }
-]
+}
 ```
 
-This endpoint retrieves all kittens.
+This endpoint updates a user profile from business side, no verification required.
 
 ### HTTP Request
 
-`GET http://example.com/api/kittens`
+`POST http://api.sminq.com/v1/user/profile/{id}`
 
-### Query Parameters
+### POST Parameters
 
 Parameter | Default | Description
 --------- | ------- | -----------
-include_cats | false | If set to true, the result will also include cats.
-available | true | If set to false, the result will include kittens that have already been adopted.
+userName | true | Name for user.
+userMobile | true | Unique user mobile.
+userVerified | true | set to 1.
+isBusinessOwner | true | set to 0.
+userCityId | true | city of user.
 
-<aside class="success">
-Remember — a happy kitten is an authenticated kitten!
-</aside>
+### Error codes
+
+Code | Description
+--------- | -----------
+336 |  User name cannot be empty.
+337 |  User mobile cannot be empty.
 
 ## Search User
 
 ```shell
-curl "http://example.com/api/kittens"
-  -H "Authorization: meowmeowmeow"
+curl "http://api.sminq.com/v1/business/user/search"
+  -H "Authorization: xxxxxx"
 ```
 
 > The above command returns JSON structured like this:
 
 ```json
-[
-  {
-    "id": 1,
-    "name": "Fluffums",
-    "breed": "calico",
-    "fluffiness": 6,
-    "cuteness": 7
-  },
-  {
-    "id": 2,
-    "name": "Max",
-    "breed": "unknown",
-    "fluffiness": 5,
-    "cuteness": 10
+{
+  "success": true,
+  "httpCode": 200,
+  "status": {
+    "userId": 29,
+    "userName": "Test",
+    "userEmail": null,
+    "userMobile": "9898989897",
+    "createdOn": null,
+    "isBusinessOwner": null,
+    "userVerified": 1,
+    "userCityId": 1,
+    "countryCode": null,
+    "pin": "0",
+    "appVersion": null,
+    "canBusinessEdit": null
   }
-]
+}
 ```
 
-This endpoint retrieves all kittens.
+This endpoint retrieves a user profile given a mobile.
 
 ### HTTP Request
 
-`GET http://example.com/api/kittens`
+`GET http://api.sminq.com/v1/business/user/search`
 
 ### Query Parameters
 
 Parameter | Default | Description
 --------- | ------- | -----------
-include_cats | false | If set to true, the result will also include cats.
-available | true | If set to false, the result will include kittens that have already been adopted.
+type | true | the type here will be a mobile search  so set this to "mobile".
+value | true | enter the mobile number here.
 
-<aside class="success">
-Remember — a happy kitten is an authenticated kitten!
-</aside>
 
 ## Add Cash payment
 
 ```shell
-curl "http://example.com/api/kittens"
-  -H "Authorization: meowmeowmeow"
+curl "http://api.sminq.com/v1/business/bill/create"
+  -H "Authorization: xxxxxx"
 ```
 
 > The above command returns JSON structured like this:
 
 ```json
-[
-  {
-    "id": 1,
-    "name": "Fluffums",
-    "breed": "calico",
-    "fluffiness": 6,
-    "cuteness": 7
-  },
-  {
-    "id": 2,
-    "name": "Max",
-    "breed": "unknown",
-    "fluffiness": 5,
-    "cuteness": 10
+{
+  "success": true,
+  "httpCode": 200,
+  "status": {
+    "billingDetailsId": 100,
+    "billingId": 100,
+    "tokenId": 7,
+    "billingType": 0,
+    "amount": 200,
+    "tax": 0,
+    "total": 200,
+    "billName": null,
+    "customerType": 1,
+    "customerId": 16,
+    "queueId": 1
   }
-]
+}
 ```
 
-This endpoint retrieves all kittens.
+This endpoint adds a cash payment for a particular appointment.
 
 ### HTTP Request
 
-`GET http://example.com/api/kittens`
+`POST http://api.sminq.com/v1/business/bill/create`
 
-### Query Parameters
+### POST Parameters
 
 Parameter | Default | Description
 --------- | ------- | -----------
-include_cats | false | If set to true, the result will also include cats.
-available | true | If set to false, the result will include kittens that have already been adopted.
+queueId | true | Unique business queue ID.
+billingType | true | 0 for cash payment.
+customerType | true | 1 for user.
+customerId | true | unique ID for user.
+amount | true | Amount for payment.
+tokenId | false | Unique token ID.
 
-<aside class="success">
-Remember — a happy kitten is an authenticated kitten!
-</aside>
+### Error codes
+
+Code | Description
+--------- | -----------
+346 |  Invalid bill amount.
+360 |  Invalid billing type.
+102 |  Invalid queue ID.
+325 |  Invalid customer ID.
+325 |  Invalid customer Type.
 
 ## Confirm cash payment
 
 ```shell
-curl "http://example.com/api/kittens"
-  -H "Authorization: meowmeowmeow"
+curl "POST http://api.sminq.com/v1/business/bill/confirm/100"
+  -H "Authorization: xxxxxx"
 ```
 
 > The above command returns JSON structured like this:
 
 ```json
-[
-  {
-    "id": 1,
-    "name": "Fluffums",
-    "breed": "calico",
-    "fluffiness": 6,
-    "cuteness": 7
-  },
-  {
-    "id": 2,
-    "name": "Max",
-    "breed": "unknown",
-    "fluffiness": 5,
-    "cuteness": 10
+{
+  "success": true,
+  "httpCode": 200,
+  "status": {
+    "billingDate": null,
+    "billingStatus": null,
+    "tax": 0,
+    "amount": 300,
+    "billingType": 0,
+    "tokenId": 7,
+    "customerId": 16,
+    "customerType": 1,
+    "queueId": 1
   }
-]
+}
 ```
 
-This endpoint retrieves all kittens.
+This endpoint retrieves confirms the cash payment.
 
 ### HTTP Request
 
-`GET http://example.com/api/kittens`
+`POST http://api.sminq.com/v1/business/bill/confirm/{billingId}`
 
-### Query Parameters
+### POST Parameters
 
 Parameter | Default | Description
 --------- | ------- | -----------
-include_cats | false | If set to true, the result will also include cats.
-available | true | If set to false, the result will include kittens that have already been adopted.
+queueId | true | Unique business queue ID.
+billingType | true | 0 for cash payment.
+customerType | true | 1 for user.
+customerId | true | unique ID for user.
+amount | true | Amount for payment.
+tokenId | false | Unique token ID.
 
-<aside class="success">
-Remember — a happy kitten is an authenticated kitten!
-</aside>
+### Error codes
+
+Code | Description
+--------- | -----------
+346 |  Invalid bill amount.
+360 |  Invalid billing type.
+102 |  Invalid queue ID.
+325 |  Invalid customer ID.
+325 |  Invalid customer Type.
 
 ## Update cash payment
 
 ```shell
-curl "http://example.com/api/kittens"
-  -H "Authorization: meowmeowmeow"
+curl "POST http://api.sminq.com/v1/business/bill/update"
+  -H "Authorization: xxxxxx"
 ```
 
 > The above command returns JSON structured like this:
 
 ```json
-[
-  {
-    "id": 1,
-    "name": "Fluffums",
-    "breed": "calico",
-    "fluffiness": 6,
-    "cuteness": 7
-  },
-  {
-    "id": 2,
-    "name": "Max",
-    "breed": "unknown",
-    "fluffiness": 5,
-    "cuteness": 10
+{
+  "success": true,
+  "httpCode": 200,
+  "status": {
+    "billingDate": null,
+    "billingStatus": null,
+    "tax": 0,
+    "amount": 300,
+    "billingType": 0,
+    "tokenId": 7,
+    "customerId": 16,
+    "customerType": 1,
+    "queueId": 1
   }
-]
+}
 ```
 
-This endpoint retrieves all kittens.
+This endpoint retrieves confirms the cash payment.
 
 ### HTTP Request
 
-`GET http://example.com/api/kittens`
+`POST http://api.sminq.com/v1/business/bill/confirm/{billingId}`
 
-### Query Parameters
+### POST Parameters
 
 Parameter | Default | Description
 --------- | ------- | -----------
-include_cats | false | If set to true, the result will also include cats.
-available | true | If set to false, the result will include kittens that have already been adopted.
+queueId | true | Unique business queue ID.
+billingType | true | 0 for cash payment.
+customerType | true | 1 for user.
+customerId | true | unique ID for user.
+amount | true | Amount for payment.
+tokenId | true | Unique token ID.
 
-<aside class="success">
-Remember — a happy kitten is an authenticated kitten!
-</aside>
+### Error codes
 
+Code | Description
+--------- | -----------
+346 |  Invalid bill amount.
+360 |  Invalid billing type.
+102 |  Invalid queue ID.
+325 |  Invalid customer ID.
+325 |  Invalid customer Type.
 
 # User
 ## Login
