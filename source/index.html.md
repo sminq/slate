@@ -250,98 +250,117 @@ Code | Description
 
 ## Queue search
 
-> To authorize, use this code:
+> Get queues for a business
 
 
 ```shell
-curl "http://example.com/api/kittens"
-  -H "Authorization: meowmeowmeow"
+curl "http://api.sminq.com/v1/business/queue/search"
+  -H "Authorization: xxxxxxx"
 ```
 
 > The above command returns JSON structured like this:
 
 ```json
-[
-  {
-    "id": 1,
-    "name": "Fluffums",
-    "breed": "calico",
-    "fluffiness": 6,
-    "cuteness": 7
-  },
-  {
-    "id": 2,
-    "name": "Max",
-    "breed": "unknown",
-    "fluffiness": 5,
-    "cuteness": 10
+{
+  "success": true,
+  "httpCode": 200,
+  "status": {
+    "businessQueues": [
+      {
+        "queueId": 1,
+        "queueName": "ENT",
+        "queueStatus": 1,
+        "queueConfigId": 1,
+        "avgWaitTime": 0,
+        "enableAdvanceBooking": 1,
+        "enableAdvanceBookingForToday": 0,
+        "advanceBookingDays": 7,
+        "peopleAheadOfYou": 13,
+        "nextSlot": "12:00:00",
+        "subQueues": 0,
+        "isConfirmed": 0,
+        "enablePayments": 0,
+        "forcePayment": 1,
+        "weeklyAvgWaitTime": 0
+      }
+    ],
+    "action": [
+      {
+        "name": "ON_JOIN_NOW",
+        "form": {
+          "field": {
+            "name": "Notes",
+            "type": "text",
+            "label": "Illness, Fever, Follow up, Vaccination..",
+            "size": 50,
+            "required": false
+          }
+        }
+      }
+    ]
   }
-]
+}
 ```
 
-This endpoint retrieves all kittens.
+This endpoint retrieves all queues for a business.
 
 ### HTTP Request
 
-`GET http://example.com/api/kittens`
+`GET http://api.sminq.com/v1/business/queue/search`
 
 ### Query Parameters
 
 Parameter | Default | Description
 --------- | ------- | -----------
-include_cats | false | If set to true, the result will also include cats.
-available | true | If set to false, the result will include kittens that have already been adopted.
+businessId | true | Unique ID for business.
+queueAccess | false | Permissions to restrict queue access for business.
+parentQueue | false | 
 
-<aside class="success">
-Remember — a happy kitten is an authenticated kitten!
-</aside>
 
 ## Queue status
 
-> To authorize, use this code:
+> Change status for Queue:
 
 ```shell
-curl "http://example.com/api/kittens"
-  -H "Authorization: meowmeowmeow"
+curl "http://api.sminq.com/v1/business/queue/status"
+  -H "Authorization: xxxx"
 ```
 
 > The above command returns JSON structured like this:
 
 ```json
-[
-  {
-    "id": 1,
-    "name": "Fluffums",
-    "breed": "calico",
-    "fluffiness": 6,
-    "cuteness": 7
-  },
-  {
-    "id": 2,
-    "name": "Max",
-    "breed": "unknown",
-    "fluffiness": 5,
-    "cuteness": 10
+{
+  "success": true,
+  "httpCode": 200,
+  "status": {
+    "statusType": "Q_OPEN",
+    "queueId": 1,
+    "totalWaitTime": 0,
   }
-]
+}
 ```
 
-This endpoint retrieves all kittens.
+This endpoint sets the status for the queue.
 
 ### HTTP Request
 
-`GET http://example.com/api/kittens`
+`POST http://api.sminq.com/v1/business/queue/status`
 
-### Query Parameters
+### POST Parameters
 
 Parameter | Default | Description
 --------- | ------- | -----------
-include_cats | false | If set to true, the result will also include cats.
-available | true | If set to false, the result will include kittens that have already been adopted.
+queueId | true | The unique queueId for which status needs to be set.
+statusType | true | Can be Q_OPEN, Q_CLOSE.
 
-<aside class="success">
-Remember — a happy kitten is an authenticated kitten!
-</aside>
+### Error codes
+
+Code | Description
+--------- | -----------
+308 |  Invalid queue status type.
+109 |  StatusType cannot be empty.
+102 |  Invalid queue ID.
+
 ## Queue calendar
 
 > To authorize, use this code:
