@@ -504,6 +504,60 @@ Code | Description
 --------- | -----------
 102 |  Invalid queue ID.
 
+## Update time slot
+
+> modify time slots for business queue.
+
+```shell
+curl "http://api.sminq.com/v1/business/queue/slots/update"
+  -H "Authorization: xxxxxx"
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+  "success": true,
+  "httpCode": 200,
+  "status": {
+    "startTimeSlot": "15:00:00",
+    "endTimeSlot": "16:00:00",
+    "tokenUpperLimit": null,
+    "queueId": 1,
+    "updateAction": "status",
+    "slotStatus": 0,
+    "date": 1471392000000
+  }
+}
+```
+
+This endpoint updates status or upperlimit of time slots, based on the update action.
+
+### HTTP Request
+
+`POST http://api.sminq.com/v1/business/queue/slots/update`
+
+### POST Parameters
+
+Parameter | Default | Description
+--------- | ------- | -----------
+queueId | true | Unique business queue.
+startTimeSlot | true | Start time range.
+endTimeSlot | true | End time range.
+updateAction | true | can be "status" or "limit".
+slotStatus | false | true if updateAction="status" and value can be 0 - Turn off, 1 - Turn on
+tokenUpperLimit | false | true if updateAction="limit"
+date | true | date for which slots need to be updated.
+
+### Error codes
+
+Code | Description
+--------- | -----------
+102 |  Invalid queue ID.
+317 | No slots available between selected time.
+318 | Some slots seem to have appointments.
+
+
 ## Get alerts
 
 > Get all alerts set for a queue:
@@ -1909,140 +1963,144 @@ queueId | true | unique business queue ID.
 
 ## Get Appointments
 
+> get live and upcoming appointments for a user.
+
 ```shell
-curl "http://example.com/api/kittens"
-  -H "Authorization: meowmeowmeow"
+curl "http://api.sminq.com/v1/user/appointments"
+  -H "Authorization: xxxxxx"
 ```
 
 > The above command returns JSON structured like this:
 
 ```json
-[
-  {
-    "id": 1,
-    "name": "Fluffums",
-    "breed": "calico",
-    "fluffiness": 6,
-    "cuteness": 7
-  },
-  {
-    "id": 2,
-    "name": "Max",
-    "breed": "unknown",
-    "fluffiness": 5,
-    "cuteness": 10
+{
+  "success": true,
+  "httpCode": 200,
+  "status": {
+    "liveTokens": [
+      {
+        "tokenQueueId": 1,
+        "tokenId": 30,
+        "appType": 1,
+        "userId": 5,
+        "userName": "demo8",
+        "userEmail": null,
+        "userMobile": "4334048553",
+        "userGroupMobile": null,
+        "userGroupName": null,
+        "userCityId": 1,
+        "tokenNumber": 1105,
+        "queueName": "ENT",
+        "businessName": "Sahyadri Clinic",
+        "statusType": "T_CREATE",
+        "joinDate": "2016-08-17",
+        "joinTime": "11:30:00",
+        "tokenMetadata": null,
+        "slotGroupName": "Morning",
+        "slotGroup": "09:00:00 - 12:55:00",
+        "billAmount": null,
+        "refundAmount": null,
+        "billingType": null,
+        "billingId": null,
+        "isPaid": null,
+        "clientUuid": "ba3a46d9-4577-48eb-80ba-d30dc09913b7",
+        "enablePayments": 0,
+        "forcePayment": 1
+      }
+    ],
+    "upcomingTokens": [
+      {
+        "tokenQueueId": 1,
+        "tokenId": 32,
+        "appType": 1,
+        "userId": 5,
+        "userName": "demo8",
+        "userEmail": null,
+        "userMobile": "4334048553",
+        "userGroupMobile": null,
+        "userGroupName": null,
+        "userCityId": 1,
+        "tokenNumber": 1201,
+        "queueName": "ENT",
+        "businessName": "Sahyadri Clinic",
+        "statusType": "T_CREATE",
+        "joinDate": "2016-08-18",
+        "joinTime": "12:30:00",
+        "tokenMetadata": null,
+        "slotGroupName": "Morning",
+        "slotGroup": "09:00:00 - 12:55:00",
+        "billAmount": null,
+        "refundAmount": null,
+        "billingType": null,
+        "billingId": null,
+        "isPaid": null,
+        "clientUuid": "f81f784f-ea54-4677-93f6-6667c0f35933",
+        "enablePayments": 0,
+        "forcePayment": 1
+      }
+    ]
   }
-]
+}
 ```
 
-This endpoint retrieves all kittens.
+This endpoint retrieves live and upcoming tokens for a user..
 
 ### HTTP Request
 
-`GET http://example.com/api/kittens`
+`GET http://api.sminq.com/v1/user/appointments`
 
 ### Query Parameters
 
 Parameter | Default | Description
 --------- | ------- | -----------
-include_cats | false | If set to true, the result will also include cats.
-available | true | If set to false, the result will include kittens that have already been adopted.
+userId | true | Registered user ID.
+limit | false | for pagination.
+page | false | for pagination.
 
-<aside class="success">
-Remember — a happy kitten is an authenticated kitten!
-</aside>
 
-## Get active alert
+## Get business alert
 
+> the the active alert set by business, to notify user.
 
 ```shell
-curl "http://example.com/api/kittens"
-  -H "Authorization: meowmeowmeow"
+curl "http://api.sminq.com/user/alert"
+  -H "Authorization: xxxxxx"
 ```
 
 > The above command returns JSON structured like this:
 
 ```json
-[
-  {
-    "id": 1,
-    "name": "Fluffums",
-    "breed": "calico",
-    "fluffiness": 6,
-    "cuteness": 7
-  },
-  {
-    "id": 2,
-    "name": "Max",
-    "breed": "unknown",
-    "fluffiness": 5,
-    "cuteness": 10
+{
+  "success": true,
+  "httpCode": 200,
+  "status": {
+    "id": null,
+    "queueId": null,
+    "message": "Dr will not be available today, you can take appointments with Assistant",
+    "liveDate": "2016-08-17",
+    "endDate": "2016-08-17",
+    "startTime": null,
+    "endTime": null,
+    "status": null,
+    "stopQueue": 0,
+    "allDay": 1,
+    "sendToExisting": null
   }
-]
+}
 ```
 
-This endpoint retrieves all kittens.
+This endpoint retrieves the live alert set by business.
 
 ### HTTP Request
 
-`GET http://example.com/api/kittens`
+`GET http://api.sminq.com/user/alert`
 
 ### Query Parameters
 
 Parameter | Default | Description
 --------- | ------- | -----------
-include_cats | false | If set to true, the result will also include cats.
-available | true | If set to false, the result will include kittens that have already been adopted.
+queueId | true | Unique business queueID.
 
-<aside class="success">
-Remember — a happy kitten is an authenticated kitten!
-</aside>
-
-
-## Update time slot
-
-```shell
-curl "http://example.com/api/kittens"
-  -H "Authorization: meowmeowmeow"
-```
-
-> The above command returns JSON structured like this:
-
-```json
-[
-  {
-    "id": 1,
-    "name": "Fluffums",
-    "breed": "calico",
-    "fluffiness": 6,
-    "cuteness": 7
-  },
-  {
-    "id": 2,
-    "name": "Max",
-    "breed": "unknown",
-    "fluffiness": 5,
-    "cuteness": 10
-  }
-]
-```
-
-This endpoint retrieves all kittens.
-
-### HTTP Request
-
-`GET http://example.com/api/kittens`
-
-### Query Parameters
-
-Parameter | Default | Description
---------- | ------- | -----------
-include_cats | false | If set to true, the result will also include cats.
-available | true | If set to false, the result will include kittens that have already been adopted.
-
-<aside class="success">
-Remember — a happy kitten is an authenticated kitten!
-</aside>
 
 # Common
 
