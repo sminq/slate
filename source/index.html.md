@@ -2256,8 +2256,17 @@ Parameter | Default | Description
 --------- | ------- | -----------
 queueId | true | Unique business ID.
 tokenId | true | Unique appointment id.
-statusType | true | Status to be set T_PROCESS/T_ABSENT/T_PRESENT/T_CANCEL/T_CLOSED
+statusType | true | Status to be set 
 
+### Valid status types
+
+Type | Description
+--------- | -----------
+T_PROCESS | process a particular appointment
+T_ABSENT  | mark a particular appoint as absent (user not yet arrived).
+T_PRESENT | mark appoinment as present (User has arrived).
+T_CANCEL  | cancel an appointment.
+T_CLOSED  | appointment was successfully completed. 
 
 ### Error codes
 
