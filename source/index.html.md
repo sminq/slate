@@ -2107,677 +2107,656 @@ queueId | true | Unique business queueID.
 ## Create appointment
 
 ```shell
-curl "http://example.com/api/kittens"
-  -H "Authorization: meowmeowmeow"
+curl PUT "http://api.sminq.com/v1/appointment/create"
+  -H "Authorization: xxxxxx"
 ```
 
 > The above command returns JSON structured like this:
 
 ```json
-[
-  {
-    "id": 1,
-    "name": "Fluffums",
-    "breed": "calico",
-    "fluffiness": 6,
-    "cuteness": 7
-  },
-  {
-    "id": 2,
-    "name": "Max",
-    "breed": "unknown",
-    "fluffiness": 5,
-    "cuteness": 10
+{
+  "success": true,
+  "httpCode": 200,
+  "status": {
+    "tokenId": 33,
+    "tokenQueueId": 1,
+    "totalProcessTime": null,
+    "tokenUser": 31,
+    "joinDate": "2016-08-17",
+    "joinTime": "18:30:00",
+    "appType": null,
+    "isAdvance": null,
+    "isConfirmed": null,
+    "tokenUserGroup": null,
+    "uuid": null,
+    "tokenNumber": 1801
   }
-]
+}
 ```
 
-This endpoint retrieves all kittens.
+This endpoint creates an appointment for business.
 
 ### HTTP Request
 
-`GET http://example.com/api/kittens`
+`PUT http://api.sminq.com/v1/appointment/create`
 
-### Query Parameters
+### PUT Parameters
 
 Parameter | Default | Description
 --------- | ------- | -----------
-include_cats | false | If set to true, the result will also include cats.
-available | true | If set to false, the result will include kittens that have already been adopted.
+tokenQueueId | true | Business queueId for appointment.
+userName | true | Name of the user.
+userMobile | true | User contact.
+joinTime | false | Time for appointment, if not set the system selects next available time.
+joinDate | true | Date for appointment.
+appType | true | appointment created from which channel 
+businessApp | false | If set to 1 the appointment is added from business side.
+tokenUserId | false |  if user is logged in send across id.
+notes | false | Any notes to be added while taking appointment.
 
-<aside class="success">
-Remember — a happy kitten is an authenticated kitten!
-</aside>
+### Error codes
+
+Code | Description
+--------- | -----------
+102 |  Invalid queue ID.
+326 |  Business blocked appointments.
+322 |  Invalid join date.
+323 |  Invalid join time.
+324 |  Advance bookings not accepted.
+325 |  Invalid user.
 
 ## Reschedule appointment
 
+> Use this api to reschedule existing appointment.
+
 ```shell
-curl "http://example.com/api/kittens"
-  -H "Authorization: meowmeowmeow"
+curl "http://api.sminq.com/v1/appointment/reschedule"
+  -H "Authorization: xxxxxx"
 ```
 
 > The above command returns JSON structured like this:
 
 ```json
-[
-  {
-    "id": 1,
-    "name": "Fluffums",
-    "breed": "calico",
-    "fluffiness": 6,
-    "cuteness": 7
-  },
-  {
-    "id": 2,
-    "name": "Max",
-    "breed": "unknown",
-    "fluffiness": 5,
-    "cuteness": 10
+{
+  "success": true,
+  "httpCode": 200,
+  "status": {
+    "tokenId": 33,
+    "queueId": 1,
+    "joinDate": 1471392000000,
+    "joinTime": "19:00:00",
+    "appType": 1,
+    "batch": false
   }
-]
+}
 ```
 
-This endpoint retrieves all kittens.
+This endpoint reschedules an appointment to another date and time. This api call is asynchronous.
 
 ### HTTP Request
 
-`GET http://example.com/api/kittens`
+`POST http://api.sminq.com/v1/appointment/reschedule`
 
-### Query Parameters
+### POST Parameters
 
 Parameter | Default | Description
 --------- | ------- | -----------
-include_cats | false | If set to true, the result will also include cats.
-available | true | If set to false, the result will include kittens that have already been adopted.
+queueId | true | Business queue for appointment.
+tokenId | true | Existing appointment ID.
+joinDate | true | new join date
+joinTime | true | new join time
+appType | true | channel for reschedule.
 
-<aside class="success">
-Remember — a happy kitten is an authenticated kitten!
-</aside>
+### Error codes
+
+Code | Description
+--------- | -----------
+102 |  Invalid queue ID.
+103 |  Invalid token ID.
+108 |  Invalid join date/time.
+  
 
 ## Change appointment status
 
+> change status for appointment.
+
 ```shell
-curl "http://example.com/api/kittens"
-  -H "Authorization: meowmeowmeow"
+curl "http://api.sminq.com/v1/appointment/status"
+  -H "Authorization: xxxxxx"
 ```
 
 > The above command returns JSON structured like this:
 
 ```json
-[
-  {
-    "id": 1,
-    "name": "Fluffums",
-    "breed": "calico",
-    "fluffiness": 6,
-    "cuteness": 7
-  },
-  {
-    "id": 2,
-    "name": "Max",
-    "breed": "unknown",
-    "fluffiness": 5,
-    "cuteness": 10
-  }
-]
+{
+  "success": true,
+  "httpCode": 200,
+  "status": [
+    {
+      "statusId": null,
+      "tokenId": 34,
+      "tokenStatusId": 3,
+      "changedAt": 1471413042267,
+      "changedOn": 1471412675000,
+      "createdOn": 1471412675000
+    }
+  ]
+}
 ```
 
-This endpoint retrieves all kittens.
+This endpoint changes staus for an appointment.
 
 ### HTTP Request
 
-`GET http://example.com/api/kittens`
+`PUT http://api.sminq.com/v1/appointment/status`
 
-### Query Parameters
+### PUT Parameters
 
 Parameter | Default | Description
 --------- | ------- | -----------
-include_cats | false | If set to true, the result will also include cats.
-available | true | If set to false, the result will include kittens that have already been adopted.
+queueId | true | Unique business ID.
+tokenId | true | Unique appointment id.
+statusType | true | Status to be set T_PROCESS/T_ABSENT/T_PRESENT/T_CANCEL/T_CLOSED
 
-<aside class="success">
-Remember — a happy kitten is an authenticated kitten!
-</aside>
+
+### Error codes
+
+Code | Description
+--------- | -----------
+102 |  Invalid queue ID.
+103 |  Invalid token ID.
+109 |  StatusType cannot be null or empty.
+332 |  Token cannot be marked absent
+328 |  This token status is not allowed.
+329 |  Token status can no longer be changed.
+330 |  Invalid token status
 
 ## Add appointment details
 
+> Add some metadata for appointment
+
 ```shell
-curl "http://example.com/api/kittens"
-  -H "Authorization: meowmeowmeow"
+curl "http://api.sminq.com/v1/appointment/details"
+  -H "Authorization: xxxxxx"
 ```
 
 > The above command returns JSON structured like this:
 
 ```json
-[
-  {
-    "id": 1,
-    "name": "Fluffums",
-    "breed": "calico",
-    "fluffiness": 6,
-    "cuteness": 7
-  },
-  {
-    "id": 2,
-    "name": "Max",
-    "breed": "unknown",
-    "fluffiness": 5,
-    "cuteness": 10
+{
+  "success": true,
+  "httpCode": 200,
+  "status": {
+    "tokenId": 34,
+    "comment": "Some user details regarding appointment.",
+    "uuid": null
   }
-]
+}
 ```
 
-This endpoint retrieves all kittens.
+This endpoint sets details for appointment, reason fro appointment.
 
 ### HTTP Request
 
-`GET http://example.com/api/kittens`
+`POST http://api.sminq.com/v1/appointment/details`
 
-### Query Parameters
+### POST Parameters
 
 Parameter | Default | Description
 --------- | ------- | -----------
-include_cats | false | If set to true, the result will also include cats.
-available | true | If set to false, the result will include kittens that have already been adopted.
+tokenId | true | unique appointment ID.
+comment | true | details for the appointment.
 
-<aside class="success">
-Remember — a happy kitten is an authenticated kitten!
-</aside>
+### Error codes
+
+Code | Description
+--------- | -----------
+103 |  Invalid token ID.
+335 |  Comment cannot be empty.
 
 ## Get appointment slots to update
 
+> fetch available slot for business to update
+
 ```shell
-curl "http://example.com/api/kittens"
-  -H "Authorization: meowmeowmeow"
+curl "http://api.sminq.com/v1/appointment/slots/select"
+  -H "Authorization: xxxxxx"
 ```
 
 > The above command returns JSON structured like this:
 
 ```json
-[
-  {
-    "id": 1,
-    "name": "Fluffums",
-    "breed": "calico",
-    "fluffiness": 6,
-    "cuteness": 7
-  },
-  {
-    "id": 2,
-    "name": "Max",
-    "breed": "unknown",
-    "fluffiness": 5,
-    "cuteness": 10
-  }
-]
+{
+  "success": true,
+  "httpCode": 200,
+  "status": [
+    {
+      "slotId": 1953,
+      "startTimeSlot": "11:30:00",
+      "endTimeSlot": "12:00:00",
+      "status": 1,
+      "tokenUpperLimit": 15
+    },
+    {
+      "slotId": 1954,
+      "startTimeSlot": "12:00:00",
+      "endTimeSlot": "12:30:00",
+      "status": 1,
+      "tokenUpperLimit": 15
+    },
+    {
+      "slotId": 1955,
+      "startTimeSlot": "12:30:00",
+      "endTimeSlot": "13:00:00",
+      "status": 1,
+      "tokenUpperLimit": 15
+    },
+    {
+      "slotId": 1956,
+      "startTimeSlot": "13:00:00",
+      "endTimeSlot": "13:30:00",
+      "status": 0,
+      "tokenUpperLimit": 15
+    }
+  ]
+}
 ```
 
-This endpoint retrieves all kittens.
+This endpoint retrieves all slots for a business for a given date.
 
 ### HTTP Request
 
-`GET http://example.com/api/kittens`
+`GET http://api.sminq.com/v1/appointment/slots/select`
 
 ### Query Parameters
 
 Parameter | Default | Description
 --------- | ------- | -----------
-include_cats | false | If set to true, the result will also include cats.
-available | true | If set to false, the result will include kittens that have already been adopted.
+queueId | true | business for which slots have to retrieved.
+date | true | slots for which date.
 
-<aside class="success">
-Remember — a happy kitten is an authenticated kitten!
-</aside>
 
-## Get apppointment slots
+## Get appointment slots
+
+> get all slots available for taking an appointment.
 
 ```shell
-curl "http://example.com/api/kittens"
-  -H "Authorization: meowmeowmeow"
+curl "http://api.sminq.com/v1/appointment/slots"
+  -H "Authorization: xxxxxx"
 ```
 
 > The above command returns JSON structured like this:
 
 ```json
-[
-  {
-    "id": 1,
-    "name": "Fluffums",
-    "breed": "calico",
-    "fluffiness": 6,
-    "cuteness": 7
-  },
-  {
-    "id": 2,
-    "name": "Max",
-    "breed": "unknown",
-    "fluffiness": 5,
-    "cuteness": 10
-  }
-]
+{
+  "success": true,
+  "httpCode": 200,
+  "status": [
+    {
+      "slotId": 1953,
+      "queueId": 1,
+      "startTimeSlot": "11:30:00",
+      "endTimeSlot": "12:00:00",
+      "tokenUpperLimit": null,
+      "day": "Wed",
+      "sequence": 16,
+      "status": null,
+      "groupId": 16,
+      "openToUser": 1,
+      "premiumSlot": 0,
+      "usedSlots": 1,
+      "totalSlots": 15,
+      "groupStartTime": "08:00:00",
+      "groupEndTime": "14:00:00"
+    },
+    {
+      "slotId": 1954,
+      "queueId": 1,
+      "startTimeSlot": "12:00:00",
+      "endTimeSlot": "12:30:00",
+      "tokenUpperLimit": null,
+      "day": "Wed",
+      "sequence": 17,
+      "status": null,
+      "groupId": 16,
+      "openToUser": 1,
+      "premiumSlot": 0,
+      "usedSlots": 0,
+      "totalSlots": 15,
+      "groupStartTime": "08:00:00",
+      "groupEndTime": "14:00:00"
+    },
+    {
+      "slotId": 1955,
+      "queueId": 1,
+      "startTimeSlot": "12:30:00",
+      "endTimeSlot": "13:00:00",
+      "tokenUpperLimit": null,
+      "day": "Wed",
+      "sequence": 18,
+      "status": null,
+      "groupId": 16,
+      "openToUser": 1,
+      "premiumSlot": 0,
+      "usedSlots": 0,
+      "totalSlots": 15,
+      "groupStartTime": "08:00:00",
+      "groupEndTime": "14:00:00"
+    }
+  ]
+}
 ```
 
-This endpoint retrieves all kittens.
+This endpoint retrieves all slots available for taking an appointment, if usedSlots == totalSlots then slot is full.
 
 ### HTTP Request
 
-`GET http://example.com/api/kittens`
+`GET http://api.sminq.com/v1/appointment/slots`
 
 ### Query Parameters
 
 Parameter | Default | Description
 --------- | ------- | -----------
-include_cats | false | If set to true, the result will also include cats.
-available | true | If set to false, the result will include kittens that have already been adopted.
+queueId | true | business for which slots have to retrieved.
+date | true | slots for which date.
 
-<aside class="success">
-Remember — a happy kitten is an authenticated kitten!
-</aside>
 
 ## Confirm appointment
 
+> user input to confirm an appointment.
+
 ```shell
-curl "http://example.com/api/kittens"
-  -H "Authorization: meowmeowmeow"
+curl "http://api.sminq.com/v1/appointment/confirmation"
+  -H "Authorization: xxxxxx"
 ```
 
 > The above command returns JSON structured like this:
 
 ```json
-[
-  {
-    "id": 1,
-    "name": "Fluffums",
-    "breed": "calico",
-    "fluffiness": 6,
-    "cuteness": 7
-  },
-  {
-    "id": 2,
-    "name": "Max",
-    "breed": "unknown",
-    "fluffiness": 5,
-    "cuteness": 10
+{
+  "success": true,
+  "httpCode": 200,
+  "status": {
+    "tokenId": 27,
+    "statusType": "T_CANCEL",
+    "queueId": 1
   }
-]
+}
 ```
 
-This endpoint retrieves all kittens.
+This endpoint retrieves allows the user to confirm an appointment after reminder is fired, user can choose to confirm or cancel. This api call is asynchronous.
 
 ### HTTP Request
 
-`GET http://example.com/api/kittens`
+`GET http://api.sminq.com/v1/appointment/confirmation`
 
 ### Query Parameters
 
 Parameter | Default | Description
 --------- | ------- | -----------
-include_cats | false | If set to true, the result will also include cats.
-available | true | If set to false, the result will include kittens that have already been adopted.
+tokenId | true | Unique business appointment id.
+queueId | true | Unique business queue id.
+statusType | true | T_CANCEL/T_PRESENT
 
-<aside class="success">
-Remember — a happy kitten is an authenticated kitten!
-</aside>
-
-## Schedule appointment
-
-```shell
-curl "http://example.com/api/kittens"
-  -H "Authorization: meowmeowmeow"
-```
-
-> The above command returns JSON structured like this:
-
-```json
-[
-  {
-    "id": 1,
-    "name": "Fluffums",
-    "breed": "calico",
-    "fluffiness": 6,
-    "cuteness": 7
-  },
-  {
-    "id": 2,
-    "name": "Max",
-    "breed": "unknown",
-    "fluffiness": 5,
-    "cuteness": 10
-  }
-]
-```
-
-This endpoint retrieves all kittens.
-
-### HTTP Request
-
-`GET http://example.com/api/kittens`
-
-### Query Parameters
-
-Parameter | Default | Description
---------- | ------- | -----------
-include_cats | false | If set to true, the result will also include cats.
-available | true | If set to false, the result will include kittens that have already been adopted.
-
-<aside class="success">
-Remember — a happy kitten is an authenticated kitten!
-</aside>
-
-## Cancel scheduled appointment
-
-```shell
-curl "http://example.com/api/kittens"
-  -H "Authorization: meowmeowmeow"
-```
-
-> The above command returns JSON structured like this:
-
-```json
-[
-  {
-    "id": 1,
-    "name": "Fluffums",
-    "breed": "calico",
-    "fluffiness": 6,
-    "cuteness": 7
-  },
-  {
-    "id": 2,
-    "name": "Max",
-    "breed": "unknown",
-    "fluffiness": 5,
-    "cuteness": 10
-  }
-]
-```
-
-This endpoint retrieves all kittens.
-
-### HTTP Request
-
-`GET http://example.com/api/kittens`
-
-### Query Parameters
-
-Parameter | Default | Description
---------- | ------- | -----------
-include_cats | false | If set to true, the result will also include cats.
-available | true | If set to false, the result will include kittens that have already been adopted.
-
-<aside class="success">
-Remember — a happy kitten is an authenticated kitten!
-</aside>
-
-## Get time to schedule
-
-```shell
-curl "http://example.com/api/kittens"
-  -H "Authorization: meowmeowmeow"
-```
-
-> The above command returns JSON structured like this:
-
-```json
-[
-  {
-    "id": 1,
-    "name": "Fluffums",
-    "breed": "calico",
-    "fluffiness": 6,
-    "cuteness": 7
-  },
-  {
-    "id": 2,
-    "name": "Max",
-    "breed": "unknown",
-    "fluffiness": 5,
-    "cuteness": 10
-  }
-]
-```
-
-This endpoint retrieves all kittens.
-
-### HTTP Request
-
-`GET http://example.com/api/kittens`
-
-### Query Parameters
-
-Parameter | Default | Description
---------- | ------- | -----------
-include_cats | false | If set to true, the result will also include cats.
-available | true | If set to false, the result will include kittens that have already been adopted.
-
-<aside class="success">
-Remember — a happy kitten is an authenticated kitten!
-</aside>
 
 ## Get categories
 
+> return all business categories
+
 ```shell
-curl "http://example.com/api/kittens"
-  -H "Authorization: meowmeowmeow"
+curl "http://api.sminq.com/v1/business/category"
+  -H "Authorization: xxxxxx"
 ```
 
 > The above command returns JSON structured like this:
 
 ```json
-[
-  {
-    "id": 1,
-    "name": "Fluffums",
-    "breed": "calico",
-    "fluffiness": 6,
-    "cuteness": 7
-  },
-  {
-    "id": 2,
-    "name": "Max",
-    "breed": "unknown",
-    "fluffiness": 5,
-    "cuteness": 10
-  }
-]
+{
+  "success": true,
+  "httpCode": 200,
+  "status": [
+    {
+      "categoryId": 1,
+      "categoryName": "Clinic",
+      "categoryIconUrl": null,
+      "categoryStatus": 1,
+      "verticalType": "clinic",
+      "cityId": 1
+    }
+  ]
+}
 ```
 
-This endpoint retrieves all kittens.
+This endpoint retrieves all business category types e.g clinic/salon.
 
 ### HTTP Request
 
-`GET http://example.com/api/kittens`
+`GET http://api.sminq.com/v1/business/category`
 
 ### Query Parameters
 
 Parameter | Default | Description
 --------- | ------- | -----------
-include_cats | false | If set to true, the result will also include cats.
-available | true | If set to false, the result will include kittens that have already been adopted.
+cityName | true | Name of the city .
 
-<aside class="success">
-Remember — a happy kitten is an authenticated kitten!
-</aside>
+
 
 ## Get search tags
 
+> get all search tags for a particular business.
+
 ```shell
-curl "http://example.com/api/kittens"
-  -H "Authorization: meowmeowmeow"
+curl "http://api.sminq.com/v1/business/category/tags"
+  -H "Authorization: xxxxxx, X-Vertical-Type: clinic"
 ```
 
 > The above command returns JSON structured like this:
 
 ```json
-[
-  {
-    "id": 1,
-    "name": "Fluffums",
-    "breed": "calico",
-    "fluffiness": 6,
-    "cuteness": 7
-  },
-  {
-    "id": 2,
-    "name": "Max",
-    "breed": "unknown",
-    "fluffiness": 5,
-    "cuteness": 10
-  }
-]
+{
+  "success": true,
+  "httpCode": 200,
+  "status": [
+    {
+      "tagId": 1,
+      "tagName": "Dermatologist"
+    },
+    {
+      "tagId": 2,
+      "tagName": "General Practice"
+    },
+    {
+      "tagId": 5,
+      "tagName": "Pediatrician"
+    },
+    {
+      "tagId": 4,
+      "tagName": "Orthopedic"
+    },
+    {
+      "tagId": 3,
+      "tagName": "Gynecologist"
+    },
+    {
+      "tagId": 6,
+      "tagName": "Demo"
+    },
+    {
+      "tagId": 9,
+      "tagName": "Ayurvedic"
+    },
+    {
+      "tagId": 10,
+      "tagName": "General Medicine"
+    },
+    {
+      "tagId": 11,
+      "tagName": "ENT"
+    },
+    {
+      "tagId": 12,
+      "tagName": "Physiotherapists"
+    },
+    {
+      "tagId": 13,
+      "tagName": "General Surgeon"
+    },
+    {
+      "tagId": 14,
+      "tagName": "Ophthalmologist"
+    },
+    {
+      "tagId": 15,
+      "tagName": "Neurologist"
+    },
+    {
+      "tagId": 16,
+      "tagName": "Diabetologist"
+    }
+  ]
+}
 ```
 
-This endpoint retrieves all kittens.
+This endpoint retrieves all business search tags for a particular category.
 
 ### HTTP Request
 
-`GET http://example.com/api/kittens`
+`GET http://api.sminq.com/v1/business/category/tags`
 
-### Query Parameters
-
-Parameter | Default | Description
---------- | ------- | -----------
-include_cats | false | If set to true, the result will also include cats.
-available | true | If set to false, the result will include kittens that have already been adopted.
-
-<aside class="success">
-Remember — a happy kitten is an authenticated kitten!
-</aside>
 
 ## Get city languages
 
+> retrieve all languages available for a city.
+
 ```shell
-curl "http://example.com/api/kittens"
-  -H "Authorization: meowmeowmeow"
+curl "http://api.sminq.com/v1/city/languages"
+  -H "Authorization: xxxxxx"
 ```
 
 > The above command returns JSON structured like this:
 
 ```json
-[
-  {
-    "id": 1,
-    "name": "Fluffums",
-    "breed": "calico",
-    "fluffiness": 6,
-    "cuteness": 7
-  },
-  {
-    "id": 2,
-    "name": "Max",
-    "breed": "unknown",
-    "fluffiness": 5,
-    "cuteness": 10
-  }
-]
+{
+  "success": true,
+  "httpCode": 200,
+  "status": [
+    {
+      "cityId": 1,
+      "languageId": 1,
+      "isDefault": 1,
+      "languageName": "English"
+    },
+    {
+      "cityId": 1,
+      "languageId": 2,
+      "isDefault": 0,
+      "languageName": "मराठी"
+    }
+  ]
+}
 ```
 
-This endpoint retrieves all kittens.
+This endpoint retrieves all languages applicable to a city.
 
 ### HTTP Request
 
-`GET http://example.com/api/kittens`
+`GET http://api.sminq.com/v1/city/languages`
 
 ### Query Parameters
 
 Parameter | Default | Description
 --------- | ------- | -----------
-include_cats | false | If set to true, the result will also include cats.
-available | true | If set to false, the result will include kittens that have already been adopted.
+cityId | true | Unique city id.
 
-<aside class="success">
-Remember — a happy kitten is an authenticated kitten!
-</aside>
 
 ## Get city locations
 
+> return all active city locations.
+
 ```shell
-curl "http://example.com/api/kittens"
-  -H "Authorization: meowmeowmeow"
+curl "http://api.sminq.com/v1/city/location"
+  -H "Authorization: xxxxxx"
 ```
 
 > The above command returns JSON structured like this:
 
 ```json
-[
-  {
-    "id": 1,
-    "name": "Fluffums",
-    "breed": "calico",
-    "fluffiness": 6,
-    "cuteness": 7
-  },
-  {
-    "id": 2,
-    "name": "Max",
-    "breed": "unknown",
-    "fluffiness": 5,
-    "cuteness": 10
-  }
-]
+{
+  "success": true,
+  "httpCode": 200,
+  "status": [
+    {
+      "locationId": 7,
+      "locationName": "Aundh",
+      "locationLat": 18.557872772216797,
+      "locationLong": 73.80846405029297,
+      "cityId": null
+    },
+    {
+      "locationId": 10,
+      "locationName": "Bhosari",
+      "locationLat": 18.63852882385254,
+      "locationLong": 73.84778594970703,
+      "cityId": null
+    }
+  ]
+}
 ```
 
-This endpoint retrieves all kittens.
+This endpoint retrieves all active locations set for a city.
 
 ### HTTP Request
 
-`GET http://example.com/api/kittens`
+`GET http://api.sminq.com/v1/city/location`
 
 ### Query Parameters
 
 Parameter | Default | Description
 --------- | ------- | -----------
-include_cats | false | If set to true, the result will also include cats.
-available | true | If set to false, the result will include kittens that have already been adopted.
+cityName | true | name of the city.
 
-<aside class="success">
-Remember — a happy kitten is an authenticated kitten!
-</aside>
 
 ## Get app config
 
+> Used for force upgrades to user/business apps
+
 ```shell
-curl "http://example.com/api/kittens"
-  -H "Authorization: meowmeowmeow"
+curl "http://api.sminq.com/v1/app/config"
+  -H "Authorization: xxxxxx"
 ```
 
 > The above command returns JSON structured like this:
 
 ```json
-[
-  {
-    "id": 1,
-    "name": "Fluffums",
-    "breed": "calico",
-    "fluffiness": 6,
-    "cuteness": 7
-  },
-  {
-    "id": 2,
-    "name": "Max",
-    "breed": "unknown",
-    "fluffiness": 5,
-    "cuteness": 10
+{
+  "success": true,
+  "httpCode": 200,
+  "status": {
+    "environment": "userapp",
+    "apiVersion": "1.6.4",
+    "version": "1.0.47",
+    "forceUpdate": 1,
+    "forceLogout": 0,
+    "device": "android",
+    "storeUpdateDate": "2016-08-10"
   }
-]
+}
 ```
 
-This endpoint retrieves all kittens.
+This endpoint retrieves app config, if forceUpdate=1 then user/business needs to update apps.
 
 ### HTTP Request
 
-`GET http://example.com/api/kittens`
+`GET http://api.sminq.com/v1/app/config`
 
 ### Query Parameters
 
 Parameter | Default | Description
 --------- | ------- | -----------
-include_cats | false | If set to true, the result will also include cats.
-available | true | If set to false, the result will include kittens that have already been adopted.
+env | true | valid environments "userapp" and "businessapp".
+version | true | version for app upgrade e.g 1.0.46
+device | true | valid devices "android" and "ios"
 
-<aside class="success">
-Remember — a happy kitten is an authenticated kitten!
-</aside>
 
 #Payments
 
