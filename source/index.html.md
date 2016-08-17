@@ -2928,183 +2928,205 @@ Code | Description
 
 
 ```shell
-curl "http://example.com/api/kittens"
-  -H "Authorization: meowmeowmeow"
+curl "http://api.sminq.com/v1/user/payment/create"
+  -H "Authorization: xxxxxx"
 ```
 
 > The above command returns JSON structured like this:
 
 ```json
-[
-  {
-    "id": 1,
-    "name": "Fluffums",
-    "breed": "calico",
-    "fluffiness": 6,
-    "cuteness": 7
-  },
-  {
-    "id": 2,
-    "name": "Max",
-    "breed": "unknown",
-    "fluffiness": 5,
-    "cuteness": 10
-  }
-]
+{
+    "success": true,
+    "httpCode": 200,
+    "status": {
+        "paymentAmount": {
+            "queueServices": [
+                {
+                    "serviceName": "Consultation",
+                    "serviceCost": 500
+                },
+                {
+                    "serviceName": "Internet handling fees",
+                    "serviceCost": 100
+                },
+                {
+                    "serviceName": "test service",
+                    "serviceCost": 0
+                }
+            ],
+            "total": 600,
+            "tax": 0,
+            "grandTotal": 600,
+            "enterAmountFlag": 0
+        },
+        "billingDetails": {
+            "billingDetailsId": null,
+            "billingId": 1504,
+            "tokenId": 7605,
+            "billingType": 1,
+            "amount": 600,
+            "tax": null,
+            "total": 600,
+            "billName": null,
+            "customerType": 1,
+            "customerId": 87,
+            "queueId": null
+        },
+        "paymentModes": [
+            {
+                "paymentModeId": 2,
+                "paymentModeName": "Net Banking/Credit/Debit Card",
+                "paymentModeStatus": null,
+                "countryId": null,
+                "paymentModeIcon": null,
+                "paymentModeCode": "NB"
+            },
+            {
+                "paymentModeId": 6,
+                "paymentModeName": "Paytm Wallet",
+                "paymentModeStatus": null,
+                "countryId": null,
+                "paymentModeIcon": null,
+                "paymentModeCode": "PAYTM"
+            }
+        ]
+    }
+}
 ```
 
-This endpoint retrieves all kittens.
+This endpoint creates a payment record, and sends across payment modes.
 
 ### HTTP Request
 
-`GET http://example.com/api/kittens`
+`POST http://api.sminq.com/v1/user/payment/create`
 
-### Query Parameters
+### POST Parameters
 
 Parameter | Default | Description
 --------- | ------- | -----------
-include_cats | false | If set to true, the result will also include cats.
-available | true | If set to false, the result will include kittens that have already been adopted.
+queueId | true | Unique business queue Id.
+tokenId | false | Unique token id, in case of pre-payment this id generated later.
+customerId | true | customer unique id.
+customerType | true | customer type 1 - User 2 - business.
+countryId | true | required to fetch payment modes per country.
 
-<aside class="success">
-Remember — a happy kitten is an authenticated kitten!
-</aside>
+### Error codes
+
+Code | Description
+--------- | -----------
+102 |  Invalid queue Id.
+105 |  Invalid country id.
+110 |  Invalid user ID.
+359 |  Invalid customer Type.
+
 
 ## Confirm online payment
 
+> confirm payment after response returned from payment gateway.
 
 ```shell
-curl "http://example.com/api/kittens"
+curl "http://api.sminq.com/v1/user/payment/confirm"
   -H "Authorization: meowmeowmeow"
 ```
 
 > The above command returns JSON structured like this:
 
 ```json
-[
-  {
-    "id": 1,
-    "name": "Fluffums",
-    "breed": "calico",
-    "fluffiness": 6,
-    "cuteness": 7
-  },
-  {
-    "id": 2,
-    "name": "Max",
-    "breed": "unknown",
-    "fluffiness": 5,
-    "cuteness": 10
-  }
-]
+{
+    "success": true,
+    "httpCode": 200,
+    "status": {
+        "invoice": null,
+        "token": {
+            "tokenId": 7605,
+            "tokenQueueId": 1,
+            "totalProcessTime": null,
+            "tokenUser": null,
+            "joinDate": "2016-08-17",
+            "joinTime": "11:30:00",
+            "appType": null,
+            "isAdvance": null,
+            "isConfirmed": null,
+            "tokenUserGroup": null,
+            "uuid": null,
+            "tokenNumber": 1102
+        }
+    }
+}
 ```
 
-This endpoint retrieves all kittens.
+This endpoint confirms payment with status after response is returned from payment gateway.
 
 ### HTTP Request
 
-`GET http://example.com/api/kittens`
+`POST http://api.sminq.com/v1/user/payment/confirm`
 
-### Query Parameters
+### POST Parameters
 
 Parameter | Default | Description
 --------- | ------- | -----------
-include_cats | false | If set to true, the result will also include cats.
-available | true | If set to false, the result will include kittens that have already been adopted.
+paymentOrderId | true | The appointment id for which payment is done.
+paymentBillingId | true | The payment billing reference id.
+paymentMode | true | payment mode for appointment.
+paymentGatewayId | true | the gateway transaction id.
+paymentStatus | true | the payment status returned by gateway.
+paymentAmount | true | the amount payment was made for
+paymentQueueId | true | the business queue accepting payments.
+paymentBank | false | bank for payment
+paymentGateway | true | the payment gateway used for payment.
 
-<aside class="success">
-Remember — a happy kitten is an authenticated kitten!
-</aside>
+Code | Description
+--------- | -----------
+360 |  Invalid billing id.
+361 |  Invalid payment mode.
+362 |  Invalid payment amount.
+
 
 ## Verify online payment
 
+> verify the amount for online payment.
 
 ```shell
-curl "http://example.com/api/kittens"
-  -H "Authorization: meowmeowmeow"
+curl "http://api.sminq.com/v1/user/payment/verify"
+  -H "Authorization: xxxxxx"
 ```
 
 > The above command returns JSON structured like this:
 
 ```json
-[
-  {
-    "id": 1,
-    "name": "Fluffums",
-    "breed": "calico",
-    "fluffiness": 6,
-    "cuteness": 7
-  },
-  {
-    "id": 2,
-    "name": "Max",
-    "breed": "unknown",
-    "fluffiness": 5,
-    "cuteness": 10
-  }
-]
+{
+    "success": true,
+    "httpCode": 200,
+    "status": {
+        "verifiedAmount": 600,
+        "billingId": 1504
+    }
+}
 ```
 
-This endpoint retrieves all kittens.
+This endpoint verifies the payment amount before sending to gateway.
 
 ### HTTP Request
 
-`GET http://example.com/api/kittens`
+`GET http://api.sminq.com/v1/user/payment/verify`
 
-### Query Parameters
-
-Parameter | Default | Description
---------- | ------- | -----------
-include_cats | false | If set to true, the result will also include cats.
-available | true | If set to false, the result will include kittens that have already been adopted.
-
-<aside class="success">
-Remember — a happy kitten is an authenticated kitten!
-</aside>
-
-## Check payment status
-
-
-```shell
-curl "http://example.com/api/kittens"
-  -H "Authorization: meowmeowmeow"
-```
-
-> The above command returns JSON structured like this:
-
-```json
-[
-  {
-    "id": 1,
-    "name": "Fluffums",
-    "breed": "calico",
-    "fluffiness": 6,
-    "cuteness": 7
-  },
-  {
-    "id": 2,
-    "name": "Max",
-    "breed": "unknown",
-    "fluffiness": 5,
-    "cuteness": 10
-  }
-]
-```
-
-This endpoint retrieves all kittens.
-
-### HTTP Request
-
-`GET http://example.com/api/kittens`
-
-### Query Parameters
+### POST Parameters
 
 Parameter | Default | Description
 --------- | ------- | -----------
-include_cats | false | If set to true, the result will also include cats.
-available | true | If set to false, the result will include kittens that have already been adopted.
+queueId | true | Unique business queue Id.
+tokenId | false | Unique token id, in case of pre-payment this id generated later.
+customerId | true | customer unique id.
+customerType | true | customer type 1 - User 2 - business.
+billingId | true | unique invoice id.
+paymentMode | true | payment mode selected.
+amount | true | amount to be verified.
 
-<aside class="success">
-Remember — a happy kitten is an authenticated kitten!
-</aside>
+### Error codes
+
+Code | Description
+--------- | -----------
+362 |  Invalid amount.
+
+
 
