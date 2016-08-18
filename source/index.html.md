@@ -197,7 +197,7 @@ pin | true | User 4 digit pin.
 Code | Description
 --------- | -----------
 337 |  Business mobile cannot be empty.
-100 |  Business is not registered.
+100 |  This mobile is not registered.
 
 ## Device Register
 
@@ -3138,4 +3138,53 @@ Code | Description
 362 |  Invalid amount.
 
 
+## Send payment link
 
+> Send a payment link to user email and mobile, with a specified amount.
+
+```shell
+curl "http://api.sminq.com/v1/business/payment/link"
+  -H "Authorization: xxxxxx"
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+  "success": true,
+  "httpCode": 200,
+  "status": {
+    "invoice": null,
+    "token": {
+      "tokenId": 8023,
+      "tokenQueueId": 13
+    }
+  }
+}
+```
+
+This endpoint send a payment link with amount to user mobile and email.
+
+### HTTP Request
+
+`POST http://api.sminq.com/v1/business/payment/link`
+
+### POST Parameters
+
+Parameter | Default | Description
+--------- | ------- | -----------
+queueId | true | Unique business queue Id.
+tokenId | false | Unique token id, in case of pre-payment this id generated later.
+customerId | true | customer unique id.
+customerType | true | customer type 1 - User 2 - business.
+countryId | true | 
+amount | true | amount to be sent via payment link.
+
+### Error codes
+
+Code | Description
+--------- | -----------
+362 |  Invalid amount.
+102 | Invalid queue Id
+110 | Invalid customer ID
+359 | Invalid customer type
