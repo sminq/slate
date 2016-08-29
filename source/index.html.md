@@ -2057,6 +2057,58 @@ userId | true | Registered user ID.
 limit | false | for pagination.
 page | false | for pagination.
 
+## Get Appointment Status
+
+> get live status of appointment.
+
+```shell
+curl "http://api.sminq.com/v1/user/appointment/status"
+  -H "Authorization: xxxxxx"
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+  "success": true,
+  "httpCode": 200,
+  "status": {
+    "businessName": "Sahyadri Clinic",
+    "businessId": 1,
+    "queueName": "ENT",
+    "tokenNumber": 1910,
+    "tokenId": 10,
+    "joinDate": "2016-08-26",
+    "joinTime": "19:00:00",
+    "avgServingTime": 10,
+    "verticalType": "clinic",
+    "lastCompleted": "18:37:05",
+    "createdOn": "2016-08-26 18:36:58",
+    "queueId": 1,
+    "peopleAheadOfYou": 8,
+    "statusType": "T_CREATE",
+    "enableAdvanceBooking": 1,
+    "enableAdvanceBookingForToday": 0,
+    "advanceBookingDays": 7,
+    "enablePayments": 0,
+    "changeInPeopleAhead": 0,
+    "forcePayment": 1
+  }
+}
+```
+
+This endpoint retrieves live status for a user appointment..
+
+### HTTP Request
+
+`GET http://api.sminq.com/v1/user/appointment/status`
+
+### Query Parameters
+
+Parameter | Default | Description
+--------- | ------- | -----------
+tokenId | true | Registered appointment ID.
+queueId | true | Unique business queue ID.
 
 ## Get business alert
 
