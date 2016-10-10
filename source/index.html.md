@@ -1848,6 +1848,103 @@ Code | Description
 355 | Mobile cannot be empty.
 342 | OTP verification failed.
 
+
+## Mark Favorite
+
+> Mark/Unmark a queue as favorite
+
+```shell
+curl "http://api.sminq.com/v1/user/favorite"
+  -H "Authorization: xxxxxx"
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+  "success": true,
+  "httpCode": 200,
+  "status": {
+    "userId": 3,
+    "queueId": 1,
+    "businessId": 1
+  }
+}
+```
+This endpoint marks or unmarks a Queue as favorite.
+
+### HTTP Request
+
+`POST http://api.sminq.com/v1/user/favorite`
+
+### POST Parameters
+
+Parameter | Default | Description
+--------- | ------- | -----------
+queueId | true | Business queue to mark favorite.
+userId | true | User who is marking queue as favorite.
+businessId | true | Unique Business id where queue belongs
+status | true | 1: Mark Favorite; 0: Unmark Favorite
+
+
+## Get Favorites
+
+```shell
+curl "http://api.sminq.com/v1/user/favorite"
+  -H "Authorization: xxxxxx"
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+  "success": true,
+  "httpCode": 200,
+  "status": [
+    {
+      "businessId": 1,
+      "businessName": "Health Clinic",
+      "businessCategoryId": 1,
+      "businessCityId": 1,
+      "cityName": "Pune",
+      "address": "Regus Business Center, Sky One, Kalyani Nagar",
+      "email": "keyan@sminq.com",
+      "mobile": "9158421603",
+      "queueId": 1,
+      "queueName": "ENT",
+      "businessLatitude": "18.5049",
+      "businessLongitude": "73.9005996"
+    },
+    {
+      "businessId": 2,
+      "businessName": "Pets Clinic",
+      "businessCategoryId": 1,
+      "businessCityId": 1,
+      "cityName": "Pune",
+      "address": "Superior General : Sr. Santan Nago, Fatima Convent, Fatima Nagar\nParmar Nagar, Wanwadi",
+      "email": "sheldond@gmail.com",
+      "mobile": "9890005358",
+      "queueId": 2,
+      "queueName": "Pets",
+      "businessLatitude": "18.5049",
+      "businessLongitude": "73.9005996"
+    }
+  ]
+}
+```
+
+This endpoint retrieves all favorite businesses.
+
+### HTTP Request
+
+`GET http://api.sminq.com/v1/user/favorite`
+
+### Query Parameters
+
+Parameter | Default | Description
+--------- | ------- | -----------
+userId | false | User id to retreive favorites for
+
 ## Business search
 
 
@@ -1921,6 +2018,67 @@ limit | false | for pagination.
 page | false | for pagination.
 
 
+## Get Queue Profile
+
+```shell
+curl "http://api.sminq.com/v1/queue/profile"
+  -H "Authorization: xxxxxx"
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+  "success": true,
+  "httpCode": 200,
+  "status": {
+    "queueName": "ENT",
+    "businessName": "Health Clinic",
+    "mobile": "9158421603",
+    "email": "keyan@sminq.com",
+    "address": "Regus Business Center, Sky One, Kalyani Nagar",
+    "businessLatitude": "18.5049",
+    "businessLongitude": "73.9005996",
+    "profileImage": null,
+    "specialization": null,
+    "timings": null,
+    "pin": null,
+    "liveAlerts": [
+      {
+        "id": 6,
+        "queueId": 1,
+        "message": "New patients call at clinic to take appointment.",
+        "liveDate": "2016-10-10",
+        "endDate": "2016-10-10",
+        "startTime": null,
+        "endTime": null,
+        "status": 1,
+        "stopQueue": 0,
+        "allDay": 1,
+        "sendToExisting": null
+      }
+    ]
+  }
+}
+```
+
+This endpoint retrieves profile of a Queue.
+
+### HTTP Request
+
+`GET http://api.sminq.com/v1/queue/profile`
+
+### Query Parameters
+
+Parameter | Default | Description
+--------- | ------- | -----------
+queueId | false | Queue ID for profile look up
+
+### Error codes
+
+Code | Description
+--------- | -----------
+102 |  Invalid queue ID.
 
 ## Check availability
 
