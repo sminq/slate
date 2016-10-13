@@ -2016,7 +2016,77 @@ location | false | location name.
 tags | false | business speciality.
 limit | false | for pagination.
 page | false | for pagination.
+latitude | false | for geo sorting
+longitude | false | for geo sorting
 
+## Autocomplete search
+
+
+```shell
+curl "http://api.sminq.com/v1/user/business/autocomplete"
+  -H "Authorization: xxxxxx"
+```
+
+> The above command returns JSON structured like this if mobile is not entered:
+
+```json
+{
+  "success": true,
+  "httpCode": 200,
+  "status": [
+    {
+      "businessId": 43,
+      "businessCategoryId": 1,
+      "businessName": "Aadhar Hospital",
+      "businessLatitude": 18.519489464507107,
+      "businessLongitude": 73.90624713897705,
+      "mobile": "9822052621",
+      "address": "Dr. Ravindrakumar Katkar, 36, Inna Appt, Opp. Pune Mahila Mandal, Parvati, Pune",
+      "cityName": "Pune",
+      "cityId": 1,
+      "tags": "General Medicine",
+      "openQueues": 1,
+      "verticalType": "clinic",
+      "enableAdvanceBooking": 1,
+      "enablePayments": 0,
+      "queueId": 61
+    },
+    {
+      "businessId": 24,
+      "businessCategoryId": 1,
+      "businessName": "Dr Bhalerao Children Hospital",
+      "businessLatitude": 18.5793178,
+      "businessLongitude": 18.5793178,
+      "mobile": "9850198501",
+      "address": "4 - B, Narsinha Colony, Narsinha School Lane, Old Sangavi, Pune",
+      "cityName": "Pune",
+      "cityId": 1,
+      "tags": "Pediatrician",
+      "openQueues": 2,
+      "verticalType": "clinic",
+      "enableAdvanceBooking": 1,
+      "enablePayments": 1,
+      "queueId": 32
+    }
+  ]
+}
+```
+
+This endpoint retrieves all business matching text entered.
+
+### HTTP Request
+
+`GET http://api.sminq.com/v1/user/business/autocomplete`
+
+### Query Parameters
+
+Parameter | Default | Description
+--------- | ------- | -----------
+cityId | true | City of user to search for business.
+categoryId | true | business category.
+searchText | true | text entered for search
+limit | false | for pagination.
+page | false | for pagination.
 
 ## Get Queue Profile
 
@@ -2311,6 +2381,160 @@ Parameter | Default | Description
 --------- | ------- | -----------
 queueId | true | Unique business queueID.
 
+## Get business alert
+
+> the the active alert set by business, to notify user.
+
+```shell
+curl "http://api.sminq.com/user/alert"
+  -H "Authorization: xxxxxx"
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+  "success": true,
+  "httpCode": 200,
+  "status": {
+    "id": null,
+    "queueId": null,
+    "message": "Dr will not be available today, you can take appointments with Assistant",
+    "liveDate": "2016-08-17",
+    "endDate": "2016-08-17",
+    "startTime": null,
+    "endTime": null,
+    "status": null,
+    "stopQueue": 0,
+    "allDay": 1,
+    "sendToExisting": null
+  }
+}
+```
+
+This endpoint retrieves the live alert set by business.
+
+### HTTP Request
+
+`GET http://api.sminq.com/user/alert`
+
+### Query Parameters
+
+Parameter | Default | Description
+--------- | ------- | -----------
+queueId | true | Unique business queueID.
+
+## User Preference
+
+> Add user preference e.g notification language preference.
+
+```shell
+curl "http://api.sminq.com/v1/user/preference"
+  -H "Authorization: xxxxxx"
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+  "success": true,
+  "httpCode": 200,
+  "status": {
+    "preferenceId": 1,
+    "userId": 1,
+    "languageId": 2,
+    "marketingOptIn": null,
+  }
+}
+```
+
+This endpoint sets user preference.
+
+### HTTP Request
+
+`POST http://api.sminq.com/v1/user/preference`
+
+### POST Parameters
+
+Parameter | Default | Description
+--------- | ------- | -----------
+userId | true | Registered user ID.
+languageId | true | Language preference.
+marketingOptIn | false | opt in for marketing messages.
+
+## Get User Preference
+
+> Get user preference .
+
+```shell
+curl "http://api.sminq.com/v1/user/preference"
+  -H "Authorization: xxxxxx"
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+  "success": true,
+  "httpCode": 200,
+  "status": {
+    "preferenceId": 1,
+    "userId": 1,
+    "languageId": 2,
+    "marketingOptIn": null,
+  }
+}
+```
+
+This endpoint retrieves user preference set in system.
+
+### HTTP Request
+
+`GET http://api.sminq.com/v1/user/preference`
+
+### Query Parameters
+
+Parameter | Default | Description
+--------- | ------- | -----------
+userId | true | Registered user ID.
+
+## User Suggestion
+
+> Capture user business suggestion.
+
+```shell
+curl "http://api.sminq.com/v1/user/preference/suggest"
+  -H "Authorization: xxxxxx"
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+  "success": true,
+  "httpCode": 200,
+  "status": {
+    "userId": 1,
+    "userName": "",
+    "userEmail": "",
+    "userMobile": "",
+  }
+}
+```
+
+This endpoint captures user business lead suggestion.
+
+### HTTP Request
+
+`POST http://api.sminq.com/v1/user/preference/suggest`
+
+### POST Parameters
+
+Parameter | Default | Description
+--------- | ------- | -----------
+userId | true | Registered user ID.
+info | true | info about the business.
+contact | true | suggested business contact.
 
 # Common
 
