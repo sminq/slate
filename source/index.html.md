@@ -3203,6 +3203,89 @@ device | true | valid devices "android" and "ios"
 
 #Payments
 
+## Add Interim Bill
+
+```shell
+curl "http://api.sminq.com/v1/business/bill/interim"
+  -H "Authorization: xxxxxx"
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+  "success": true,
+  "httpCode": 200,
+  "status": {
+    "interimId": 1,
+    "amount": 100,
+    "tokenId": 7,
+  }
+}
+```
+
+This endpoint adds an interim billing amount, to be used for cash or online payment.
+
+### HTTP Request
+
+`POST http://api.sminq.com/v1/business/bill/interim`
+
+### POST Parameters
+
+Parameter | Default | Description
+--------- | ------- | -----------
+tokenId | true | Unique token ID.
+amount | true | Amount to be billed to customer.
+
+
+### Error codes
+
+Code | Description
+--------- | -----------
+346 |  Invalid bill amount.
+103 |  Invalid token ID.
+
+## Get Interim Bill
+
+```shell
+curl "http://api.sminq.com/v1/business/bill/interim"
+  -H "Authorization: xxxxxx"
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+  "success": true,
+  "httpCode": 200,
+  "status": {
+    "interimId": 1,
+    "amount": 100,
+    "tokenId": 7,
+  }
+}
+```
+
+This endpoint adds an interim billing amount, to be used for cash or online payment.
+
+### HTTP Request
+
+`GET http://api.sminq.com/v1/business/bill/interim`
+
+### GET Parameters
+
+Parameter | Default | Description
+--------- | ------- | -----------
+tokenId | true | Unique token ID.
+
+
+### Error codes
+
+Code | Description
+--------- | -----------
+103 |  Invalid token ID.
+
+
 ## Add Cash payment
 
 ```shell
@@ -3622,3 +3705,63 @@ Code | Description
 102 | Invalid queue Id
 110 | Invalid customer ID
 359 | Invalid customer type
+
+## Payments summary
+
+> Get the payment summary for a specific token, list of all successful and failed payments.
+
+```shell
+curl "http://api.sminq.com/v1/user/payments/summary"
+  -H "Authorization: xxxxxx"
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+  "success": true,
+  "httpCode": 200,
+  "status": [
+    {
+      "billingId": 100,
+      "billingDate": "2016-10-14",
+      "tokenId": 7,
+      "billingType": 0,
+      "amount": 900,
+      "tax": 0,
+      "total": 900,
+      "billName": null,
+      "queueId": 1,
+      "queueName": "ENT",
+      "invoiceId": 100,
+      "invoiceDate": "2016-10-14",
+      "isPaid": 1,
+      "paymentMode": null,
+      "paymentStatus": null,
+      "paymentDate": null,
+      "paymentGateway": null,
+      "invoiceLink": null
+    }
+  ]
+}
+```
+
+This endpoint resturns list of all cash/online payments in completed/pending/failed state.
+
+### HTTP Request
+
+`POST http://api.sminq.com/v1/user/payments/summary`
+
+### POST Parameters
+
+Parameter | Default | Description
+--------- | ------- | -----------
+tokenId | true | Unique token id.
+
+
+### Error codes
+
+Code | Description
+--------- | -----------
+103 | Invalid tokenId
+
