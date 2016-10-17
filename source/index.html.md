@@ -504,6 +504,126 @@ Code | Description
 --------- | -----------
 102 |  Invalid queue ID.
 
+## Queue Monthly calendar
+
+> Get the queue calendar for entire month:
+
+
+```shell
+curl "http://api.sminq.com/v1/business/queue/calendar/availability"
+  -H "Authorization: xxxxxxx"
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+  "success": true,
+  "httpCode": 200,
+  "status": [
+    {
+      "date": "2016-10-15",
+      "day": "Saturday",
+      "availability": 405
+    },
+    {
+      "date": "2016-10-16",
+      "day": "Sunday",
+      "availability": 450
+    },
+    {
+      "date": "2016-10-17",
+      "day": "Monday",
+      "availability": 450
+    },
+    {
+      "date": "2016-10-18",
+      "day": "Tuesday",
+      "availability": 295
+    },
+    {
+      "date": "2016-10-19",
+      "day": "Wednesday",
+      "availability": 323
+    },
+    {
+      "date": "2016-10-20",
+      "day": "Thursday",
+      "availability": 289
+    },
+    {
+      "date": "2016-10-21",
+      "day": "Friday",
+      "availability": 403
+    },
+    {
+      "date": "2016-10-22",
+      "day": "Saturday",
+      "availability": 405
+    },
+    {
+      "date": "2016-10-23",
+      "day": "Sunday",
+      "availability": 450
+    },
+    {
+      "date": "2016-10-24",
+      "day": "Monday",
+      "availability": 450
+    },
+    {
+      "date": "2016-10-25",
+      "day": "Tuesday",
+      "availability": 295
+    },
+    {
+      "date": "2016-10-26",
+      "day": "Wednesday",
+      "availability": 323
+    },
+    {
+      "date": "2016-10-27",
+      "day": "Thursday",
+      "availability": 289
+    },
+    {
+      "date": "2016-10-28",
+      "day": "Friday",
+      "availability": 403
+    },
+    {
+      "date": "2016-10-29",
+      "day": "Saturday",
+      "availability": 405
+    },
+    {
+      "date": "2016-10-30",
+      "day": "Sunday",
+      "availability": 450
+    }
+  ]
+}
+```
+
+This endpoint retrieves the queue calendar availability for entire month.
+
+### HTTP Request
+
+`GET http://api.sminq.com/v1/business/queue/calendar/availability`
+
+### Query Parameters
+
+Parameter | Default | Description
+--------- | ------- | -----------
+queueId | true | Unique queueId .
+date | true | current date.
+
+### Error codes
+
+Code | Description
+--------- | -----------
+102 |  Invalid queue ID.
+
 ## Update time slot
 
 > modify time slots for business queue.
@@ -3765,3 +3885,53 @@ Code | Description
 --------- | -----------
 103 | Invalid tokenId
 
+
+#Miscellaneous
+
+## User contact
+
+> Capture user contact form data.
+
+```shell
+curl "http://api.sminq.com/v1/web/contact"
+  -H "Authorization: xxxxxx"
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+  "success": true,
+  "httpCode": 200,
+  "status": {
+    "name": "sheldon",
+    "email": "email",
+    "mobile": "9890005358",
+    "message": "demo",
+    "googleForm": null
+  }
+}
+```
+
+This endpoint captures user contact us form input.
+
+### HTTP Request
+
+`POST http://api.sminq.com/v1/web/contact`
+
+### POST Parameters
+
+Parameter | Default | Description
+--------- | ------- | -----------
+name | true | User name.
+mobile | true | user mobile.
+email | true | user email.
+message | true | user message
+
+### Error codes
+
+Code | Description
+--------- | -----------
+336 | User name cannot be empty
+337 | User mobile cannot be empty
+335 | Message cannot be empty
