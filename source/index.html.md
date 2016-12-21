@@ -324,7 +324,8 @@ curl "http://api.sminq.com/v1/business/queue/search"
         "isConfirmed": 0,
         "enablePayments": 0,
         "forcePayment": 1,
-        "weeklyAvgWaitTime": 0
+        "weeklyAvgWaitTime": 0,
+        "isFavorite": 1
       }
     ],
     "action": [
@@ -345,7 +346,7 @@ curl "http://api.sminq.com/v1/business/queue/search"
 }
 ```
 
-This endpoint retrieves all queues for a business.
+This endpoint retrieves all queues for a business. If userId is passed along in request then a flag "isFavorite" is added to the queues in response which indicates that a queue is marked 'favorite' by the user.
 
 ### HTTP Request
 
@@ -358,6 +359,7 @@ Parameter | Default | Description
 businessId | true | Unique ID for business.
 queueAccess | false | Permissions to restrict queue access for business.
 parentQueue | false | 
+userId | false | User Id
 
 
 ## Queue status
@@ -2095,7 +2097,9 @@ curl "http://api.sminq.com/v1/user/business/search"
       "verticalType": "clinic",
       "enableAdvanceBooking": 1,
       "enablePayments": 0,
-      "queueId": 61
+      "queueId": 61,
+      "availability": "ONLY 14 places availabletill 09:00 AM",
+      "sminqCertified": 1
     },
     {
       "businessId": 24,
@@ -2112,7 +2116,9 @@ curl "http://api.sminq.com/v1/user/business/search"
       "verticalType": "clinic",
       "enableAdvanceBooking": 1,
       "enablePayments": 1,
-      "queueId": 32
+      "queueId": 32,
+      "availability": "ONLY 14 places availabletill 09:00 AM",
+      "sminqCertified": 0
     }
   ]
 }
@@ -2222,17 +2228,21 @@ curl "http://api.sminq.com/v1/queue/profile"
   "success": true,
   "httpCode": 200,
   "status": {
-    "queueName": "ENT",
-    "businessName": "Health Clinic",
-    "mobile": "9158421603",
-    "email": "keyan@sminq.com",
-    "address": "Regus Business Center, Sky One, Kalyani Nagar",
-    "businessLatitude": "18.5049",
-    "businessLongitude": "73.9005996",
+    "queueName": "Dr. Ganesh Morya",
+    "businessName": "Ganesh Test Clinic",
+    "mobile": "1234567890",
+    "email": "niket@sminq.com",
+    "address": "DP Road, Koregaon Park, Pune 411001",
+    "businessLatitude": "18.519489464507107",
+    "businessLongitude": "73.90624713897705",
     "profileImage": null,
-    "specialization": null,
-    "timings": null,
-    "pin": null,
+    "tags": "Dermatologist, General Practice, Gynecologist, Orthopedic, Pediatrician, Demo, Test, Ayurvedic, General Medicine, ENT, Physiotherapists, General Surgeon, Ophthalmologist, Neurologist, Diabetologist, Cardiologists, Dentist",
+    "timings": "MO=06:00 - 12:45|13:00 - 17:45|18:00 - 23:30,TU=08:00 - 14:00|14:15 - 17:45|18:00 - 22:00,WE=08:00 - 14:00|14:15 - 17:45|18:00 - 22:00,TH=08:00 - 13:00|18:00 - 22:00,FR=08:00 - 13:00|18:00 - 22:00,SA=08:00 - 13:00|18:00 - 22:00,",
+    "metadata": "Allrounder Doctor ",
+    "advanceBookingDays": 7,
+    "enableAdvanceBookingForToday": 0,
+    "enableAdvanceBookings": 1,
+    "isMonetizationApplicable": 1,
     "liveAlerts": [
       {
         "id": 6,
@@ -3024,6 +3034,412 @@ queueId | true | business for which slots have to retrieved.
 date | true | slots for which date.
 
 
+## Get appointment groups
+
+> get all slots under each available group for taking an appointment.
+
+```shell
+curl "http://api.sminq.com/v1/appointment/groups"
+  -H "Authorization: xxxxxx"
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+  "success": true,
+  "httpCode": 200,
+  "status": [
+    {
+      "groupName": "Evening",
+      "groupId": 25,
+      "groupStartTime": "18:00:00",
+      "groupEndTime": "20:55:00",
+      "slots": [
+        {
+          "slotId": 41800,
+          "queueId": 1,
+          "startTimeSlot": "18:00:00",
+          "endTimeSlot": "18:30:00",
+          "tokenUpperLimit": null,
+          "sequence": 0,
+          "status": null,
+          "groupId": 25,
+          "openToUser": 1,
+          "premiumSlot": 0,
+          "usedSlots": 0,
+          "totalSlots": 5,
+          "groupStartTime": "18:00:00",
+          "groupEndTime": "20:55:00",
+          "availableJoinDate": null,
+          "groupName": "Evening"
+        },
+        {
+          "slotId": 41830,
+          "queueId": 1,
+          "startTimeSlot": "18:30:00",
+          "endTimeSlot": "19:00:00",
+          "tokenUpperLimit": null,
+          "sequence": 0,
+          "status": null,
+          "groupId": 25,
+          "openToUser": 1,
+          "premiumSlot": 0,
+          "usedSlots": 0,
+          "totalSlots": 5,
+          "groupStartTime": "18:00:00",
+          "groupEndTime": "20:55:00",
+          "availableJoinDate": null,
+          "groupName": "Evening"
+        },
+        {
+          "slotId": 41900,
+          "queueId": 1,
+          "startTimeSlot": "19:00:00",
+          "endTimeSlot": "19:30:00",
+          "tokenUpperLimit": null,
+          "sequence": 0,
+          "status": null,
+          "groupId": 25,
+          "openToUser": 1,
+          "premiumSlot": 0,
+          "usedSlots": 0,
+          "totalSlots": 5,
+          "groupStartTime": "18:00:00",
+          "groupEndTime": "20:55:00",
+          "availableJoinDate": null,
+          "groupName": "Evening"
+        },
+        {
+          "slotId": 41930,
+          "queueId": 1,
+          "startTimeSlot": "19:30:00",
+          "endTimeSlot": "20:00:00",
+          "tokenUpperLimit": null,
+          "sequence": 0,
+          "status": null,
+          "groupId": 25,
+          "openToUser": 1,
+          "premiumSlot": 0,
+          "usedSlots": 0,
+          "totalSlots": 5,
+          "groupStartTime": "18:00:00",
+          "groupEndTime": "20:55:00",
+          "availableJoinDate": null,
+          "groupName": "Evening"
+        },
+        {
+          "slotId": 42000,
+          "queueId": 1,
+          "startTimeSlot": "20:00:00",
+          "endTimeSlot": "20:30:00",
+          "tokenUpperLimit": null,
+          "sequence": 0,
+          "status": null,
+          "groupId": 25,
+          "openToUser": 1,
+          "premiumSlot": 0,
+          "usedSlots": 0,
+          "totalSlots": 5,
+          "groupStartTime": "18:00:00",
+          "groupEndTime": "20:55:00",
+          "availableJoinDate": null,
+          "groupName": "Evening"
+        },
+        {
+          "slotId": 42030,
+          "queueId": 1,
+          "startTimeSlot": "20:30:00",
+          "endTimeSlot": "21:00:00",
+          "tokenUpperLimit": null,
+          "sequence": 0,
+          "status": null,
+          "groupId": 25,
+          "openToUser": 1,
+          "premiumSlot": 0,
+          "usedSlots": 0,
+          "totalSlots": 5,
+          "groupStartTime": "18:00:00",
+          "groupEndTime": "20:55:00",
+          "availableJoinDate": null,
+          "groupName": "Evening"
+        }
+      ]
+    },
+    {
+      "groupName": "Morning",
+      "groupId": 11,
+      "groupStartTime": "09:00:00",
+      "groupEndTime": "12:55:00",
+      "slots": [
+        {
+          "slotId": 40900,
+          "queueId": 1,
+          "startTimeSlot": "09:00:00",
+          "endTimeSlot": "09:30:00",
+          "tokenUpperLimit": null,
+          "sequence": 0,
+          "status": null,
+          "groupId": 11,
+          "openToUser": 1,
+          "premiumSlot": 0,
+          "usedSlots": 0,
+          "totalSlots": 5,
+          "groupStartTime": "09:00:00",
+          "groupEndTime": "12:55:00",
+          "availableJoinDate": null,
+          "groupName": "Morning"
+        },
+        {
+          "slotId": 40930,
+          "queueId": 1,
+          "startTimeSlot": "09:30:00",
+          "endTimeSlot": "10:00:00",
+          "tokenUpperLimit": null,
+          "sequence": 0,
+          "status": null,
+          "groupId": 11,
+          "openToUser": 1,
+          "premiumSlot": 0,
+          "usedSlots": 0,
+          "totalSlots": 5,
+          "groupStartTime": "09:00:00",
+          "groupEndTime": "12:55:00",
+          "availableJoinDate": null,
+          "groupName": "Morning"
+        },
+        {
+          "slotId": 41000,
+          "queueId": 1,
+          "startTimeSlot": "10:00:00",
+          "endTimeSlot": "10:30:00",
+          "tokenUpperLimit": null,
+          "sequence": 0,
+          "status": null,
+          "groupId": 11,
+          "openToUser": 1,
+          "premiumSlot": 0,
+          "usedSlots": 0,
+          "totalSlots": 5,
+          "groupStartTime": "09:00:00",
+          "groupEndTime": "12:55:00",
+          "availableJoinDate": null,
+          "groupName": "Morning"
+        },
+        {
+          "slotId": 41030,
+          "queueId": 1,
+          "startTimeSlot": "10:30:00",
+          "endTimeSlot": "11:00:00",
+          "tokenUpperLimit": null,
+          "sequence": 0,
+          "status": null,
+          "groupId": 11,
+          "openToUser": 1,
+          "premiumSlot": 0,
+          "usedSlots": 0,
+          "totalSlots": 5,
+          "groupStartTime": "09:00:00",
+          "groupEndTime": "12:55:00",
+          "availableJoinDate": null,
+          "groupName": "Morning"
+        },
+        {
+          "slotId": 41100,
+          "queueId": 1,
+          "startTimeSlot": "11:00:00",
+          "endTimeSlot": "11:30:00",
+          "tokenUpperLimit": null,
+          "sequence": 0,
+          "status": null,
+          "groupId": 11,
+          "openToUser": 1,
+          "premiumSlot": 0,
+          "usedSlots": 1,
+          "totalSlots": 5,
+          "groupStartTime": "09:00:00",
+          "groupEndTime": "12:55:00",
+          "availableJoinDate": null,
+          "groupName": "Morning"
+        },
+        {
+          "slotId": 41130,
+          "queueId": 1,
+          "startTimeSlot": "11:30:00",
+          "endTimeSlot": "12:00:00",
+          "tokenUpperLimit": null,
+          "sequence": 0,
+          "status": null,
+          "groupId": 11,
+          "openToUser": 1,
+          "premiumSlot": 0,
+          "usedSlots": 0,
+          "totalSlots": 5,
+          "groupStartTime": "09:00:00",
+          "groupEndTime": "12:55:00",
+          "availableJoinDate": null,
+          "groupName": "Morning"
+        },
+        {
+          "slotId": 41200,
+          "queueId": 1,
+          "startTimeSlot": "12:00:00",
+          "endTimeSlot": "12:30:00",
+          "tokenUpperLimit": null,
+          "sequence": 0,
+          "status": null,
+          "groupId": 11,
+          "openToUser": 1,
+          "premiumSlot": 0,
+          "usedSlots": 0,
+          "totalSlots": 5,
+          "groupStartTime": "09:00:00",
+          "groupEndTime": "12:55:00",
+          "availableJoinDate": null,
+          "groupName": "Morning"
+        },
+        {
+          "slotId": 41230,
+          "queueId": 1,
+          "startTimeSlot": "12:30:00",
+          "endTimeSlot": "13:00:00",
+          "tokenUpperLimit": null,
+          "sequence": 0,
+          "status": null,
+          "groupId": 11,
+          "openToUser": 1,
+          "premiumSlot": 0,
+          "usedSlots": 0,
+          "totalSlots": 5,
+          "groupStartTime": "09:00:00",
+          "groupEndTime": "12:55:00",
+          "availableJoinDate": null,
+          "groupName": "Morning"
+        }
+      ]
+    }
+  ]
+}
+```
+
+This endpoint retrieves all groups available for taking an appointment. It returns group information along with a list of slots that belong to that group. Availability information is associated with each slot within the group.
+
+### HTTP Request
+
+`GET http://api.sminq.com/v1/appointment/groups`
+
+### Query Parameters
+
+Parameter | Default | Description
+--------- | ------- | -----------
+queueId | true | business for which groups have to retrieved.
+date | true | slots for which date.
+
+## Get appointment details
+
+> get all token details
+
+```shell
+curl "http://api.sminq.com/v1/appointment/search"
+  -H "Authorization: xxxxxx"
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+  "success": true,
+  "httpCode": 200,
+  "status": {
+    "businessName": "Shreenath Clinic",
+    "businessId": 1,
+    "queueName": "Dr. S S Ingle",
+    "tokenNumber": 501,
+    "tokenId": 197,
+    "joinDate": "2016-11-10",
+    "joinTime": "11:00:00",
+    "avgServingTime": 10,
+    "verticalType": "clinic",
+    "lastCompleted": null,
+    "createdOn": "2016-11-09 12:26:30",
+    "queueId": 1,
+    "peopleAheadOfYou": 0,
+    "statusType": "T_CREATE",
+    "queueStatus": null,
+    "message": null,
+    "stopQueue": null,
+    "enableAdvanceBooking": 1,
+    "enableAdvanceBookingForToday": 0,
+    "advanceBookingDays": 7,
+    "enablePayments": 1,
+    "billAmount": null,
+    "changeInPeopleAhead": 0,
+    "billingType": null,
+    "forcePayment": 1,
+    "isPaid": null,
+    "tokenMetadata": null,
+    "userName": "demo9",
+    "userGroupName": null,
+    "userId": 4,
+    "groupId": null,
+    "queueProfile": {
+      "queueName": "Dr. S S Ingle",
+      "businessName": "Shreenath Clinic",
+      "mobile": "8087592468",
+      "email": null,
+      "address": "Solace Park, B T Kavade Road, Gorpadi",
+      "businessLatitude": 18.529252,
+      "businessLongitude": 73.90995699999996,
+      "profileImage": "http://s3-ap-southeast-1.amazonaws.com/sminq.in/images/staging/queue-1-1477027898231-Dr Ajit Kadam.jpeg",
+      "tags": "OPD, IPD, Labs, Sonography, X-Ray, ECG, Operation Theater ",
+      "timings": "MO=06:00 - 06:45|08:00 - 14:00|14:00 - 18:00|18:05 - 23:55,TU=00:15 - 05:30|08:00 - 14:00|14:00 - 18:00|18:05 - 23:55,WE=08:00 - 14:00|14:00 - 18:00|18:05 - 23:55,TH=08:00 - 14:00|14:00 - 18:00|18:05 - 23:55,FR=08:00 - 14:00|14:05 - 17:55|18:00 - 23:55,SA=08:00 - 14:00|14:00 - 18:00|18:05 - 23:55,SU=08:00 - 14:00|14:00 - 18:00|18:05 - 23:55,",
+      "metadata": null,
+      "enableAdvanceBooking": 1,
+      "advanceBookingDays": 7,
+      "enableAdvanceBookingForToday": 0,
+      "liveAlerts": [],
+      "forcePayment": 0,
+      "enablePayments": 1,
+      "queuingSystem": 0
+    },
+    "billingSummary": [
+      {
+        "billingId": 22,
+        "billingDate": "2016-11-09",
+        "tokenId": 197,
+        "billingType": 0,
+        "amount": 200,
+        "tax": 0,
+        "total": 200,
+        "billName": null,
+        "queueId": 1,
+        "queueName": "Dr. S S Ingle",
+        "invoiceId": 18,
+        "invoiceDate": "2016-11-09",
+        "isPaid": 1,
+        "paymentMode": null,
+        "paymentStatus": null,
+        "paymentDate": null,
+        "paymentGateway": null,
+        "invoiceLink": null
+      }
+    ]
+  }
+```
+
+This endpoint retrieves token details for a given token id. 
+
+### HTTP Request
+
+`GET http://api.sminq.com/v1/appointment/search`
+
+### Query Parameters
+
+Parameter | Default | Description
+--------- | ------- | -----------
+queueId | true | queue for which token details have to retrieved.
+tokenId | true | token id for which details have to be retrieved.
+
 ## Confirm appointment
 
 > user input to confirm an appointment.
@@ -3774,6 +4190,262 @@ Code | Description
 --------- | -----------
 362 |  Invalid amount.
 
+## Add Split Online payment
+
+```shell
+curl "http://api.sminq.com/v1/split/payment/create"
+  -H "Authorization: xxxxxx"
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+  "success": true,
+  "httpCode": 200,
+  "status": {
+    "paymentAmount": [
+      {
+        "queueServices": [],
+        "total": 100,
+        "tax": 0,
+        "grandTotal": 100,
+        "enterAmountFlag": 1
+      },
+      {
+        "queueServices": [],
+        "total": 200,
+        "tax": 0,
+        "grandTotal": 200,
+        "enterAmountFlag": 1
+      }
+    ],
+    "billingDetails": [
+      {
+        "billingDetailsId": 54,
+        "billingId": 54,
+        "tokenId": null,
+        "billingType": 1,
+        "amount": 100,
+        "tax": 0,
+        "total": 100,
+        "billName": null,
+        "customerType": 1,
+        "customerId": 2,
+        "queueId": 1,
+        "billingHead": 0
+      },
+      {
+        "billingDetailsId": 55,
+        "billingId": 55,
+        "tokenId": null,
+        "billingType": 1,
+        "amount": 200,
+        "tax": 0,
+        "total": 200,
+        "billName": null,
+        "customerType": 1,
+        "customerId": 2,
+        "queueId": 1,
+        "billingHead": 1
+      }
+    ],
+    "paymentModes": [
+      {
+        "paymentModeName": "Net Banking/Credit/Debit Card",
+        "paymentModeIcon": null,
+        "paymentModeCode": "NB",
+        "paymentModeId": "2",
+        "gatewayName": "razorpay"
+      },
+      {
+        "paymentModeName": "Paytm Wallet",
+        "paymentModeIcon": null,
+        "paymentModeCode": "PAYTM",
+        "paymentModeId": "6",
+        "gatewayName": "paytm"
+      }
+    ]
+  }
+}
+```
+
+This endpoint is used when both Business (consultation) and Subscription (user registration) charges are required to be paid together from App
+
+### HTTP Request
+
+`POST http://api.sminq.com/v1/split/payment/create`
+
+### POST Parameters
+
+Parameter | Default | Description
+--------- | ------- | -----------
+queueId | true | Unique business queue ID.
+customerType | true | 1 for user.
+customerId | true | unique ID for user.
+countryId | true | Unique country ID of the business.
+tokenId | false | Unique token ID.
+charges | true | (Type: Array Object) Payment details
+
+Charges need to have:
+
+Parameter | Default | Description
+--------- | ------- | -----------
+amount | true | Amount for payment.
+billingHead | true | Type of payment ("subscription" or "business").
+
+### Error codes
+
+Code | Description
+--------- | -----------
+346 |  Invalid bill amount.
+360 |  Invalid billing type.
+102 |  Invalid queue ID.
+325 |  Invalid customer ID.
+325 |  Invalid customer Type.
+
+## Verify Split Online payment
+
+```shell
+curl "http://api.sminq.com/v1/split/payment/verify"
+  -H "Authorization: xxxxxx"
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+  "success": true,
+  "httpCode": 200,
+  "status": {
+    "paymentOrderId": null,
+    "paymentMode": "PAYTM",
+    "paymentGatewayId": "57",
+    "paymentStatus": "created",
+    "paymentBank": null,
+    "paymentGateway": "paytm",
+    "paymentQueueId": 1,
+    "paymentGatewayOrder": "57",
+    "charges": [
+      {
+        "billingHead": "business",
+        "amount": 100,
+        "billingId": 57,
+        "gatewayOrderId": null
+      },
+      {
+        "billingHead": "subscription",
+        "amount": 200,
+        "billingId": 58,
+        "gatewayOrderId": null
+      }
+    ]
+  }
+}
+```
+
+This endpoint is used when both Business (consultation) and Subscription (user registration) charges are required to be paid together from App. This is used to verify the amount user is paying online.
+
+### HTTP Request
+
+`POST http://api.sminq.com/v1/split/payment/verify`
+
+### POST Parameters
+
+Parameter | Default | Description
+--------- | ------- | -----------
+queueId | true | Unique business queue ID.
+customerType | true | 1 for user.
+customerId | true | unique ID for user.
+tokenId | false | Unique token ID.
+paymentMode | true | Payment Mode selected for transaction
+newVersion | false | To be used by new apps
+charges | true | (Type: Array Object) Payment details
+
+Charges need to have:
+
+Parameter | Default | Description
+--------- | ------- | -----------
+amount | true | Amount for payment.
+billingHead | true | Type of payment ("subscription" or "business").
+billingId | true | Billing Id as returned by split/payment/create API.
+
+### Error codes
+
+Code | Description
+---- | -----------
+362  |  Invalid amount.
+
+## Confirm Split Online payment
+
+```shell
+curl "http://api.sminq.com/v1/split/payment/confirm"
+  -H "Authorization: xxxxxx"
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+  "success": true,
+  "httpCode": 200,
+  "status": {
+    "invoices": [
+      null,
+      null
+    ],
+    "token": {
+      "tokenId": 244,
+      "tokenQueueId": 1,
+      "totalProcessTime": null,
+      "tokenUser": null,
+      "createdOn": null,
+      "joinDate": 1481976988000,
+      "joinTime": "15:30:00",
+      "appType": null,
+      "isAdvance": null,
+      "isConfirmed": null,
+      "tokenUserGroup": null,
+      "uuid": null,
+      "tokenNumber": 605
+    }
+  }
+}
+```
+
+This endpoint is used when both Business (consultation) and Subscription (user registration) charges are required to be paid together from App. This is used to confirm the payment status as returned from the gateway.
+
+### HTTP Request
+
+`POST http://api.sminq.com/v1/split/payment/confirm`
+
+### POST Parameters
+
+Parameter | Default | Description
+--------- | ------- | -----------
+paymentOrderId | true | The appointment id for which payment is done.
+paymentMode | true | payment mode for appointment.
+paymentGatewayId | true | the gateway transaction id.
+paymentStatus | true | the payment status returned by gateway.
+paymentQueueId | true | the business queue accepting payments.
+paymentBank | false | bank for payment
+paymentGateway | true | the payment gateway used for payment.
+paymentGatewayOrder | true | gateway order id as returned by api
+charges | true | (Type: Array Object) Payment details
+
+Charges need to have:
+
+Parameter | Default | Description
+--------- | ------- | -----------
+amount | true | Amount for payment.
+billingHead | true | Type of payment ("subscription" or "business").
+billingId | true | Billing Id as returned by split/payment/create API.
+
+Code | Description
+--------- | -----------
+360 |  Invalid billing id.
+361 |  Invalid payment mode.
+362 |  Invalid payment amount.
 
 ## Send payment link
 
@@ -3917,7 +4589,7 @@ This endpoint captures user contact us form input.
 
 ### HTTP Request
 
-`POST http://api.sminq.com/v1/web/contact`
+`POST http://api.sminq.com/v1/web`
 
 ### POST Parameters
 
@@ -3935,3 +4607,286 @@ Code | Description
 336 | User name cannot be empty
 337 | User mobile cannot be empty
 335 | Message cannot be empty
+
+# Monetization
+## Create Token For Monetization Queue
+
+> Create Token :
+
+
+```shell
+curl "https://api.sminq.com/v1/user/monetization/"
+  -H "Authorization: XXXXXXXXXX"
+```
+
+> The above api returns JSON structure likes this if monetization plan does not apply to this user
+
+```json
+{
+  "success": true,
+  "httpCode": 200,
+  "status": {
+    "monetizationPlanDetails": {
+      "monetizationId": 1,
+      "monetizationDescription": "Prime on Weekend morning and evening",
+      "monetizationPlanName": "",
+      "chargeType": 0,
+      "registrationPlans": null,
+      "bookingCharge": 0
+    },
+    "token": {
+      "tokenId": 243,
+      "tokenQueueId": 1,
+      "totalProcessTime": null,
+      "tokenUser": 7,
+      "createdOn": null,
+      "joinDate": 1481976454000,
+      "joinTime": "15:30:00",
+      "appType": null,
+      "isAdvance": null,
+      "isConfirmed": null,
+      "tokenUserGroup": null,
+      "uuid": null,
+      "tokenNumber": 604
+    },
+    "userValid": true
+  }
+}
+```
+
+> The above api returns JSON structure likes this if Registration plans are applicable but User has Credits (userValid = true):
+
+```json
+{
+  "success": true,
+  "httpCode": 200,
+  "status": {
+    "monetizationPlanDetails": {
+      "monetizationId": 1,
+      "monetizationDescription": "Prime on Weekend morning and evening",
+      "monetizationPlanName": "",
+      "chargeType": 0,
+      "registrationPlans": null,
+      "bookingCharge": 0
+    },
+    "token": {
+      "tokenId": 242,
+      "tokenQueueId": 1,
+      "totalProcessTime": null,
+      "tokenUser": 5,
+      "createdOn": null,
+      "joinDate": 1481975813000,
+      "joinTime": "15:30:00",
+      "appType": null,
+      "isAdvance": null,
+      "isConfirmed": null,
+      "tokenUserGroup": null,
+      "uuid": null,
+      "tokenNumber": 603
+    },
+    "userValid": true
+  }
+}
+```
+
+> The above api returns JSON structure likes this if Registration plans are applicable and User is not a member or doesn't have sufficient credits:
+
+```json
+{
+  "success": true,
+  "httpCode": 200,
+  "status": {
+    "monetizationPlanDetails": {
+      "monetizationId": 1,
+      "monetizationDescription": "Prime on Weekend morning and evening",
+      "monetizationPlanName": "",
+      "chargeType": 0,
+      "registrationPlans": [
+        {
+          "amount": 200,
+          "validity": 365
+        },
+        {
+          "amount": 50,
+          "validity": 30
+        }
+      ],
+      "bookingCharge": 0
+    },
+    "token": {
+      "tokenId": 244,
+      "tokenQueueId": 1,
+      "totalProcessTime": null,
+      "tokenUser": 9,
+      "createdOn": null,
+      "joinDate": 1481976988000,
+      "joinTime": "15:30:00",
+      "appType": null,
+      "isAdvance": null,
+      "isConfirmed": null,
+      "tokenUserGroup": null,
+      "uuid": null,
+      "tokenNumber": 605
+    },
+    "userValid": false
+  }
+}
+```
+
+> The above api returns JSON structured like this if Flat Fee (booking charge) is applicable:
+
+```json
+{
+  "success": true,
+  "httpCode": 200,
+  "status": {
+    "monetizationPlanDetails": {
+      "monetizationId": 1,
+      "monetizationDescription": "Prime on Weekend morning and evening",
+      "monetizationPlanName": "",
+      "chargeType": 1,
+      "registrationPlans": null,
+      "bookingCharge": 500
+    },
+    "token": null,
+    "userValid": false
+  }
+}
+
+```
+
+This endpoint needs to be used only for the queues which has monetization plan applicable (isMonetizationApplicable = 1 in /queue/profile response). Here, monetization plan and it's configuration is validated for the input parameters. If monetization plan is not applicable for the given user then a token is immediately created. But if validation results in applicability of monetization on the requesting user then a charge that user has to pay needs to be computed. Charge structure can be either Registration Plan or Flat Fee. 
+
+Flat Fee: Here, user has to pay first and then only a token gets created for that user. In response of this API call, server returns the amount to be paid.
+
+Registration Plans: In this case, token gets created for that user but if user is not a member or existing membership is not valid then along with token details, registration plans are also returned back to the client.
+
+### HTTP Request
+
+`POST http://api.sminq.com/v1/user/monetization/`
+
+### POST Parameters
+
+Parameter | Default | Description
+--------- | ------- | -----------
+queueId | true | Business queueId for appointment.
+userId | true | If user is logged in send across id.
+joinTime | true | Time for appointment.
+joinDate | true | Date for appointment.
+appType | true | appointment created from which channel 
+categoryId | true | vertical of the selected business
+cityId | true | City of the selected business
+countryId | true | Country of the selected business
+slotId | false | Slot for appointment.
+
+### Error codes
+
+Code | Description
+---- | -----------
+102  |  Invalid queue ID.
+326  |  Business blocked appointments.
+322  |  Invalid join date.
+323  |  Invalid join time.
+324  |  Advance bookings not accepted.
+325  |  Invalid user.
+
+## Get Registration Plans
+
+> Get all the registration plans for a given queue (if applicable)
+
+```shell
+curl "http://api.sminq.com/v1/user/registration/plans"
+  -H "Authorization: xxxxxx"
+```
+
+> The above command returns JSON structured like this: (TODO: Add details like Registration Plan Name, Description etc)
+
+```json
+{
+  "success": true,
+  "httpCode": 200,
+  "status": [
+    {
+      "amount": 200,
+      "validity": 365
+    },
+    {
+      "amount": 50,
+      "validity": 30
+    }
+  ]
+}
+```
+> If no plans are applicable then JSON structure would be like:
+
+```json
+{
+  "success": true,
+  "httpCode": 200,
+  "status": null
+}
+```
+
+This endpoint returns all the registration plan if applies for the given queue id. 
+
+### HTTP Request
+
+`GET http://api.sminq.com/v1/user/registration/plans`
+
+Parameter | Default | Description
+--------- | ------- | -----------
+queueId | true | Queue ID for which plans are to be fetched.
+
+### Error codes
+
+Code | Description
+--------- | -----------
+102 | Invalid queue Id
+
+## Get User Account Summary
+
+> Get User Account Summary
+
+```shell
+curl "http://api.sminq.com/v1/user/account/summary"
+  -H "Authorization: xxxxxx"
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+  "success": true,
+  "httpCode": 200,
+  "status": {
+    "userId": 5,
+    "balance": 1000,
+    "expiryDate": "2017-01-01"
+  }
+}
+```
+If user does not have a membership then JSON structure returned is:
+
+```json
+{
+  "success": true,
+  "httpCode": 200,
+  "status": null
+}
+```
+
+This endpoint returns credit balance of the user along with expiry date in yyyy-mm-dd format.
+
+### HTTP Request
+
+`GET http://api.sminq.com/v1/user/account/summary`
+
+Parameter | Default | Description
+--------- | ------- | -----------
+userId | true | User ID whose account details are to be fetched
+
+### Error codes
+
+Code | Description
+--------- | -----------
+110 | Invalid user ID
