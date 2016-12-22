@@ -4558,6 +4558,218 @@ Code | Description
 --------- | -----------
 103 | Invalid tokenId
 
+#Pre Payment
+
+## Get Scheduled slots
+
+> Get the list of available slots to schedule token.
+
+
+```shell
+curl "http://api.sminq.com/v1/token/schedule/time"
+  -H "Authorization: xxxxxx"
+```
+
+> The above command returns JSON structured like this:
+
+```json
+
+{
+  "success": true,
+  "httpCode": 200,
+  "status": [
+    {
+      "slotId": 60900,
+      "queueId": 48,
+      "startTimeSlot": "09:00:00",
+      "endTimeSlot": "10:00:00",
+      "tokenUpperLimit": null,
+      "sequence": 1,
+      "status": null,
+      "groupId": 422,
+      "openToUser": 1,
+      "premiumSlot": 0,
+      "usedSlots": 2,
+      "totalSlots": 1,
+      "groupStartTime": "09:00:00",
+      "groupEndTime": "13:00:00",
+      "availableJoinDate": null,
+      "groupName": null
+    },
+    {
+      "slotId": 61000,
+      "queueId": 48,
+      "startTimeSlot": "10:00:00",
+      "endTimeSlot": "11:00:00",
+      "tokenUpperLimit": null,
+      "sequence": 2,
+      "status": null,
+      "groupId": 422,
+      "openToUser": 1,
+      "premiumSlot": 0,
+      "usedSlots": 1,
+      "totalSlots": 1,
+      "groupStartTime": "09:00:00",
+      "groupEndTime": "13:00:00",
+      "availableJoinDate": null,
+      "groupName": null
+    },
+    {
+      "slotId": 61100,
+      "queueId": 48,
+      "startTimeSlot": "11:00:00",
+      "endTimeSlot": "12:00:00",
+      "tokenUpperLimit": null,
+      "sequence": 3,
+      "status": null,
+      "groupId": 422,
+      "openToUser": 1,
+      "premiumSlot": 0,
+      "usedSlots": 0,
+      "totalSlots": 1,
+      "groupStartTime": "09:00:00",
+      "groupEndTime": "13:00:00",
+      "availableJoinDate": null,
+      "groupName": null
+    },
+    {
+      "slotId": 61200,
+      "queueId": 48,
+      "startTimeSlot": "12:00:00",
+      "endTimeSlot": "13:00:00",
+      "tokenUpperLimit": null,
+      "sequence": 4,
+      "status": null,
+      "groupId": 422,
+      "openToUser": 1,
+      "premiumSlot": 0,
+      "usedSlots": 0,
+      "totalSlots": 1,
+      "groupStartTime": "09:00:00",
+      "groupEndTime": "13:00:00",
+      "availableJoinDate": null,
+      "groupName": null
+    }
+  ]
+}
+```
+This endpoint blocks a slot to schedule a token after successful payment.
+
+### HTTP Request
+
+`GET http://api.sminq.com/v1/token/schedule/time`
+
+### Get Parameters
+
+Parameter | Default | Description
+--------- | ------- | -----------
+queueId | true | Queue for appointment.
+date | true | Date of joining.
+
+## Schedule token
+
+> Schedule a token to be created after successful payment.
+
+
+```shell
+curl "http://api.sminq.com/v1/schedule/appointment"
+  -H "Authorization: xxxxxx"
+```
+
+> The above command returns JSON structured like this:
+
+```json
+
+{
+  "success": true,
+  "httpCode": 200,
+  "status": 
+    {
+      "queueId": 60900,
+      "userId": 48,
+      "groupId": 33,
+      "joinTime": "10:00:00",
+      "joinDate": "2016-12-25",
+      "appType": 1,
+      "slotId": 123456,
+      "status":1
+    }
+}
+```
+This endpoint blocks a slot byt scheduling a token, another user will view total_slots-1 for joining .
+
+### HTTP Request
+
+`POST http://api.sminq.com/v1/schedule/appointment`
+
+### POST Parameters
+
+Parameter | Default | Description
+--------- | ------- | -----------
+queueId | true | Queue for appointment.
+userId | true | User.
+groupId | true | User member.
+joinTime | true | Join time.
+joinDate | true | Join Date.
+appType | true | app type of user.
+slotId | true | Slot selected.
+status | true | status=1.
+
+### Error codes
+
+Code | Description
+--------- | -----------
+320 | User scheduled a token
+
+## Cancel schedule token
+
+> Cancel a scheduled token.
+
+
+```shell
+curl "http://api.sminq.com/v1/schedule/appointment/cancel"
+  -H "Authorization: xxxxxx"
+```
+
+> The above command returns JSON structured like this:
+
+```json
+
+{
+  "success": true,
+  "httpCode": 200,
+  "status": 
+    {
+      "queueId": 60900,
+      "userId": 48,
+      "groupId": 33,
+      "joinTime": "10:00:00",
+      "joinDate": "2016-12-25",
+      "appType": 1,
+      "slotId": 123456,
+      "status":1
+    }
+}
+```
+This endpoint releases the slot blocked for a scheduled token, usually happens if payment fails or user goes back.
+
+### HTTP Request
+
+`POST http://api.sminq.com/v1/schedule/appointment/cancel`
+
+### POST Parameters
+
+Parameter | Default | Description
+--------- | ------- | -----------
+queueId | true | Queue for appointment.
+userId | true | User.
+groupId | true | User member.
+joinTime | true | Join time.
+joinDate | true | Join Date.
+appType | true | app type of user.
+slotId | true | Slot selected.
+status | true | status=0.
+
 
 #Miscellaneous
 
@@ -4608,6 +4820,254 @@ Code | Description
 336 | User name cannot be empty
 337 | User mobile cannot be empty
 335 | Message cannot be empty
+
+## City config
+
+> Get city configuration.
+
+```shell
+curl "http://api.sminq.com/v1/city/config"
+  -H "Authorization: xxxxxx"
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+  "success": true,
+  "httpCode": 200,
+  "status": [
+    {
+      "cityName": "Pune",
+      "cityId": "1",
+      "categories": [
+        {
+          "categoryName": "Clinic",
+          "categoryIconUrl": null,
+          "categoryStatus": 1,
+          "createdBy": null,
+          "categoryCityId": null,
+          "verticalType": "clinic",
+          "sortOrder": null
+        },
+        {
+          "categoryName": "Restaurant",
+          "categoryIconUrl": null,
+          "categoryStatus": 0,
+          "createdBy": null,
+          "categoryCityId": null,
+          "verticalType": "restaurant",
+          "sortOrder": null
+        },
+        {
+          "categoryName": "Salon",
+          "categoryIconUrl": null,
+          "categoryStatus": 0,
+          "createdBy": null,
+          "categoryCityId": null,
+          "verticalType": "salon",
+          "sortOrder": null
+        },
+        {
+          "categoryName": "Walkin Interview",
+          "categoryIconUrl": null,
+          "categoryStatus": 0,
+          "createdBy": null,
+          "categoryCityId": null,
+          "verticalType": "walkin",
+          "sortOrder": null
+        }
+      ],
+      "tags": [
+        {
+          "tagId": 1,
+          "tagName": "Dermatologist"
+        },
+        {
+          "tagId": 2,
+          "tagName": "General Practice"
+        },
+        {
+          "tagId": 5,
+          "tagName": "Pediatrician"
+        },
+        {
+          "tagId": 4,
+          "tagName": "Orthopedic"
+        },
+        {
+          "tagId": 3,
+          "tagName": "Gynecologist"
+        },
+        {
+          "tagId": 6,
+          "tagName": "Demo"
+        },
+        {
+          "tagId": 9,
+          "tagName": "Ayurvedic"
+        },
+        {
+          "tagId": 10,
+          "tagName": "General Medicine"
+        },
+        {
+          "tagId": 11,
+          "tagName": "ENT"
+        },
+        {
+          "tagId": 12,
+          "tagName": "Physiotherapists"
+        },
+        {
+          "tagId": 13,
+          "tagName": "General Surgeon"
+        },
+        {
+          "tagId": 14,
+          "tagName": "Ophthalmologist"
+        },
+        {
+          "tagId": 15,
+          "tagName": "Neurologist"
+        },
+        {
+          "tagId": 16,
+          "tagName": "Diabetologist"
+        },
+        {
+          "tagId": 17,
+          "tagName": "Cardiologists"
+        },
+        {
+          "tagId": 18,
+          "tagName": "Dentist"
+        },
+        {
+          "tagId": 8,
+          "tagName": "Test"
+        },
+        {
+          "tagId": 19,
+          "tagName": "Homeopath"
+        }
+      ],
+      "languages": [
+        {
+          "cityId": 1,
+          "languageId": 1,
+          "isDefault": 1,
+          "languageName": "English"
+        },
+        {
+          "cityId": 1,
+          "languageId": 2,
+          "isDefault": 0,
+          "languageName": "मराठी"
+        }
+      ],
+      "locations": [
+        {
+          "locationId": 25,
+          "locationName": "Akurdi",
+          "locationLat": 18.760099411010742,
+          "locationLong": 73.69190216064453,
+          "cityId": null
+        },
+        {
+          "locationId": 7,
+          "locationName": "Aundh",
+          "locationLat": 18.557899475097656,
+          "locationLong": 73.80850219726562,
+          "cityId": null
+        },
+        {
+          "locationId": 23,
+          "locationName": "Bhandarkar Road",
+          "locationLat": 18.518699645996094,
+          "locationLong": 73.83429718017578,
+          "cityId": null
+        }
+      ]
+    },
+    {
+      "cityName": "TestCity",
+      "cityId": "3",
+      "categories": [
+        {
+          "categoryName": "Bank",
+          "categoryIconUrl": null,
+          "categoryStatus": 1,
+          "createdBy": null,
+          "categoryCityId": null,
+          "verticalType": "bank",
+          "sortOrder": null
+        }
+      ],
+      "tags": [
+        {
+          "tagId": 20,
+          "tagName": "HDFC"
+        }
+      ],
+      "languages": [],
+      "locations": [
+        {
+          "locationId": 35,
+          "locationName": "Thane",
+          "locationLat": null,
+          "locationLong": null,
+          "cityId": null
+        }
+      ]
+    }, 
+    {
+      "cityName": "Mumbai",
+      "cityId": "8",
+      "categories": [
+        {
+          "categoryName": "Bank",
+          "categoryIconUrl": null,
+          "categoryStatus": 1,
+          "createdBy": null,
+          "categoryCityId": null,
+          "verticalType": "bank",
+          "sortOrder": null
+        }
+      ],
+      "tags": [
+        {
+          "tagId": 20,
+          "tagName": "HDFC"
+        }
+      ],
+      "languages": [],
+      "locations": [
+        {
+          "locationId": 40,
+          "locationName": "MALAD WEST - ORLEM",
+          "locationLat": null,
+          "locationLong": null,
+          "cityId": null
+        }
+      ]
+    }
+  ]
+}
+```
+
+This endpoint captures user contact us form input.
+
+### HTTP Request
+
+`GET http://api.sminq.com/v1/city/config`
+
+### Get Parameters
+
+Parameter | Default | Description
+--------- | ------- | -----------
+cityName | false | required only if GPS is activated, to get city name.
+
 
 # Monetization
 ## Create Token For Monetization Queue
@@ -4686,50 +5146,6 @@ curl "https://api.sminq.com/v1/user/monetization/"
       "tokenNumber": 603
     },
     "userValid": true
-  }
-}
-```
-
-> The above api returns JSON structure likes this if Registration plans are applicable and User is not a member or doesn't have sufficient credits:
-
-```json
-{
-  "success": true,
-  "httpCode": 200,
-  "status": {
-    "monetizationPlanDetails": {
-      "monetizationId": 1,
-      "monetizationDescription": "Prime on Weekend morning and evening",
-      "monetizationPlanName": "",
-      "chargeType": 0,
-      "registrationPlans": [
-        {
-          "amount": 200,
-          "validity": 365
-        },
-        {
-          "amount": 50,
-          "validity": 30
-        }
-      ],
-      "bookingCharge": 0
-    },
-    "token": {
-      "tokenId": 244,
-      "tokenQueueId": 1,
-      "totalProcessTime": null,
-      "tokenUser": 9,
-      "createdOn": null,
-      "joinDate": 1481976988000,
-      "joinTime": "15:30:00",
-      "appType": null,
-      "isAdvance": null,
-      "isConfirmed": null,
-      "tokenUserGroup": null,
-      "uuid": null,
-      "tokenNumber": 605
-    },
-    "userValid": false
   }
 }
 ```
