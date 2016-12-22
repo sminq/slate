@@ -4293,6 +4293,7 @@ Parameter | Default | Description
 --------- | ------- | -----------
 amount | true | Amount for payment.
 billingHead | true | Type of payment ("subscription" or "business").
+discount | false | Discount amount (if applied)
 
 ### Error codes
 
