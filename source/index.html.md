@@ -4790,58 +4790,83 @@ Code | Description
 324  |  Advance bookings not accepted.
 325  |  Invalid user.
 
-## Get Registration Plans
+## Get Monetization Charges
 
-> Get all the registration plans for a given queue (if applicable)
+> Get applicable monetization charges for a given queue (if applicable) and user. Monetization charges will vary as per chargeType. If for a given queue chargeType is registration then this API will return all the plans. But if chargeType is flat-fee then it will compute booking charge for the given user and return applicable amount.
 
 ```shell
-curl "http://api.sminq.com/v1/user/registration/plans"
+curl "http://api.sminq.com/v1/user/monetization/charges"
   -H "Authorization: xxxxxx"
 ```
 
-> The above command returns JSON structured like this: (TODO: Add details like Registration Plan Name, Description etc)
+> The above command returns JSON structured like this, if Registration Charges are applicable for the given queue id:
 
 ```json
 {
   "success": true,
   "httpCode": 200,
-  "status": [
-    {
-      "amount": 200,
-      "validity": 365
-    },
-    {
-      "amount": 50,
-      "validity": 30
-    }
-  ]
+  "status": {
+    "monetizationId": null,
+    "monetizationDescription": null,
+    "monetizationPlanName": null,
+    "chargeType": 0,
+    "registrationPlans": [
+      {
+        "planName": "Gold",
+        "planDescription": "Unlimited Token Booking|2000 Credits|Priority Support",
+        "amount": 200,
+        "validity": 365,
+        "recommended": 1
+      },
+      {
+        "planName": "Silver",
+        "planDescription": "Unlimited Token Booking|500 Credits|Priority Support",
+        "amount": 50,
+        "validity": 30,
+        "recommended": 0
+      }
+    ],
+    "bookingCharge": 0,
+    "onlineDiscount": 10
+  }
 }
+
 ```
-> If no plans are applicable then JSON structure would be like:
+> If booking charge is applicable then JSON structure would be like:
 
 ```json
 {
   "success": true,
   "httpCode": 200,
-  "status": null
+  "status": {
+    "monetizationId": null,
+    "monetizationDescription": null,
+    "monetizationPlanName": null,
+    "chargeType": 1,
+    "registrationPlans": null,
+    "bookingCharge": 20,
+    "onlineDiscount": 0
+  }
 }
 ```
 
-This endpoint returns all the registration plan if applies for the given queue id. 
+This endpoint first determines chargeType applicable for the given queue id and accordingly returns either booking charge for the given user or registration plans for the given queue.
 
 ### HTTP Request
 
-`GET http://api.sminq.com/v1/user/registration/plans`
+`GET http://api.sminq.com/v1/user/monetization/charges`
 
 Parameter | Default | Description
 --------- | ------- | -----------
 queueId | true | Queue ID for which plans are to be fetched.
+userId | false | User ID for which booking charge is to be fetched
 
 ### Error codes
 
 Code | Description
 --------- | -----------
 102 | Invalid queue Id
+110 | Invalid user ID
 
 ## Get User Account Summary
 
