@@ -4666,6 +4666,110 @@ Parameter | Default | Description
 queueId | true | Queue for appointment.
 date | true | Date of joining.
 
+## Get Scheduled time groups
+
+> Get the list of available slots to schedule token, grouped by time group.
+
+
+```shell
+curl "http://api.sminq.com/v1/token/schedule/groups"
+  -H "Authorization: xxxxxx"
+```
+
+> The above command returns JSON structured like this:
+
+```json
+
+{
+  "success": true,
+  "httpCode": 200,
+  "status": [
+    {
+      "groupName": "",
+      "groupId": 2,
+      "groupStartTime": "11:00:00",
+      "groupEndTime": "15:00:00",
+      "slots": [
+        {
+          "slotId": 21100,
+          "queueId": 1,
+          "startTimeSlot": "11:00:00",
+          "endTimeSlot": "11:30:00",
+          "tokenUpperLimit": null,
+          "sequence": 0,
+          "status": null,
+          "groupId": 2,
+          "openToUser": 1,
+          "premiumSlot": 0,
+          "usedSlots": 0,
+          "totalSlots": 50,
+          "groupStartTime": "11:00:00",
+          "groupEndTime": "15:00:00",
+          "availableJoinDate": null,
+          "groupName": null
+        }
+      ]
+    },
+    {
+      "groupName": "",
+      "groupId": 9,
+      "groupStartTime": "17:00:00",
+      "groupEndTime": "21:00:00",
+      "slots": [
+        {
+          "slotId": 21700,
+          "queueId": 1,
+          "startTimeSlot": "17:00:00",
+          "endTimeSlot": "17:30:00",
+          "tokenUpperLimit": null,
+          "sequence": 0,
+          "status": null,
+          "groupId": 9,
+          "openToUser": 1,
+          "premiumSlot": 0,
+          "usedSlots": 0,
+          "totalSlots": 50,
+          "groupStartTime": "17:00:00",
+          "groupEndTime": "21:00:00",
+          "availableJoinDate": null,
+          "groupName": null
+        },
+        {
+          "slotId": 21730,
+          "queueId": 1,
+          "startTimeSlot": "17:30:00",
+          "endTimeSlot": "18:00:00",
+          "tokenUpperLimit": null,
+          "sequence": 0,
+          "status": null,
+          "groupId": 9,
+          "openToUser": 1,
+          "premiumSlot": 0,
+          "usedSlots": 0,
+          "totalSlots": 50,
+          "groupStartTime": "17:00:00",
+          "groupEndTime": "21:00:00",
+          "availableJoinDate": null,
+          "groupName": null
+        }
+      ]
+    }
+  ]
+}
+```
+This endpoint blocks a slot to schedule a token after successful payment.
+
+### HTTP Request
+
+`GET http://api.sminq.com/v1/token/schedule/groups`
+
+### Get Parameters
+
+Parameter | Default | Description
+--------- | ------- | -----------
+queueId | true | Queue for appointment.
+date | true | Date of joining.
+
 ## Schedule token
 
 > Schedule a token to be created after successful payment.
