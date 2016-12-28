@@ -4190,6 +4190,56 @@ Code | Description
 --------- | -----------
 362 |  Invalid amount.
 
+## Get split service charges
+
+```shell
+curl "http://api.sminq.com/v1/split/payment/charges"
+  -H "Authorization: xxxxxx"
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+  "success": true,
+  "httpCode": 200,
+  "status": {
+    "queueServices": [],
+    "enterAmountFlag": 1
+    "paymentModes": [
+      {
+        "paymentModeName": "Net Banking/Credit/Debit Card",
+        "paymentModeIcon": null,
+        "paymentModeCode": "NB",
+        "paymentModeId": "2",
+        "gatewayName": "razorpay"
+      },
+      {
+        "paymentModeName": "Paytm Wallet",
+        "paymentModeIcon": null,
+        "paymentModeCode": "PAYTM",
+        "paymentModeId": "6",
+        "gatewayName": "paytm"
+      }
+    ]
+  }
+}
+```
+
+This endpoint is used to get the business service charges if any.
+
+### HTTP Request
+
+`POST http://api.sminq.com/v1/split/payment/charges`
+
+### GET Parameters
+
+Parameter | Default | Description
+--------- | ------- | -----------
+queueId | true | Unique business queue ID.
+countryId | true | Unique country ID of the business.
+
+
 ## Add Split Online payment
 
 ```shell
