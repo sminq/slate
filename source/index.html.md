@@ -2363,7 +2363,14 @@ curl "http://api.sminq.com/v1/user/appointments"
         "isPaid": null,
         "clientUuid": "ba3a46d9-4577-48eb-80ba-d30dc09913b7",
         "enablePayments": 0,
-        "forcePayment": 1
+        "forcePayment": 1,
+        "tags": "General Practice",
+        "cityName": "Pune",
+        "verticalType": "Clinic",
+        "sminqCertified": 0,
+        "isUserMembershipValid": 0,
+        "isMonetizationApplicable": 1,
+        "interimAmount": null
       }
     ],
     "upcomingTokens": [
@@ -2394,7 +2401,14 @@ curl "http://api.sminq.com/v1/user/appointments"
         "isPaid": null,
         "clientUuid": "f81f784f-ea54-4677-93f6-6667c0f35933",
         "enablePayments": 0,
-        "forcePayment": 1
+        "forcePayment": 1,
+        "tags": "General Practice",
+        "cityName": "Pune",
+        "verticalType": "Clinic",
+        "sminqCertified": 0,
+        "isUserMembershipValid": 0,
+        "isMonetizationApplicable": 1,
+        "interimAmount": null
       }
     ]
   }
@@ -4038,18 +4052,16 @@ curl "http://api.sminq.com/v1/user/payment/create"
             {
                 "paymentModeId": 2,
                 "paymentModeName": "Net Banking/Credit/Debit Card",
-                "paymentModeStatus": null,
-                "countryId": null,
                 "paymentModeIcon": null,
-                "paymentModeCode": "NB"
+                "paymentModeCode": "NB",
+                "gatewayName": "razorpay"
             },
             {
                 "paymentModeId": 6,
                 "paymentModeName": "Paytm Wallet",
-                "paymentModeStatus": null,
-                "countryId": null,
                 "paymentModeIcon": null,
-                "paymentModeCode": "PAYTM"
+                "paymentModeCode": "PAYTM",
+                "gatewayName": "paytm"
             }
         ]
     }
@@ -5247,7 +5259,8 @@ curl "https://api.sminq.com/v1/user/monetization/"
       "monetizationPlanName": "",
       "chargeType": 0,
       "registrationPlans": null,
-      "bookingCharge": 0
+      "bookingCharge": 0,
+      "isUserMembershipValid": false
     },
     "token": {
       "tokenId": 243,
@@ -5282,7 +5295,8 @@ curl "https://api.sminq.com/v1/user/monetization/"
       "monetizationPlanName": "",
       "chargeType": 0,
       "registrationPlans": null,
-      "bookingCharge": 0
+      "bookingCharge": 0,
+      "isUserMembershipValid": true,
     },
     "token": {
       "tokenId": 242,
@@ -5298,8 +5312,7 @@ curl "https://api.sminq.com/v1/user/monetization/"
       "tokenUserGroup": null,
       "uuid": null,
       "tokenNumber": 603
-    },
-    "userValid": true
+    }
   }
 }
 ```
@@ -5317,7 +5330,8 @@ curl "https://api.sminq.com/v1/user/monetization/"
       "monetizationPlanName": "",
       "chargeType": 1,
       "registrationPlans": null,
-      "bookingCharge": 500
+      "bookingCharge": 500,
+      "isUserMembershipValid": false
     },
     "token": null,
     "userValid": false
@@ -5398,7 +5412,8 @@ curl "http://api.sminq.com/v1/user/monetization/charges"
       }
     ],
     "bookingCharge": 0,
-    "onlineDiscount": 10
+    "onlineDiscount": 10,
+    "isUserMembershipValid": true
   }
 }
 
@@ -5430,7 +5445,7 @@ This endpoint first determines chargeType applicable for the given queue id and 
 Parameter | Default | Description
 --------- | ------- | -----------
 queueId | true | Queue ID for which plans are to be fetched.
-userId | false | User ID for which booking charge is to be fetched
+userId | true | User ID for which booking charge and membership status is to be fetched
 
 ### Error codes
 
