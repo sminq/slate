@@ -4242,7 +4242,7 @@ This endpoint is used to get the business service charges if any.
 
 ### HTTP Request
 
-`POST http://api.sminq.com/v1/split/payment/charges`
+`GET http://api.sminq.com/v1/split/payment/charges`
 
 ### GET Parameters
 
