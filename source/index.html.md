@@ -4601,7 +4601,7 @@ curl "http://api.sminq.com/v1/user/payments/summary"
 }
 ```
 
-This endpoint resturns list of all cash/online payments in completed/pending/failed state.
+This endpoint returns list of all cash/online payments in completed/pending/failed state.
 
 ### HTTP Request
 
@@ -4619,6 +4619,80 @@ tokenId | true | Unique token id.
 Code | Description
 --------- | -----------
 103 | Invalid tokenId
+
+## All User Payments
+
+> Get all the successful payments done by the user via Sminq app. This captures both cash and online payments. 
+
+```shell
+curl "http://api.sminq.com/v1/user/payments/all"
+  -H "Authorization: xxxxxx"
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+  "success": true,
+  "httpCode": 200,
+  "status": {
+    "userAccount": {
+      "userId": 7504,
+      "balance": 2000,
+      "expiryDate": "2017-12-26"
+    },
+    "userTransactions": [
+      {
+        "billingId": null,
+        "invoiceId": null,
+        "billingHead": "business",
+        "total": 100,
+        "refundAmount": null,
+        "invoiceDate": "2016-12-28",
+        "isPaid": 2,
+        "queueName": "Dr. Adams Apple",
+        "tokenId": 17491,
+        "billingType": 1,
+        "joinTime": "10:15:00",
+        "joinDate": "2016-12-28"
+      },
+      {
+        "billingId": null,
+        "invoiceId": null,
+        "billingHead": "subscription",
+        "total": 180,
+        "refundAmount": null,
+        "invoiceDate": "2016-12-28",
+        "isPaid": 1,
+        "queueName": "Dr. Adams Apple",
+        "tokenId": 17491,
+        "billingType": 1,
+        "joinTime": "10:15:00",
+        "joinDate": "2016-12-28"
+      }
+    ]
+  }
+}
+```
+
+This endpoint returns all successful transactions for a given user.
+
+### HTTP Request
+
+`GET http://api.sminq.com/v1/user/payments/all`
+
+### POST Parameters
+
+Parameter | Default | Description
+--------- | ------- | -----------
+userId | true | Unique user id.
+limit | false | Number of user records to be fetched. Default = 10
+
+### Error codes
+
+Code | Description
+--------- | -----------
+110 | Invalid User Id
 
 #Pre Payment
 
@@ -5490,11 +5564,87 @@ This endpoint returns credit balance of the user along with expiry date in yyyy-
 
 ### HTTP Request
 
-`GET http://api.sminq.com/v1/user/account/summary`
+`GET http://api.sminq.com/v1/user/account/details`
 
 Parameter | Default | Description
 --------- | ------- | -----------
 userId | true | User ID whose account details are to be fetched
+
+### Error codes
+
+Code | Description
+--------- | -----------
+110 | Invalid user ID
+
+## Get All User Monetization Transactions
+
+> Get list of all monetization related transactions (points credit/debit) for a user.
+
+```shell
+curl "http://api.sminq.com/v1/user/account/details"
+  -H "Authorization: xxxxxx"
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+  "success": true,
+  "httpCode": 200,
+  "status": [
+    {
+      "monetizationId": 1,
+      "planName": "Test Plan - All Users",
+      "queueName": "Dr. Adams Apple",
+      "userId": 7247,
+      "queueId": 101,
+      "isPaid": 1,
+      "credits": 2000,
+      "tokenId": 17227,
+      "userAction": "T_CREATE",
+      "joinDate": 1481559412000,
+      "joinTime": "19:35:00"
+    },
+    {
+      "monetizationId": 1,
+      "planName": "Test Plan - All Users",
+      "queueName": "Dr. Adams Apple",
+      "userId": 7247,
+      "queueId": 101,
+      "isPaid": 1,
+      "credits": 200,
+      "tokenId": 17227,
+      "userAction": "T_CANCEL",
+      "joinDate": 1481647518000,
+      "joinTime": "23:35:00"
+    },
+    {
+      "monetizationId": 1,
+      "planName": "Test Plan - All Users",
+      "queueName": "Dr. Adams Apple",
+      "userId": 7247,
+      "queueId": 101,
+      "isPaid": 1,
+      "credits": 100,
+      "tokenId": 17227,
+      "userAction": "T_RESCHEDULE",
+      "joinDate": 1481647518000,
+      "joinTime": "23:35:00"
+    }
+  ]
+}
+```
+
+This endpoint returns history of credit or debit of user points under monetization.
+
+### HTTP Request
+
+`GET http://api.sminq.com/v1/user/account/details`
+
+Parameter | Default | Description
+--------- | ------- | -----------
+userId | true | User ID whose account details are to be fetched
+limit | false | number of records to be fetch. Default = 10
 
 ### Error codes
 
