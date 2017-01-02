@@ -1873,7 +1873,8 @@ curl "http://api.sminq.com/v1/user/member/5"
   "status": {
     "mobile": null,
     "password": null,
-    "optEnabled": 0
+    "optEnabled": 0,
+    "status": 1
   }
 }
 ```
@@ -1887,12 +1888,14 @@ curl "http://api.sminq.com/v1/user/member/5"
   "status": {
     "mobile": "9797979777",
     "password": "fvFB4K3ZZ1GLMU7yVMBHug==",
-    "optEnabled": 1
+    "optEnabled": 1,
+    "status": 1
   }
 }
 ```
 
 This endpoint update a member for user, if mobile is entered then verification will be required.
+If 'status' field is 0 then member is deactivated and will not appear in User's member list. 
 
 ### HTTP Request
 
@@ -1906,6 +1909,7 @@ mobile | false | member mobile.
 name | true | member name.
 userId | true | The user for which member needs to be added.
 groupId | true | The unique member ID
+status | true | member status. 1 = active; 0 = deleted
 
 ### Error codes
 
@@ -1918,7 +1922,7 @@ Code | Description
 
 ## Verify member update
 
-> verify the updated mamber if mobile was changed.
+> verify the updated member if mobile was changed.
 
 ```shell
 curl "http://api.sminq.com/v1/user/member/verify/{id}"
