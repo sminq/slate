@@ -4176,8 +4176,12 @@ curl "http://api.sminq.com/v1/user/payment/verify"
     "success": true,
     "httpCode": 200,
     "status": {
-        "verifiedAmount": 600,
-        "billingId": 1504
+        "paymentOrderId": 173333,
+        "paymentBillingId": 5667,
+        "paymentGatewayOrder": "order_asaasdas",
+        "paymentQueueId": 1,
+        "paymentGateway": "razorpay",
+        "paymentAmount": 400.0
     }
 }
 ```
