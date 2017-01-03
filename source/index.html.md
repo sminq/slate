@@ -4176,17 +4176,14 @@ curl "http://api.sminq.com/v1/user/payment/verify"
     "success": true,
     "httpCode": 200,
     "status": {
-        "paymentOrderId": 173333,
-        "paymentBillingId": 5667,
-        "paymentGatewayOrder": "order_asaasdas",
-        "paymentQueueId": 1,
-        "paymentGateway": "razorpay",
-        "paymentAmount": 400.0
+        "verifiedAmount": 600,
+        "billingId": 1504,
+        "gatewayOrderId": "1504"
     }
 }
 ```
 
-This endpoint verifies the payment amount before sending to gateway.
+This endpoint verifies the payment amount before sending to gateway. Gateway order received by clients need to be sent back to the server in payment/confirm API call. 
 
 ### HTTP Request
 
@@ -4201,7 +4198,7 @@ tokenId | false | Unique token id, in case of pre-payment this id generated late
 customerId | true | customer unique id.
 customerType | true | customer type 1 - User 2 - business.
 billingId | true | unique invoice id.
-paymentMode | true | payment mode selected.
+paymentMode | true | payment mode id selected in 'byte'.
 amount | true | amount to be verified.
 
 ### Error codes
