@@ -3840,6 +3840,77 @@ Code | Description
 103 |  Invalid token ID.
 
 
+## Add Split Cash payment
+
+```shell
+curl "http://api.sminq.com/v1/split/payment/cash"
+  -H "Authorization: xxxxxx"
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+  "success": true,
+  "httpCode": 200,
+  "status": {
+    "invoices": null,
+    "token": {
+      "tokenId": 276,
+      "tokenQueueId": 1,
+      "totalProcessTime": null,
+      "tokenUser": 191,
+      "createdOn": null,
+      "joinDate": null,
+      "joinTime": null,
+      "appType": null,
+      "isAdvance": null,
+      "isConfirmed": null,
+      "tokenUserGroup": null,
+      "uuid": null,
+      "tokenNumber": null
+    }
+  }
+}
+```
+
+This endpoint adds a cash payment for a particular appointment for both the billing heads passed on in charges. There is no requirement to call a "confirm" API after this call.
+
+### HTTP Request
+
+`POST http://api.sminq.com/v1/split/payment/cash`
+
+### POST Parameters
+
+Parameter | Default | Description
+--------- | ------- | -----------
+queueId | true | Unique business queue ID.
+billingType | true | 0 for cash payment.
+customerType | true | 1 for user.
+customerId | true | unique ID for user.
+countryId | true | Country Id of the business.
+tokenId | false | Unique token ID.
+charges | true | (Type: Array Object) Payment details
+
+Charges need to have:
+
+Parameter | Default | Description
+--------- | ------- | -----------
+amount | true | Amount for payment.
+billingHead | true | Type of payment ("subscription" or "business").
+discount | false | Discount amount (if applied)
+
+### Error codes
+
+Code | Description
+--------- | -----------
+346 |  Invalid bill amount.
+360 |  Invalid billing type.
+102 |  Invalid queue ID.
+325 |  Invalid customer ID.
+325 |  Invalid customer Type.
+
+
 ## Add Cash payment
 
 ```shell
@@ -4556,6 +4627,72 @@ customerId | true | customer unique id.
 customerType | true | customer type 1 - User 2 - business.
 countryId | true | 
 amount | true | amount to be sent via payment link.
+
+### Error codes
+
+Code | Description
+--------- | -----------
+362 | Invalid amount.
+102 | Invalid queue Id
+110 | Invalid customer ID
+359 | Invalid customer type
+
+## Send split payment link
+
+> Send a payment link to user email and mobile, for either business charges or subscription or both.
+
+```shell
+curl "http://api.sminq.com/v1/business/payment/link"
+  -H "Authorization: xxxxxx"
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+  "success": true,
+  "httpCode": 200,
+  "status": {
+    "invoices": [
+      null,
+      null
+    ],
+    "token": {
+      "tokenId": 276,
+      "tokenQueueId": 1,
+      "totalProcessTime": null,
+      "tokenUser": null,
+      "createdOn": null,
+      "joinDate": null,
+      "joinTime": null,
+      "appType": null,
+      "isAdvance": null,
+      "isConfirmed": null,
+      "tokenUserGroup": null,
+      "uuid": null,
+      "tokenNumber": null
+    }
+  }
+}
+```
+
+This endpoint send a payment link with amount to user mobile and email. API accepts 2 types of charges, "business" and "subscription". 
+Amount sent to user is total of the 2 charge types.
+
+### HTTP Request
+
+`POST http://api.sminq.com/v1/split/payment/link`
+
+### POST Parameters
+
+Parameter | Default | Description
+--------- | ------- | -----------
+queueId | true | Unique business queue Id.
+tokenId | false | Unique token id, in case of pre-payment this id generated later.
+customerId | true | customer unique id.
+customerType | true | customer type 1 - User 2 - business.
+countryId | true | 
+charges | true | amount to be sent via payment link.
 
 ### Error codes
 
@@ -5555,7 +5692,8 @@ curl "http://api.sminq.com/v1/user/account/summary"
   }
 }
 ```
-If user does not have a membership then JSON structure returned is:
+
+> If user does not have a membership then JSON structure returned is:
 
 ```json
 {
@@ -5569,11 +5707,11 @@ This endpoint returns credit balance of the user along with expiry date in yyyy-
 
 ### HTTP Request
 
-`GET http://api.sminq.com/v1/user/account/details`
+`GET http://api.sminq.com/v1/user/account/summary`
 
 Parameter | Default | Description
 --------- | ------- | -----------
-userId | true | User ID whose account details are to be fetched
+userId | true | User ID whose account summary is to be fetched
 
 ### Error codes
 
