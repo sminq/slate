@@ -4349,14 +4349,18 @@ curl "http://api.sminq.com/v1/split/payment/create"
         "total": 100,
         "tax": 0,
         "grandTotal": 100,
-        "enterAmountFlag": 1
+        "enterAmountFlag": 1,
+        "discountAmount": 20,
+        "billingHead": "subscription"
       },
       {
         "queueServices": [],
-        "total": 200,
+        "total": 500,
         "tax": 0,
-        "grandTotal": 200,
-        "enterAmountFlag": 1
+        "grandTotal": 500,
+        "enterAmountFlag": 1,
+        "discountAmount": 200,
+        "billingHead": "business"
       }
     ],
     "billingDetails": [
@@ -5759,7 +5763,7 @@ curl "http://api.sminq.com/v1/user/account/details"
       "credits": 2000,
       "tokenId": 17227,
       "userAction": "T_CREATE",
-      "joinDate": 1481559412000,
+      "joinDate": "2016-12-12",
       "joinTime": "19:35:00"
     },
     {
@@ -5772,7 +5776,7 @@ curl "http://api.sminq.com/v1/user/account/details"
       "credits": 200,
       "tokenId": 17227,
       "userAction": "T_CANCEL",
-      "joinDate": 1481647518000,
+      "joinDate": "2016-12-18",
       "joinTime": "23:35:00"
     },
     {
@@ -5785,7 +5789,7 @@ curl "http://api.sminq.com/v1/user/account/details"
       "credits": 100,
       "tokenId": 17227,
       "userAction": "T_RESCHEDULE",
-      "joinDate": 1481647518000,
+      "joinDate": "2016-12-30",
       "joinTime": "23:35:00"
     }
   ]
