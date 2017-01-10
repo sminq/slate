@@ -952,9 +952,10 @@ curl "http://api.sminq.com/v1/business/reports/summary"
     "peopleAhead": null,
     "totalPresent": 0,
     "totalAbsent": 0,
-    "totalCash": 0,
+    "totalCash": 200,
     "weeklyAvgWaitTime": null,
-    "totalOnline": 0
+    "totalOnline": 500,
+    "totalDiscountAdjusted": 20
   }
 }
 ```
@@ -3874,7 +3875,7 @@ curl "http://api.sminq.com/v1/split/payment/cash"
 }
 ```
 
-This endpoint adds a cash payment for a particular appointment for both the billing heads passed on in charges. There is no requirement to call a "confirm" API after this call.
+This endpoint adds a cash payment for a particular appointment for both the billing heads passed on in charges. There is no requirement to call a "confirm" API after this call. 
 
 ### HTTP Request
 
@@ -4737,7 +4738,11 @@ curl "http://api.sminq.com/v1/user/payments/summary"
       "paymentStatus": null,
       "paymentDate": null,
       "paymentGateway": null,
-      "invoiceLink": null
+      "invoiceLink": null,
+      "paymentGatewayId": "pay_123456789",
+      "billingHead": "business",
+      "refundAmount": null,
+      "discountAdjusted": 20
     }
   ]
 }
@@ -5617,19 +5622,28 @@ curl "http://api.sminq.com/v1/user/monetization/charges"
         "planDescription": "Unlimited Token Booking|2000 Credits|Priority Support",
         "amount": 200,
         "validity": 365,
-        "recommended": 1
+        "recommended": 1,
+        "consultationDiscount": 200,
+        "consultationDiscountValidity": 30
       },
       {
         "planName": "Silver",
         "planDescription": "Unlimited Token Booking|500 Credits|Priority Support",
         "amount": 50,
         "validity": 30,
-        "recommended": 0
+        "recommended": 0,
+        "consultationDiscount": 50,
+        "consultationDiscountValidity": 30
       }
     ],
     "bookingCharge": 0,
     "onlineDiscount": 10,
-    "isUserMembershipValid": true
+    "isUserMembershipValid": true,
+    "userAccountSummary": {
+      "userId": 21,
+      "balance": 500,
+      "expiryDate": "2017-02-08"
+    }
   }
 }
 
