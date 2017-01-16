@@ -4516,6 +4516,7 @@ Charges need to have:
 Parameter | Default | Description
 --------- | ------- | -----------
 amount | true | Amount for payment.
+discount | false | Discount amount (if applied)
 billingHead | true | Type of payment ("subscription" or "business").
 billingId | true | Billing Id as returned by split/payment/create API.
 
@@ -4587,6 +4588,7 @@ Charges need to have:
 Parameter | Default | Description
 --------- | ------- | -----------
 amount | true | Amount for payment.
+discount | false | Discount amount (if applied)
 billingHead | true | Type of payment ("subscription" or "business").
 billingId | true | Billing Id as returned by split/payment/create API.
 
@@ -5651,7 +5653,8 @@ curl "http://api.sminq.com/v1/user/monetization/charges"
     "userAccountSummary": {
       "userId": 21,
       "balance": 500,
-      "expiryDate": "2017-02-08"
+      "expiryDate": "2017-02-08",
+      "isUserMembershipValid": true
     }
   }
 }
@@ -5711,7 +5714,8 @@ curl "http://api.sminq.com/v1/user/account/summary"
   "status": {
     "userId": 5,
     "balance": 1000,
-    "expiryDate": "2017-01-01"
+    "expiryDate": "2017-01-01",
+    "isUserMembershipValid": true
   }
 }
 ```
