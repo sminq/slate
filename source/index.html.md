@@ -5607,14 +5607,14 @@ Code | Description
 
 ## Get Monetization Charges
 
-> Get applicable monetization charges for a given queue (if applicable) and user. Monetization charges will vary as per chargeType. If for a given queue chargeType is registration then this API will return all the plans. But if chargeType is flat-fee then it will compute booking charge for the given user and return applicable amount.
+> This API is designed to process all the input parameters from client and return any applicable charges (Registration Plans/Flat Fee) that user is required to pay. Input parameters used to validate applicability of charges are passed as POST parameters to the API.
 
 ```shell
 curl "http://api.sminq.com/v1/user/monetization/charges"
   -H "Authorization: xxxxxx"
 ```
 
-> The above command returns JSON structured like this, if Registration Charges are applicable for the given queue id:
+> The above command returns JSON structured like this, if Registration Charges are applicable for the given queue id and user criteria satisfies:
 
 ```json
 {
@@ -5676,16 +5676,19 @@ curl "http://api.sminq.com/v1/user/monetization/charges"
 }
 ```
 
-This endpoint first determines chargeType applicable for the given queue id and accordingly returns either booking charge for the given user or registration plans for the given queue.
+End-point determines chargeType applicable for the given queue id after validating all the other input parameters as per the monetization configuration applied on that queue. It accordingly returns either booking charge or registration plans for the given user.
 
 ### HTTP Request
 
-`GET http://api.sminq.com/v1/user/monetization/charges`
+`POST http://api.sminq.com/v1/user/monetization/charges`
 
 Parameter | Default | Description
 --------- | ------- | -----------
 queueId | true | Queue ID for which plans are to be fetched.
 userId | true | User ID for which booking charge and membership status is to be fetched
+joinDate | true | Appointment Date
+joinTime | true | Appointment Time
+appType | true | channel from which appointment is taken (0 = android user app; 1 = android biz app; 2 = biz web; 3 = iOS; 4 = user web)
 
 ### Error codes
 
@@ -5693,6 +5696,7 @@ Code | Description
 --------- | -----------
 102 | Invalid queue Id
 110 | Invalid user ID
+376 | No monetization charges applicable.
 
 ## Get User Account Summary
 
