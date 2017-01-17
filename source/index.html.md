@@ -4474,19 +4474,17 @@ curl "http://api.sminq.com/v1/split/payment/verify"
     "paymentBank": null,
     "paymentGateway": "paytm",
     "paymentQueueId": 1,
-    "paymentGatewayOrder": "57",
+    "gatewayOrderId": "57",
     "charges": [
       {
         "billingHead": "business",
         "amount": 100,
         "billingId": 57,
-        "gatewayOrderId": null
       },
       {
         "billingHead": "subscription",
         "amount": 200,
         "billingId": 58,
-        "gatewayOrderId": null
       }
     ]
   }
@@ -4580,7 +4578,7 @@ paymentStatus | true | the payment status returned by gateway.
 paymentQueueId | true | the business queue accepting payments.
 paymentBank | false | bank for payment
 paymentGateway | true | the payment gateway used for payment.
-paymentGatewayOrder | true | gateway order id as returned by api
+gatewayOrderId | true | gateway order id as returned by /split/payment/verify api
 charges | true | (Type: Array Object) Payment details
 
 Charges need to have:
