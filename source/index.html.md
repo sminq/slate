@@ -3911,11 +3911,13 @@ discount | false | Discount amount (if applied)
 Code | Description
 --------- | -----------
 346 |  Invalid bill amount.
-360 |  Invalid billing type.
 102 |  Invalid queue ID.
-325 |  Invalid customer ID.
-325 |  Invalid customer Type.
-
+110 |  Invalid user ID.
+359 |  Invalid customer Type.
+105 |  Invalid country ID
+375 |  Invalid Charges
+373 |  Invalid payment amount.
+382 |  Invalid billing head.
 
 ## Add Cash payment
 
@@ -4447,11 +4449,14 @@ discount | false | Discount amount (if applied)
 
 Code | Description
 --------- | -----------
-346 |  Invalid bill amount.
-360 |  Invalid billing type.
 102 |  Invalid queue ID.
-325 |  Invalid customer ID.
-325 |  Invalid customer Type.
+110 |  Invalid user ID.
+359 |  Invalid customer Type.
+105 |  Invalid country ID.
+375 |  Invalid Charges.
+373 |  Invalid payment amount.
+360 |  Invalid billing ID.
+382 |  Invalid billing head.
 
 ## Verify Split Online payment
 
@@ -4480,11 +4485,13 @@ curl "http://api.sminq.com/v1/split/payment/verify"
         "billingHead": "business",
         "amount": 100,
         "billingId": 57,
+        "discount": 50
       },
       {
         "billingHead": "subscription",
         "amount": 200,
         "billingId": 58,
+        "discount": 20
       }
     ]
   }
@@ -4506,7 +4513,6 @@ customerType | true | 1 for user.
 customerId | true | unique ID for user.
 tokenId | false | Unique token ID.
 paymentMode | true | Payment Mode selected for transaction
-newVersion | false | To be used by new apps
 charges | true | (Type: Array Object) Payment details
 
 Charges need to have:
@@ -4522,7 +4528,14 @@ billingId | true | Billing Id as returned by split/payment/create API.
 
 Code | Description
 ---- | -----------
-362  |  Invalid amount.
+110  |  Invalid user ID
+359  |  Invalid customer type
+102  |  Invalid queue ID
+361  |  Invalid Payment Mode
+375  |  Invalid Charges
+373  |  Invalid payment amount.
+360  |  Invalid billing ID
+382  |  Invalid billing head.
 
 ## Confirm Split Online payment
 
@@ -4556,7 +4569,8 @@ curl "http://api.sminq.com/v1/split/payment/confirm"
       "tokenUserGroup": null,
       "uuid": null,
       "tokenNumber": 605
-    }
+    },
+    "gatewayOrderId": "pay_abc1234567"
   }
 }
 ```
@@ -4591,10 +4605,17 @@ billingHead | true | Type of payment ("subscription" or "business").
 billingId | true | Billing Id as returned by split/payment/create API.
 
 Code | Description
---------- | -----------
-360 |  Invalid billing id.
+---- | -----------
 361 |  Invalid payment mode.
-362 |  Invalid payment amount.
+378 |  Invalid Payment Gateway Id
+105 |  Invalid country ID
+379 |  Invalid Payment Status
+380 |  Invalid Payment Gateway
+381 |  Invalid Gateway Order Id
+375 |  Invalid Charges
+373 |  Invalid payment amount.
+360 |  Invalid billing ID
+382 |  Invalid billing head.
 
 ## Send payment link
 
@@ -4641,11 +4662,11 @@ amount | true | amount to be sent via payment link.
 ### Error codes
 
 Code | Description
---------- | -----------
-362 | Invalid amount.
-102 | Invalid queue Id
-110 | Invalid customer ID
-359 | Invalid customer type
+---- | -----------
+362  |  Invalid amount.
+102  | Invalid queue Id
+110  | Invalid customer ID
+359  | Invalid customer type
 
 ## Send split payment link
 
@@ -4708,10 +4729,14 @@ charges | true | amount to be sent via payment link.
 
 Code | Description
 --------- | -----------
-362 |  Invalid amount.
+362 | Invalid amount.
 102 | Invalid queue Id
-110 | Invalid customer ID
+110 | Invalid user ID
 359 | Invalid customer type
+105 | Invalid country ID
+375 | Invalid Charges
+373 |  Invalid payment amount.
+382 |  Invalid billing head.
 
 ## Payments summary
 
@@ -4807,6 +4832,7 @@ curl "http://api.sminq.com/v1/user/payments/all"
         "invoiceDate": "2016-12-28",
         "isPaid": 2,
         "queueName": "Dr. Adams Apple",
+        "queueId": 101,
         "tokenId": 17491,
         "billingType": 1,
         "joinTime": "10:15:00",
@@ -4821,6 +4847,7 @@ curl "http://api.sminq.com/v1/user/payments/all"
         "invoiceDate": "2016-12-28",
         "isPaid": 1,
         "queueName": "Dr. Adams Apple",
+        "queueId": 101,
         "tokenId": 17491,
         "billingType": 1,
         "joinTime": "10:15:00",
