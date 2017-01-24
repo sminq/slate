@@ -4300,24 +4300,44 @@ curl "http://api.sminq.com/v1/split/payment/charges"
   "success": true,
   "httpCode": 200,
   "status": {
-    "queueServices": [],
-    "enterAmountFlag": 1
+    "serviceCharges": [
+      {
+        "serviceName": "Consultation",
+        "serviceCost": 500
+      },
+      {
+        "serviceName": "Internet handling fees",
+        "serviceCost": 100
+      },
+      {
+        "serviceName": "test service",
+        "serviceCost": 0
+      },
+      {
+        "serviceName": "kk test ",
+        "serviceCost": 200
+      }
+    ],
     "paymentModes": [
       {
         "paymentModeName": "Net Banking/Credit/Debit Card",
         "paymentModeIcon": null,
         "paymentModeCode": "NB",
-        "paymentModeId": "2",
+        "paymentModeId": 2,
         "gatewayName": "razorpay"
       },
       {
         "paymentModeName": "Paytm Wallet",
         "paymentModeIcon": null,
         "paymentModeCode": "PAYTM",
-        "paymentModeId": "6",
+        "paymentModeId": 6,
         "gatewayName": "paytm"
       }
-    ]
+    ],
+    "enterAmountFlag": 0,
+    "total": 800,
+    "tax": 0,
+    "grandTotal": 800
   }
 }
 ```
