@@ -458,6 +458,7 @@ curl "http://api.sminq.com/v1/business/queue/calendar"
       "isUserMembershipValid": 1,
       "isMonetizationApplicable": 1,
       "discountAdjusted": 0,
+      "membershipType": "Regular",
       "interimAmount": null
     },
     {
@@ -495,6 +496,7 @@ curl "http://api.sminq.com/v1/business/queue/calendar"
       "isUserMembershipValid": 1,
       "isMonetizationApplicable": 1,
       "discountAdjusted": 0,
+      "membershipType": "Advantage",
       "interimAmount": null
     }
   ]
@@ -1038,6 +1040,7 @@ curl "http://api.sminq.com/v1/business/reports/appointments"
       "isUserMembershipValid": 1,
       "isMonetizationApplicable": 1,
       "discountAdjusted": 0,
+      "membershipType": "Regular",
       "interimAmount": null
     },
     {
@@ -1075,6 +1078,7 @@ curl "http://api.sminq.com/v1/business/reports/appointments"
       "isUserMembershipValid": 1,
       "isMonetizationApplicable": 1,
       "discountAdjusted": 0,
+      "membershipType": "Regular",
       "interimAmount": null
     }
   ]
@@ -2379,6 +2383,7 @@ curl "http://api.sminq.com/v1/user/appointments"
         "isUserMembershipValid": 0,
         "isMonetizationApplicable": 1,
         "interimAmount": null,
+        "membershipType": null,
         "discountAdjusted": 0,
       }
     ],
@@ -2418,6 +2423,7 @@ curl "http://api.sminq.com/v1/user/appointments"
         "isUserMembershipValid": 0,
         "isMonetizationApplicable": 1,
         "interimAmount": null,
+        "membershipType": null,
         "discountAdjusted": 0,
       }
     ]
@@ -4605,7 +4611,7 @@ This endpoint is used when both Business (consultation) and Subscription (user r
 
 Parameter | Default | Description
 --------- | ------- | -----------
-paymentOrderId | true | The appointment id for which payment is done.
+paymentOrderId | false | The appointment id for which payment is done. (will be null for ForcePayment queue)
 paymentMode | true | payment mode for appointment.
 paymentGatewayId | true | the gateway transaction id.
 paymentStatus | true | the payment status returned by gateway.
@@ -5674,7 +5680,7 @@ curl "http://api.sminq.com/v1/user/monetization/charges"
     "chargeType": 0,
     "registrationPlans": [
       {
-        "planName": "Gold",
+        "planName": "Advantage",
         "planDescription": "Unlimited Token Booking|2000 Credits|Priority Support",
         "amount": 200,
         "validity": 365,
@@ -5683,7 +5689,7 @@ curl "http://api.sminq.com/v1/user/monetization/charges"
         "consultationDiscountValidity": 30
       },
       {
-        "planName": "Silver",
+        "planName": "Regular",
         "planDescription": "Unlimited Token Booking|500 Credits|Priority Support",
         "amount": 50,
         "validity": 30,
@@ -5699,7 +5705,8 @@ curl "http://api.sminq.com/v1/user/monetization/charges"
       "userId": 21,
       "balance": 500,
       "expiryDate": "2017-02-08",
-      "isUserMembershipValid": true
+      "isUserMembershipValid": true,
+      "membershipType": "Regular"
     }
   }
 }
@@ -5762,9 +5769,10 @@ curl "http://api.sminq.com/v1/user/account/summary"
   "httpCode": 200,
   "status": {
     "userId": 5,
-    "balance": 1000,
+    "balance": 2000,
     "expiryDate": "2017-01-01",
-    "isUserMembershipValid": true
+    "isUserMembershipValid": true,
+    "membershipType": "Advantage"
   }
 }
 ```
