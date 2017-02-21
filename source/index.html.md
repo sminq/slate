@@ -2270,7 +2270,10 @@ curl "http://api.sminq.com/v1/queue/profile"
         "sendToExisting": null
       }
     ]
-  }
+  },
+    "cityName": "Pune",
+    "cityId": 1,
+    "verticalType": "clinic"
 }
 ```
 
@@ -5878,3 +5881,84 @@ limit | false | number of records to be fetch. Default = 10
 Code | Description
 --------- | -----------
 110 | Invalid user ID
+
+## Get Appointment Debit Points
+
+> Get points to be debited if a given token is cancelled or rescheduled. Points to be debited will depend on cancellation slab in which token falls.
+
+```shell
+curl "http://api.sminq.com/v1/appointment/monetization/charges"
+  -H "Authorization: xxxxxx"
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+  "success": true,
+  "httpCode": 200,
+  "status": {
+    "debitCharges": 50,
+    "queueId": 1,
+    "tokenId": 318,
+    "isReschedule": 0
+  }
+}
+```
+
+This endpoint finds out total points that will be debited if user cancels or reschedules the given token. Points to be debited depends on slab in which user's token falls in.
+
+### HTTP Request
+
+`GET http://api.sminq.com/v1/appointment/monetization/charges`
+
+### Query Parameters
+
+Parameter | Default | Description
+--------- | ------- | -----------
+tokenId | true | Registered appointment ID.
+queueId | true | Unique business queue ID.
+isReschedule | true | Action for which debit points to be computed (cancel = 0 or reschedule = 1)
+
+## Get Queue Debit Charges
+
+```shell
+curl "http://api.sminq.com/v1/queue/monetization/charges"
+  -H "Authorization: xxxxxx"
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+  "success": true,
+  "httpCode": 200,
+  "status": [
+    {
+      "sequenceOrder": 1,
+      "cancelCharge": 50,
+      "rescheduleCharge": 30,
+      "thresholdStartHour": 0,
+      "thresholdEndHour": 24
+    }
+  ]
+}
+```
+
+This endpoint returns points that will be debited on token cancel or reschedule of a monetized queue.
+
+### HTTP Request
+
+`GET http://api.sminq.com/v1/queue/monetization/charges`
+
+### Query Parameters
+
+Parameter | Default | Description
+--------- | ------- | -----------
+queueId | true | Queue ID for debit points look up
+
+### Error codes
+
+Code | Description
+--------- | -----------
+102 |  Invalid queue ID.
