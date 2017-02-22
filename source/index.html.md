@@ -2483,7 +2483,71 @@ curl "http://api.sminq.com/v1/user/appointment/status"
     "advanceBookingDays": 7,
     "enablePayments": 0,
     "changeInPeopleAhead": 0,
-    "forcePayment": 1
+    "forcePayment": 1,
+    "userName": "Keya",
+    "userGroupName": null,
+    "userId": 191,
+    "groupId": null,
+    "cityName": "Pune",
+    "queueProfile": {
+      "queueName": "Dr. S S Ingle",
+      "businessName": "Shreenath Clinic",
+      "mobile": "9096553317",
+      "email": null,
+      "address": "Kalyani Nagar",
+      "businessLatitude": 18.529252,
+      "businessLongitude": 73.90995699999996,
+      "profileImage": "https://s3-ap-southeast-1.amazonaws.com/sminq.in/images/staging/queue-1-1477027898231-Dr%20Ajit%20Kadam.jpeg",
+      "tags": "Dermatologist",
+      "timings": "MO=06:00 - 06:45|08:00 - 14:00|14:00 - 18:00|18:05 - 23:55,TU=00:15 - 05:30|08:00 - 14:00|14:00 - 18:00|18:05 - 23:55,WE=08:00 - 14:00|14:00 - 18:00|18:05 - 23:55,TH=08:00 - 14:00|14:00 - 18:00|18:05 - 23:55,FR=08:00 - 14:00|14:05 - 17:55|18:00 - 23:55,SA=08:00 - 14:00|14:00 - 18:00|18:05 - 23:55,SU=08:00 - 14:00|14:00 - 18:00|18:05 - 23:55,",
+      "metadata": "",
+      "enableAdvanceBooking": 1,
+      "advanceBookingDays": 15,
+      "enableAdvanceBookingForToday": 0,
+      "forcePayment": 0,
+      "enablePayments": 1,
+      "queuingSystem": 0,
+      "isMonetizationApplicable": 1,
+      "sminqCertified": 1,
+      "liveAlerts": [],
+      "cityName": "Pune",
+      "cityId": 1,
+      "verticalType": "clinic"
+    },
+    "billingSummary": [],
+    "monetizationPlanDetails": {
+      "monetizationId": 1,
+      "monetizationDescription": "Super Config. Applies for all days and time and Android, User Web",
+      "monetizationPlanName": "",
+      "chargeType": 0,
+      "registrationPlans": [
+        {
+          "planName": "Gold",
+          "planDescription": "Unlimited Token Booking|2000 Credits|Priority Support",
+          "amount": 200,
+          "validity": 365,
+          "recommended": 1,
+          "consultationDiscount": 200,
+          "consultationDiscountValidity": 30,
+          "onlineDiscount": 0
+        },
+        {
+          "planName": "Silver",
+          "planDescription": "Unlimited Token Booking|500 Credits|Priority Support",
+          "amount": 50,
+          "validity": 30,
+          "recommended": 0,
+          "consultationDiscount": 50,
+          "consultationDiscountValidity": 30,
+          "onlineDiscount": 0
+        }
+      ],
+      "bookingCharge": 0,
+      "isUserMembershipValid": false,
+      "userAccountSummary": null,
+      "userDiscountApplicable": 0
+    },
+    "appType": 0
   }
 }
 ```
@@ -3455,6 +3519,45 @@ curl "http://api.sminq.com/v1/appointment/search"
         "paymentDate": null,
         "paymentGateway": null,
         "invoiceLink": null
+      }
+    ],
+    "monetizationPlanDetails": {
+      "monetizationId": 1,
+      "monetizationDescription": "Super Config. Applies for all days and time and Android, User Web",
+      "monetizationPlanName": "",
+      "chargeType": 0,
+      "registrationPlans": [
+        {
+          "planName": "Advantage",
+          "planDescription": "Unlimited Token Booking|2000 Credits|Priority Support",
+          "amount": 200,
+          "validity": 365,
+          "recommended": 1,
+          "consultationDiscount": 200,
+          "consultationDiscountValidity": 30,
+          "onlineDiscount": 0
+        },
+        {
+          "planName": "Regular",
+          "planDescription": "Unlimited Token Booking|500 Credits|Priority Support",
+          "amount": 50,
+          "validity": 30,
+          "recommended": 0,
+          "consultationDiscount": 50,
+          "consultationDiscountValidity": 30,
+          "onlineDiscount": 0
+        }
+      ],
+      "bookingCharge": 0,
+      "isUserMembershipValid": false,
+      "userAccountSummary": null,
+      "userDiscountApplicable": 0
+    },
+    "pointsTransactionSummary": [
+      {
+        "credits": 500,
+        "userAction": "T_CANCEL",
+        "transactionDate": "2017-02-21 10:25:35"
       }
     ]
   }
