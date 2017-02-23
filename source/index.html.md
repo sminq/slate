@@ -921,7 +921,7 @@ curl "http://api.sminq.com/v1/appointment/status/all"
     "queueId": 1,
     "statusType": "T_CANCEL",
     "queueId": 1,
-    "date": '2016-8-16'
+    "date": "2016-08-16"
   }
 }
 ```
@@ -939,6 +939,7 @@ Parameter | Default | Description
 queueId | true | Unique business queue ID.
 statusType | true | T_CANCEL or T_CLOSED.
 date | true | date for which appointments need to be updated
+cancelCode | false | cancelCode to indicate that reason for this bulk cancellation is business (cancelCode = 1)
 
 ### Error codes
 
@@ -2867,6 +2868,7 @@ tokenId | true | Existing appointment ID.
 joinDate | true | new join date
 joinTime | true | new join time
 appType | true | channel for reschedule.
+cancelCode | true | Flag to indicate that reason for cancellation is user (cancelCode = 0) or business (cancelCode = 1)
 
 ### Error codes
 
@@ -2918,6 +2920,8 @@ Parameter | Default | Description
 queueId | true | Unique business ID.
 tokenId | true | Unique appointment id.
 statusType | true | Status to be set 
+reason | false | Reason if token is being cancelled
+cancelCode | true | Flag to indicate that reason for cancellation is user (cancelCode = 0) or business (cancelCode = 1)
 
 ### Valid status types
 
@@ -5985,16 +5989,41 @@ Code | Description
 --------- | -----------
 110 | Invalid user ID
 
-## Get Appointment Debit Points
+## Get Debit Points
 
 > Get points to be debited if a given token is cancelled or rescheduled. Points to be debited will depend on cancellation slab in which token falls.
+If token id is not passed, then configured charges for the given queue id will be returned (time is not referenced).
 
 ```shell
-curl "http://api.sminq.com/v1/appointment/monetization/charges"
+curl "http://api.sminq.com/v1/monetization/debit/charges"
   -H "Authorization: xxxxxx"
 ```
 
-> The above command returns JSON structured like this:
+> The above command returns JSON structured like this (no token id):
+
+```json
+{
+  "success": true,
+  "httpCode": 200,
+  "status": {
+    "debitCharges": null,
+    "queueId": 1,
+    "tokenId": null,
+    "isReschedule": null,
+    "debitSlabs": [
+      {
+        "sequenceOrder": 1,
+        "cancelCharge": 50,
+        "rescheduleCharge": 30,
+        "thresholdStartHour": 0,
+        "thresholdEndHour": 24
+      }
+    ]
+  }
+}
+```
+
+> The above command returns JSON structured like this (with token id):
 
 ```json
 {
@@ -6004,64 +6033,108 @@ curl "http://api.sminq.com/v1/appointment/monetization/charges"
     "debitCharges": 50,
     "queueId": 1,
     "tokenId": 318,
-    "isReschedule": 0
+    "isReschedule": 0,
+    "debitSlabs": null
   }
 }
 ```
 
-This endpoint finds out total points that will be debited if user cancels or reschedules the given token. Points to be debited depends on slab in which user's token falls in.
+This endpoint finds out total points that will be debited if user cancels or reschedules the given token. Points to be debited depends on slab in which user's token falls in. If token id is not passed then configured charges for the given queue is returned.
 
 ### HTTP Request
 
-`GET http://api.sminq.com/v1/appointment/monetization/charges`
+`GET http://api.sminq.com/v1/monetization/debit/charges`
 
 ### Query Parameters
 
 Parameter | Default | Description
 --------- | ------- | -----------
-tokenId | true | Registered appointment ID.
+tokenId | false | Registered appointment ID.
 queueId | true | Unique business queue ID.
-isReschedule | true | Action for which debit points to be computed (cancel = 0 or reschedule = 1)
+isReschedule | true | Action for which debit points to be computed (cancel = 0 or reschedule = 1) *Required if tokenId is passed
 
-## Get Queue Debit Charges
+## Get Payment Policy
+
+> Get policies as defined for a queue. This end-points returns both refund policy as well as cancellation (points) policy. Policies can be fetched for a given token id (time constraints are applied) or directly for a queue (no time constraints applied).
 
 ```shell
-curl "http://api.sminq.com/v1/queue/monetization/charges"
+curl "http://api.sminq.com/v1/user/payment/policy"
   -H "Authorization: xxxxxx"
 ```
 
-> The above command returns JSON structured like this:
+> The above command returns JSON structured like this (no token id):
 
 ```json
 {
   "success": true,
   "httpCode": 200,
-  "status": [
-    {
-      "sequenceOrder": 1,
-      "cancelCharge": 50,
-      "rescheduleCharge": 30,
-      "thresholdStartHour": 0,
-      "thresholdEndHour": 24
+  "status": {
+    "refundPolicyForToken": [
+      {
+        "timeLimit": "0 - 24hrs",
+        "timeDescription": "If canceled within 24hrs of your appointment time",
+        "refundAmount": "80% refund",
+        "refundDescription": "Cancellation charges are 20%",
+        "tokenRefundDescription": "If you cancel after 12:28 PM Feb 22 you get Rs. 400.0 refund."
+      }
+    ],
+    "debitChargeModel": {
+      "debitCharges": null,
+      "queueId": 101,
+      "tokenId": null,
+      "isReschedule": null,
+      "debitSlabs": [
+        {
+          "sequenceOrder": 1,
+          "cancelCharge": 70,
+          "rescheduleCharge": 70,
+          "thresholdStartHour": 0,
+          "thresholdEndHour": 24
+        }
+      ]
     }
-  ]
+  }
 }
 ```
 
-This endpoint returns points that will be debited on token cancel or reschedule of a monetized queue.
+> The above command returns JSON structured like this (with token id):
+
+```json
+{
+  "success": true,
+  "httpCode": 200,
+  "status": {
+    "refundPolicyForToken": [
+      {
+        "timeLimit": "0 - 24hrs",
+        "timeDescription": "If canceled within 24hrs of your appointment time",
+        "refundAmount": "80% refund",
+        "refundDescription": "Cancellation charges are 20%",
+        "tokenRefundDescription": "If you cancel after 01:30 PM Feb 22 you get Rs. 161.0 refund."
+      }
+    ],
+    "debitChargeModel": {
+      "debitCharges": 70,
+      "queueId": 101,
+      "tokenId": 22903,
+      "isReschedule": 0,
+      "debitSlabs": null
+    }
+  }
+}
+```
+
+This endpoint fetches refund policy and cancellation points policy for a given token id. Points to be debited depends on slab in which user's token falls in. Refund policy will also compute amount that will be refunded to the user if token id is passed. If token id is not passed then configured charges for the given queue is returned.
 
 ### HTTP Request
 
-`GET http://api.sminq.com/v1/queue/monetization/charges`
+`GET http://api.sminq.com/v1/user/payment/policy`
 
 ### Query Parameters
 
 Parameter | Default | Description
 --------- | ------- | -----------
-queueId | true | Queue ID for debit points look up
-
-### Error codes
-
-Code | Description
---------- | -----------
-102 |  Invalid queue ID.
+tokenId | false | Registered appointment ID.
+queueId | true | Unique business queue ID.
+isReschedule | true | Action for which debit points to be computed (cancel = 0 or reschedule = 1) *Required if tokenId is passed
+policyType | false | value should be 'all' if both cancellation charges policy and refund policy needs to be fetched.
