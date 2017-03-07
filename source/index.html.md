@@ -2869,6 +2869,7 @@ joinDate | true | new join date
 joinTime | true | new join time
 appType | true | channel for reschedule.
 cancelCode | true | Flag to indicate that reason for cancellation is user (cancelCode = 0) or business (cancelCode = 1)
+reason | false | User reason for rescheduling.
 
 ### Error codes
 
@@ -5756,6 +5757,9 @@ categoryId | true | vertical of the selected business
 cityId | true | City of the selected business
 countryId | true | Country of the selected business
 slotId | false | Slot for appointment.
+forcePayment | false | If queue has force payment enabled
+groupId | false | User memeber group id, if token is being taken for family member
+
 
 ### Error codes
 
@@ -6086,13 +6090,14 @@ curl "http://api.sminq.com/v1/user/payment/policy"
       "debitSlabs": [
         {
           "sequenceOrder": 1,
-          "cancelCharge": 70,
-          "rescheduleCharge": 70,
+          "cancelCharge": 700,
+          "rescheduleCharge": 700,
           "thresholdStartHour": 0,
           "thresholdEndHour": 24
         }
       ]
-    }
+    },
+    "queueName": "Dr. S S Ingle's"
   }
 }
 ```
@@ -6114,12 +6119,13 @@ curl "http://api.sminq.com/v1/user/payment/policy"
       }
     ],
     "debitChargeModel": {
-      "debitCharges": 70,
+      "debitCharges": 700,
       "queueId": 101,
       "tokenId": 22903,
       "isReschedule": 0,
       "debitSlabs": null
-    }
+    },
+    "queueName": "Dr. S S Ingle's"
   }
 }
 ```
@@ -6137,4 +6143,4 @@ Parameter | Default | Description
 tokenId | false | Registered appointment ID.
 queueId | true | Unique business queue ID.
 isReschedule | true | Action for which debit points to be computed (cancel = 0 or reschedule = 1) *Required if tokenId is passed
-policyType | false | value should be 'all' if both cancellation charges policy and refund policy needs to be fetched.
+policyType | false | = 'all' if both cancellation charges policy and refund policy needs to be fetched.  = 'cancel' when only cancel charges are to be fetched. If left empty or removed then only refund policy is returned.
