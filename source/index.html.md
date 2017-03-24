@@ -2275,6 +2275,7 @@ curl "http://api.sminq.com/v1/queue/profile"
     "cityName": "Pune",
     "cityId": 1,
     "verticalType": "clinic"
+    "registrationType": 0 // 0 = regular monetization model; 1 = registration model
 }
 ```
 
@@ -5759,6 +5760,7 @@ countryId | true | Country of the selected business
 slotId | false | Slot for appointment.
 forcePayment | false | If queue has force payment enabled
 groupId | false | User memeber group id, if token is being taken for family member
+appVersion | true | value = 1 for current version. If it's not send then for certain forced registration queues, token will not be generated
 
 
 ### Error codes
@@ -5771,6 +5773,7 @@ Code | Description
 323  |  Invalid join time.
 324  |  Advance bookings not accepted.
 325  |  Invalid user.
+911  |  Force Upgrade Required.
 
 ## Get Monetization Charges
 
@@ -5801,6 +5804,9 @@ curl "http://api.sminq.com/v1/user/monetization/charges"
         "recommended": 1,
         "consultationDiscount": 200,
         "consultationDiscountValidity": 30
+        "onlineDiscount": 10,
+        "planType": 0,  // 0 or null = regular monetization plan; 1 = one-time plan; 2 = life-time plan
+        "userOnly": null // used internally by server to filter plans to be sent to business
       },
       {
         "planName": "Regular",
@@ -5810,17 +5816,20 @@ curl "http://api.sminq.com/v1/user/monetization/charges"
         "recommended": 0,
         "consultationDiscount": 50,
         "consultationDiscountValidity": 30
+        "onlineDiscount": 10,
+        "planType": 0,  // 0 or null = regular monetization plan; 1 = one-time plan; 2 = life-time plan
+        "userOnly": null  // used internally by server to filter plans to be sent to business
       }
     ],
     "bookingCharge": 0,
-    "onlineDiscount": 10,
     "isUserMembershipValid": true,
     "userAccountSummary": {
       "userId": 21,
       "balance": 500,
       "expiryDate": "2017-02-08",
       "isUserMembershipValid": true,
-      "membershipType": "Regular"
+      "membershipType": "Regular",
+      "registrationDetails": [] // array of objects which has info about queues user is registered with and till when
     }
   }
 }
