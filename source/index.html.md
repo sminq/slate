@@ -459,7 +459,9 @@ curl "http://api.sminq.com/v1/business/queue/calendar"
       "isMonetizationApplicable": 1,
       "discountAdjusted": 0,
       "membershipType": "Regular",
-      "interimAmount": null
+      "interimAmount": null,
+      "registrationType": 0,
+      "isUserRegistrationValid": 0
     },
     {
       "queueId": 1,
@@ -497,7 +499,9 @@ curl "http://api.sminq.com/v1/business/queue/calendar"
       "isMonetizationApplicable": 1,
       "discountAdjusted": 0,
       "membershipType": "Advantage",
-      "interimAmount": null
+      "interimAmount": null,
+      "registrationType": 0,
+      "isUserRegistrationValid": 0
     }
   ]
 }
@@ -5830,7 +5834,8 @@ curl "http://api.sminq.com/v1/user/monetization/charges"
       "isUserMembershipValid": true,
       "membershipType": "Regular",
       "registrationDetails": [] // array of objects which has info about queues user is registered with and till when
-    }
+    },
+    "isUserRegistrationValid": false
   }
 }
 
@@ -5894,8 +5899,17 @@ curl "http://api.sminq.com/v1/user/account/summary"
     "userId": 5,
     "balance": 2000,
     "expiryDate": "2017-01-01",
-    "isUserMembershipValid": true,
-    "membershipType": "Advantage"
+    "userMembershipValid": true,
+    "membershipType": "Advantage",
+    "registrationDetails": [
+      {
+        "queueId": 101,
+        "expiry": "2018-03-31",
+        "points": 2000,
+        "queueName": "Dr Adam Apple",
+        "totalCancellations": 2
+      }
+    ]
   }
 }
 ```
@@ -6104,7 +6118,9 @@ curl "http://api.sminq.com/v1/user/payment/policy"
           "thresholdStartHour": 0,
           "thresholdEndHour": 24
         }
-      ]
+      ],
+      "isRegistrationEnabled": 1, 
+      "totalCancellations": 2 
     },
     "queueName": "Dr. S S Ingle's"
   }
@@ -6153,3 +6169,44 @@ tokenId | false | Registered appointment ID.
 queueId | true | Unique business queue ID.
 isReschedule | true | Action for which debit points to be computed (cancel = 0 or reschedule = 1) *Required if tokenId is passed
 policyType | false | = 'all' if both cancellation charges policy and refund policy needs to be fetched.  = 'cancel' when only cancel charges are to be fetched. If left empty or removed then only refund policy is returned.
+
+## Get User Cancellations Remaining (registration enabled queue)
+
+> This end-point returns total number of cancellations remaining for the given user on the given queue.
+
+```shell
+curl "http://api.sminq.com/v1/user/registration/cancellations"
+  -H "Authorization: xxxxxx"
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+  "success": true,
+  "httpCode": 200,
+  "status": {
+     "queueId": 101,
+     "totalCancellations": 0
+  }
+}
+```
+
+This endpoint fetches number of cancellations that are remaining for the given user. If user is not passed, then this end point returns total number of maximum cancellations that are allowed on the given queue.
+
+### HTTP Request
+
+`GET http://api.sminq.com/v1/user/registration/cancellations`
+
+### Query Parameters
+
+Parameter | Default | Description
+--------- | ------- | -----------
+queueId | true | Unique business queue ID.
+userId | false | User id of the user for whom remaining calculations are calculated.
+
+### Error codes
+
+Code | Description
+--------- | -----------
+385 | This user is not registered for the given queue.
