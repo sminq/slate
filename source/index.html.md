@@ -2928,6 +2928,16 @@ tokenId | true | Unique appointment id.
 statusType | true | Status to be set 
 reason | false | Reason if token is being cancelled
 cancelCode | true | Flag to indicate that reason for cancellation is user (cancelCode = 0) or business (cancelCode = 1)
+channelId | false | Source which is updating token status
+
+### Valid Channels
+
+Channel | Description
+--------- | -----------
+0 | user i.e. android, web, iOS
+1 | business i.e. android, web
+5 | kiosk
+6 | qr code
 
 ### Valid status types
 
