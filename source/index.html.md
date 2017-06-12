@@ -3023,6 +3023,7 @@ This endpoint sets details for appointment, reason fro appointment.
 Parameter | Default | Description
 --------- | ------- | -----------
 tokenId | true | unique appointment ID.
+queueId | false | id of queue in which token is added.
 comment | true | details for the appointment.
 
 ### Error codes
@@ -5317,6 +5318,7 @@ joinDate | true | Join Date.
 appType | true | app type of user.
 slotId | true | Slot selected.
 status | true | status=1.
+notes | false | notes to be attached to appointment
 
 ### Error codes
 
