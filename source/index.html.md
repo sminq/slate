@@ -2951,6 +2951,44 @@ Code | Description
 329 |  Token status can no longer be changed.
 330 |  Invalid token status
 
+## Get appointment position
+
+> find position of an appointment.
+
+```shell
+curl "http://api.sminq.com/v1/appointment/position"
+  -H "Authorization: xxxxxx"
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+  "success": true,
+  "httpCode": 200,
+  "status": 1 // position of the token in queue
+}
+```
+
+This endpoint finds position of an appointment in the queue. This works for current day token only.
+
+### HTTP Request
+
+`GET http://api.sminq.com/v1/appointment/position`
+
+### GET Parameters
+
+Parameter | Default | Description
+--------- | ------- | -----------
+queueId | true | Unique business ID.
+tokenId | true | Unique appointment id.
+
+### Error codes
+
+Code | Description
+--------- | -----------
+102 |  Invalid queue ID.
+
 ## Add appointment details
 
 > Add some metadata for appointment
