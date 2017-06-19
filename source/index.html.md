@@ -4074,7 +4074,7 @@ Charges need to have:
 Parameter | Default | Description
 --------- | ------- | -----------
 amount | true | Amount for payment.
-billingHead | true | Type of payment ("subscription" or "business").
+billingHead | true | Type of payment ("business").
 discount | false | Discount amount (if applied)
 
 ### Error codes
@@ -4541,16 +4541,7 @@ curl "http://api.sminq.com/v1/split/payment/create"
   "success": true,
   "httpCode": 200,
   "status": {
-    "paymentAmount": [
-      {
-        "queueServices": [],
-        "total": 100,
-        "tax": 0,
-        "grandTotal": 100,
-        "enterAmountFlag": 1,
-        "discountAmount": 20,
-        "billingHead": "subscription"
-      },
+    "charges": [
       {
         "queueServices": [],
         "total": 500,
@@ -4562,20 +4553,6 @@ curl "http://api.sminq.com/v1/split/payment/create"
       }
     ],
     "billingDetails": [
-      {
-        "billingDetailsId": 54,
-        "billingId": 54,
-        "tokenId": null,
-        "billingType": 1,
-        "amount": 100,
-        "tax": 0,
-        "total": 100,
-        "billName": null,
-        "customerType": 1,
-        "customerId": 2,
-        "queueId": 1,
-        "billingHead": 0
-      },
       {
         "billingDetailsId": 55,
         "billingId": 55,
@@ -4609,9 +4586,72 @@ curl "http://api.sminq.com/v1/split/payment/create"
     ]
   }
 }
+
 ```
 
-This endpoint is used when both Business (consultation) and Subscription (user registration) charges are required to be paid together from App
+```json
+{
+  "success": true,
+  "httpCode": 200,
+  "status": {
+    "charges": [
+      {
+        "queueServices": [],
+        "total": 100,
+        "tax": 0,
+        "grandTotal": 100,
+        "enterAmountFlag": 1,
+        "discountAmount": 20,
+        "billingHead": "freemium"
+      }
+    ],
+    "billingDetails": [
+      {
+        "billingDetailsId": 54,
+        "billingId": 54,
+        "tokenId": null,
+        "billingType": 1,
+        "amount": 100,
+        "tax": 0,
+        "total": 100,
+        "billName": null,
+        "customerType": 1,
+        "customerId": 2,
+        "queueId": null,
+        "billingHead": 0
+      }
+    ],
+    "paymentModes": [
+      {
+        "paymentModeName": "Net Banking/Credit/Debit Card",
+        "paymentModeIcon": null,
+        "paymentModeCode": "NB",
+        "paymentModeId": "2",
+        "gatewayName": "razorpay"
+      },
+      {
+        "paymentModeName": "Paytm Wallet",
+        "paymentModeIcon": null,
+        "paymentModeCode": "PAYTM",
+        "paymentModeId": "6",
+        "gatewayName": "paytm"
+      }
+    ]
+  }
+}
+{
+        "queueServices": [],
+        "total": 100,
+        "tax": 0,
+        "grandTotal": 100,
+        "enterAmountFlag": 1,
+        "discountAmount": 20,
+        "billingHead": "freemium"
+      },
+
+```
+
+Currently, freemium and business payments CAN NOT be merged and paid together.
 
 ### HTTP Request
 
@@ -4633,7 +4673,7 @@ Charges need to have:
 Parameter | Default | Description
 --------- | ------- | -----------
 amount | true | Amount for payment.
-billingHead | true | Type of payment ("subscription" or "business").
+billingHead | true | Type of payment ("freemium" or "business").
 discount | false | Discount amount (if applied)
 
 ### Error codes
@@ -4679,7 +4719,7 @@ curl "http://api.sminq.com/v1/split/payment/verify"
         "discount": 50
       },
       {
-        "billingHead": "subscription",
+        "billingHead": "freemium",
         "amount": 200,
         "billingId": 58,
         "discount": 20
@@ -4689,7 +4729,7 @@ curl "http://api.sminq.com/v1/split/payment/verify"
 }
 ```
 
-This endpoint is used when both Business (consultation) and Subscription (user registration) charges are required to be paid together from App. This is used to verify the amount user is paying online.
+Currently, Freemium and Business payment can not be merged and paid together. This is used to verify the amount user is paying online.
 
 ### HTTP Request
 
