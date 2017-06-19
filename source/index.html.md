@@ -2283,7 +2283,7 @@ curl "http://api.sminq.com/v1/queue/profile"
 }
 ```
 
-This endpoint retrieves profile of a Queue.
+This endpoint retrieves profile of a Queue. If user id is passed in the request, then based on user's tier "advancedBookingDays" will be calculated at the server end and returned.
 
 ### HTTP Request
 
@@ -2293,7 +2293,8 @@ This endpoint retrieves profile of a Queue.
 
 Parameter | Default | Description
 --------- | ------- | -----------
-queueId | false | Queue ID for profile look up
+queueId | true | Queue ID for profile look up
+userId | false | Unique user id
 
 ### Error codes
 
@@ -6300,3 +6301,264 @@ userId | false | User id of the user for whom remaining calculations are calcula
 Code | Description
 --------- | -----------
 385 | This user is not registered for the given queue.
+
+# Freemium
+## Get Freemium plans
+
+> Get Freemium plans
+
+```shell
+curl "http://api.sminq.com/v1/freemium/user/tiers"
+  -H "Authorization: xxxxxx"
+```
+
+> The above command returns JSON structured like this (no token id):
+
+```json
+[
+    {
+        "tierId": 1,
+        "name": "Free Tier",
+        "description": "For free users",
+        "validity": 10,
+        "basePrice": 0,
+        "offerPrice": 0,
+        "tax": 0,
+        "features": [
+            {
+                "name": "Live feed",
+                "identity": "LIVE_FEED_FEATURE",
+                "description": "Queue live feed, get real-time updates about queue progress.",
+                "rules": {
+                    "": null
+                }
+            }
+        ]
+    },
+    {
+        "tierId": 2,
+        "name": "Tier 1",
+        "description": "First paid tier for user",
+        "validity": 1,
+        "basePrice": 499,
+        "offerPrice": 299,
+        "tax": 0,
+        "features": [
+            {
+                "name": "Live feed",
+                "identity": "LIVE_FEED_FEATURE",
+                "description": "Queue live feed, get real-time updates about queue progress.",
+                "rules": {
+                    "": null
+                }
+            },
+            {
+                "name": "Upload prescriptions",
+                "identity": "PRESCRIPTION_UPLOAD_FEATURE",
+                "description": "Upload all doctor prescriptions",
+                "rules": {
+                    "prescription_limit": 3
+                }
+            },
+            {
+                "name": "Advance bookings",
+                "identity": "ADVANCE_BOOKING_FEATURE",
+                "description": "Book in advance for doctors that have bookings on same day",
+                "rules": {
+                    "advance_hours": 6
+                }
+            }
+        ]
+    },
+    {
+        "tierId": 3,
+        "name": "Tier 2",
+        "description": "Tier 2",
+        "validity": 10,
+        "basePrice": 599,
+        "offerPrice": 349,
+        "tax": 0,
+        "features": [
+            {
+                "name": "Live feed",
+                "identity": "LIVE_FEED_FEATURE",
+                "description": "Queue live feed, get real-time updates about queue progress.",
+                "rules": {
+                    "": null
+                }
+            },
+            {
+                "name": "Live ETA",
+                "identity": "ETA_FEATURE",
+                "description": "Get live eta for appointment",
+                "rules": {
+                    "": null
+                }
+            },
+            {
+                "name": "Upload prescriptions",
+                "identity": "PRESCRIPTION_UPLOAD_FEATURE",
+                "description": "Upload all doctor prescriptions",
+                "rules": {
+                    "": null
+                }
+            },
+            {
+                "name": "Advance bookings",
+                "identity": "ADVANCE_BOOKING_FEATURE",
+                "description": "Book in advance for doctors that have bookings on same day",
+                "rules": {
+                    "advance_hours": 12
+                }
+            },
+            {
+                "name": "People ahead alert",
+                "identity": "PEOPLE_AHEAD_TRIGGER_FEATURE",
+                "description": "Track how many people are ahead of you.",
+                "rules": {
+                    "": null
+                }
+            }
+        ]
+    }
+]
+```
+
+
+This endpoint fetches all the active configured Freemium plans in the system. Each plan is associated with Tier Id, Name, Description, Validity and Price (basePrice and offerPrice). offerPrice is the actual purchase amount to be send in payment APIs. Along with this, an array of enabled Features for corresponding tier is also returned.
+
+### HTTP Request
+
+`GET http://api.sminq.com/v1/freemium/user/tiers`
+
+## Add Document(Prescription)
+
+> Add Document
+
+```shell
+curl "http://api.sminq.com/v1/user/document"
+  -H "Authorization: xxxxxx"
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+  "userId": 1,
+  "tokenId": "123456",
+  "queueId": "101",
+  "comment": "Prescription101"
+}
+```
+
+This endpoint accepts Multipart Form Data where "file" field contains the document to be uploaded.
+
+### HTTP Request
+
+`POST http://api.sminq.com/v1/user/document`
+
+### Query Parameters
+
+Parameter | Default | Description
+--------- | ------- | -----------
+queueId | false | Unique business queue id.
+userId | true | Unique user id
+tokenId | false | Unique token id.
+comment | false | Label to be associated with document
+file | true | File to be uploaded.
+
+### Error codes
+
+Code | Description
+--------- | -----------
+387 | No document uploaded.
+110 | Invalid user ID
+403 | Please upgrade plan to use this feature.
+
+## GET Documents
+
+> Get Documents uploaded for a user
+
+```shell
+curl "http://api.sminq.com/v1/user/documents"
+  -H "Authorization: xxxxxx"
+```
+
+> The above command returns JSON structured like this:
+
+```json
+[
+  {
+    "documentId": 121,
+    "userId": 1307,
+    "tokenId": 123456,
+    "queueId": 101,
+    "comment": "Prescription101",
+    "documentUrl": "https://s3-ap-southeast-1.amazonaws.com/sminq.in/images/staging/document-1-1307-1496821830713-ScreenShot2017-06-06at11.56.13AM.png"
+  }
+]
+```
+This API returns all the documents uploaded for the give user id. If token id is passed in request, then documents are returned only for the given token id.
+
+### HTTP Request
+
+`GET http://api.sminq.com/v1/user/documents`
+
+### Query Parameters
+
+Parameter | Default | Description
+--------- | ------- | -----------
+userId | true | Unique user id
+tokenId | false | Unique token id.
+
+### Error codes
+
+Code | Description
+--------- | -----------
+110 | Invalid user ID
+
+## Edit Document
+
+> Edit existing document of a user
+
+```shell
+curl "http://api.sminq.com/v1/user/document/123"
+  -H "Authorization: xxxxxx"
+```
+
+> The above command returns JSON structured like this:
+
+```json
+[
+  {
+    "documentId": 121,
+    "userId": 1307,
+    "tokenId": 123456,
+    "queueId": 101,
+    "comment": "Prescription101",
+    "documentUrl": "https://s3-ap-southeast-1.amazonaws.com/sminq.in/images/staging/document-1-1307-1496821830713-ScreenShot2017-06-06at11.56.13AM.png"
+  }
+]
+```
+
+This API can be used to edit a document's label.
+
+### HTTP Request
+
+`POST http://api.sminq.com/v1/user/document/{documentId}`
+
+### Query Parameters
+
+Parameter | Default | Description
+--------- | ------- | -----------
+userId | true | Unique user id
+queueId | false | Unique queue id.
+tokenId | false | Unique token id.
+comment | false | Label to be associated with document
+
+### Error codes
+
+Code | Description
+--------- | -----------
+110 | Invalid user ID
+
