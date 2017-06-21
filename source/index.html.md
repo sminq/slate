@@ -2770,6 +2770,63 @@ userId | true | Registered user ID.
 info | true | info about the business.
 contact | true | suggested business contact.
 
+## User Notifications
+
+> Get notifications associated with a given token or a user
+
+```shell
+curl "http://api.sminq.com/v1/user/notifications"
+  -H "Authorization: xxxxxx"
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+    "success": true,
+    "httpCode": 200,
+    "status": [
+        {
+            "name": "Token created notification",
+            "type": "u_push",
+            "status": 3,
+            "tokenId": 36158,
+            "createdOn": "2017-06-20 04:38:19",
+            "updateOn": null,
+            "messageId": "37f1609d-28e1-5a99-bfc1-315f801a2644",
+            "message": "delivered 2017-06-20 04:38:20.0",
+            "template": "Dr Adam Apple ह्यांच्या रांगेमध्ये आपला टोकन क्र. 1002 आहे,आपला रांगेतला क्रमांक 1 आहे. रांगेच्या स्थितीसाठी https://goo.gl/X6JmB5 वर क्लिक करा ",
+            "userMobile": null
+        },
+        {
+            "name": "Token cancelled.",
+            "type": "u_push",
+            "status": 3,
+            "tokenId": 36156,
+            "createdOn": "2017-06-20 04:38:06",
+            "updateOn": null,
+            "messageId": "edacf2c3-f60f-5eb8-bb1e-a3015ee1c64f",
+            "message": "delivered 2017-06-20 04:38:07.0",
+            "template": "Dr Adam Apple ह्यांच्या रांगेमधली आपली नियोजित वेळ रद्द झाली आहे. आपण दुसऱ्या एखाद्या वेळेसाठी पुन्हा एकदा टोकन घेऊ शकता. ",
+            "userMobile": null
+        }
+    ]
+}
+```
+
+This endpoint returns all the notifications for a given user or a specific token. For user, currently 20 recent notifications will be returned.
+
+### HTTP Request
+
+`GET http://api.sminq.com/v1/user/notifications`
+
+### Query Parameters
+
+Parameter | Default | Description
+--------- | ------- | -----------
+userId | false | Registered user ID.
+tokenId | false | Unique token id
+
 # Common
 
 ## Create appointment
@@ -6488,7 +6545,7 @@ curl "http://api.sminq.com/v1/user/documents"
 
 ```json
 [
-  {
+  { 
     "documentId": 121,
     "userId": 1307,
     "tokenId": 123456,
