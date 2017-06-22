@@ -5031,6 +5031,7 @@ Code | Description
 
 > Get the payment summary for a specific token, list of all successful and failed payments.
 
+
 ```shell
 curl "http://api.sminq.com/v1/user/payments/summary"
   -H "Authorization: xxxxxx"
@@ -5089,6 +5090,74 @@ tokenId | true | Unique token id.
 Code | Description
 --------- | -----------
 103 | Invalid tokenId
+
+## Transactions summary
+
+> Get list of transactions associated with the given gateway id, list of all successful and failed payments.
+
+```shell
+curl "http://api.sminq.com/v1/user/transaction/details"
+  -H "Authorization: xxxxxx"
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+    "success": true,
+    "httpCode": 200,
+    "status": [
+        {
+            "billingId": 283,
+            "billingDate": "2017-06-09",
+            "tokenId": null,
+            "billingType": 1,
+            "amount": 249,
+            "tax": 0,
+            "total": 249,
+            "billName": null,
+            "queueId": null,
+            "queueName": null,
+            "invoiceId": 215,
+            "invoiceDate": "2017-06-09",
+            "isPaid": 1,
+            "paymentMode": "PAYTM",
+            "paymentStatus": "txn_success",
+            "paymentDate": "2017-06-09",
+            "paymentGateway": "paytm",
+            "invoiceLink": "http://s3-ap-southeast-1.amazonaws.com/sminq.in/invoices/user/freemium/staging/invoice-215.html",
+            "paymentGatewayId": "6322846418",
+            "billingHead": "freemium",
+            "refundAmount": null,
+            "discountAdjusted": null,
+            "refundDate": null,
+            "refundStatus": null
+        }
+    ]
+}
+```
+
+This endpoint returns transactions associated with the given transaction / gateway id (as returned by the payment gateway).
+
+### HTTP Request
+
+`POST http://api.sminq.com/v1/user/transaction/details`
+
+### POST Parameters
+
+Parameter | Default | Description
+--------- | ------- | -----------
+userId | true | Unique user id.
+gatewayId | true | Gateway id as returned by payment gateway.
+
+
+### Error codes
+
+Code | Description
+--------- | -----------
+110 | Invalid user ID
+378 | Invalid Payment Gateway Id.
+
 
 ## All User Payments
 
@@ -6544,16 +6613,72 @@ curl "http://api.sminq.com/v1/user/documents"
 > The above command returns JSON structured like this:
 
 ```json
-[
-  { 
-    "documentId": 121,
-    "userId": 1307,
-    "tokenId": 123456,
-    "queueId": 101,
-    "comment": "Prescription101",
-    "documentUrl": "https://s3-ap-southeast-1.amazonaws.com/sminq.in/images/staging/document-1-1307-1496821830713-ScreenShot2017-06-06at11.56.13AM.png"
-  }
-]
+{
+    "success": true,
+    "httpCode": 200,
+    "status": [
+        {
+            "documentId": 12,
+            "userId": 191,
+            "tokenId": null,
+            "queueId": null,
+            "comment": "p2-060617",
+            "documentUrl": "https://s3-ap-southeast-1.amazonaws.com/sminq.in/user/images/staging/191/https://s3-ap-southeast-1.amazonaws.com/sminq.in/user/images/staging/191/document-191-p2-060617-1496753560346-sminqlogo-png.png",
+            "updatedOn": null,
+            "createdOn": 1496753658000,
+            "thumbnailUrl": "https://s3-ap-southeast-1.amazonaws.com/sminq.in/user/images/staging/191/thumbnail-https://s3-ap-southeast-1.amazonaws.com/sminq.in/user/images/staging/191/document-191-p2-060617-1496753560346-sminqlogo-png.png",
+            "queueName": "ENT"
+        },
+        {
+            "documentId": 13,
+            "userId": 191,
+            "tokenId": null,
+            "queueId": null,
+            "comment": "p2-060617",
+            "documentUrl": "https://s3-ap-southeast-1.amazonaws.com/sminq.in/user/images/staging/191/https://s3-ap-southeast-1.amazonaws.com/sminq.in/user/images/staging/191/document-191-p2-060617-1496753851021-sminqlogo-png.png",
+            "updatedOn": null,
+            "createdOn": 1496753904000,
+            "thumbnailUrl": "https://s3-ap-southeast-1.amazonaws.com/sminq.in/user/images/staging/191/thumbnail-https://s3-ap-southeast-1.amazonaws.com/sminq.in/user/images/staging/191/document-191-p2-060617-1496753851021-sminqlogo-png.png",
+            "queueName": "ENT"
+        },
+        {
+            "documentId": 14,
+            "userId": 191,
+            "tokenId": null,
+            "queueId": null,
+            "comment": "p2-060617",
+            "documentUrl": "https://s3-ap-southeast-1.amazonaws.com/sminq.in/user/images/staging/191/https://s3-ap-southeast-1.amazonaws.com/sminq.in/user/images/staging/191/document-191-p2-060617-1496754686921-sminqlogo-png.png",
+            "updatedOn": null,
+            "createdOn": 1496754729000,
+            "thumbnailUrl": "https://s3-ap-southeast-1.amazonaws.com/sminq.in/user/images/staging/191/thumbnail-https://s3-ap-southeast-1.amazonaws.com/sminq.in/user/images/staging/191/document-191-p2-060617-1496754686921-sminqlogo-png.png",
+            "queueName": "ENT"
+        },
+        {
+            "documentId": 15,
+            "userId": 191,
+            "tokenId": null,
+            "queueId": null,
+            "comment": "p2-070617",
+            "documentUrl": "https://s3-ap-southeast-1.amazonaws.com/sminq.in/user/images/staging/191/https://s3-ap-southeast-1.amazonaws.com/sminq.in/user/images/staging/191/document-191-p2-070617-1496813250270-sminqlogo-png.png",
+            "updatedOn": null,
+            "createdOn": 1496813261000,
+            "thumbnailUrl": "https://s3-ap-southeast-1.amazonaws.com/sminq.in/user/images/staging/191/thumbnail-https://s3-ap-southeast-1.amazonaws.com/sminq.in/user/images/staging/191/document-191-p2-070617-1496813250270-sminqlogo-png.png",
+            "queueName": "ENT"
+        },
+        {
+            "documentId": 29,
+            "userId": 191,
+            "tokenId": null,
+            "queueId": null,
+            "comment": "p2-080617",
+            "documentUrl": "https://s3-ap-southeast-1.amazonaws.com/sminq.in/user/images/staging/191/document-191-1497849860380-success.png",
+            "updatedOn": null,
+            "createdOn": 1497849867000,
+            "thumbnailUrl": "https://s3-ap-southeast-1.amazonaws.com/sminq.in/user/images/staging/191/thumbnail-document-191-1497849860380-success.png",
+            "queueName": "ENT"
+        }
+    ]
+}
 ```
 This API returns all the documents uploaded for the give user id. If token id is passed in request, then documents are returned only for the given token id.
 
