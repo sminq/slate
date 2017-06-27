@@ -5141,9 +5141,9 @@ This endpoint returns transactions associated with the given transaction / gatew
 
 ### HTTP Request
 
-`POST http://api.sminq.com/v1/user/transaction/details`
+`GET http://api.sminq.com/v1/user/transaction/details`
 
-### POST Parameters
+### GET Parameters
 
 Parameter | Default | Description
 --------- | ------- | -----------
@@ -6711,17 +6711,26 @@ curl "http://api.sminq.com/v1/user/document/123"
 > The above command returns JSON structured like this:
 
 ```json
-[
-  {
-    "documentId": 121,
-    "userId": 1307,
-    "comment": "Prescription101",
-    "documentUrl": "https://s3-ap-southeast-1.amazonaws.com/sminq.in/images/staging/document-1-1307-1496821830713-ScreenShot2017-06-06at11.56.13AM.png"
-  }
-]
+{
+    "success": true,
+    "httpCode": 200,
+    "status": {
+        "documentId": 36,
+        "userId": 191,
+        "tokenId": null,
+        "queueId": null,
+        "comment": "As I say so.",
+        "documentUrl": "https://s3-ap-southeast-1.amazonaws.com/sminq.in/user/images/staging/191/document-191-1498558580532-success.png",
+        "updatedOn": 1498568169000,
+        "createdOn": 1498558580000,
+        "thumbnailUrl": "https://s3-ap-southeast-1.amazonaws.com/sminq.in/user/images/staging/191/thumbnail-document-191-1498558580532-success.png",
+        "queueName": null,
+        "tokenNumber": null
+    }
+}
 ```
 
-This API can be used to edit a document's label.
+This API can be used to edit a document's label, attach a document to a token. All the editable values need to be passed (existing if not changed or null if not applicable) to the API.
 
 ### HTTP Request
 
@@ -6732,7 +6741,9 @@ This API can be used to edit a document's label.
 Parameter | Default | Description
 --------- | ------- | -----------
 userId | true | Unique user id
-comment | false | Label to be updated for a document
+comment | false | Label to be updated for the document
+tokenId | false | Token id to be attached to the document
+queueId | false | Queue id to be attached to the document
 
 ### Error codes
 
