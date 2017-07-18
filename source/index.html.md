@@ -1409,7 +1409,7 @@ Code | Description
 
 ## Verify New user
 
-> Registers a new user, OTP verification is required.
+> Verifies the new user who has signed up by validating the entered OTP password
 
 ```shell
 curl "http://api.sminq.com/v1/user/verify"
@@ -1444,7 +1444,7 @@ curl "http://api.sminq.com/v1/user/verify"
 }
 ```
 
-This endpoint registers a user, and sends a verification code to the mobile entered.
+This endpoint verifies the entered password/otp, verifies the user and sets default preferences post sign up.
 
 ### HTTP Request
 
