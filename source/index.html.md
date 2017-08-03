@@ -1274,12 +1274,118 @@ curl "http://api.sminq.com/v1/user/login"
   "success": true,
   "httpCode": 200,
   "status": {
-    "otp": {
-      "password": "LfbsOey9yciSpch9TjHidA==",
-      "mobile": "9898989897",
-      "expire": null
-    },
-    "verified": false
+    "otp": null,
+        "user": {
+            "userId": 1307,
+            "userName": "Keya N",
+            "userEmail": "keya.nema@gmail.com",
+            "userMobile": "9158421603",
+            "createdOn": null,
+            "isBusinessOwner": null,
+            "userVerified": 1,
+            "userCityId": 8,
+            "countryCode": null,
+            "pin": null,
+            "appVersion": null,
+            "canBusinessEdit": null
+        },
+        "authToken": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJLZXlhIE4iLCJpc3MiOiJzbWlucSIsImlhdCI6MTQ5OTY5NjMzOCwibW9iaWxlIjoiOTE1ODQyMTYwMyIsImlkZW50aXR5IjoxMzA3LCJlbWFpbCI6ImtleWEubmVtYUBnbWFpbC5jb20iLCJyb2xlcyI6IlVTRVIiLCJleHAiOjE1MzEyMzIzMzh9.67lumnQKEnxsJPetPp7iQRBsE_HqXhp-TayxtqzYUAQ",
+        "token": null,
+        "userTier": {
+            "tierId": 3,
+            "name": "SMINQ Plus",
+            "description": "Access to all paid features",
+            "validity": 1825,
+            "basePrice": 599,
+            "offerPrice": 499,
+            "tax": 18,
+            "promote": 1,
+            "features": [
+                {
+                    "name": "Real time queue info",
+                    "identity": "LIVE_FEED_FEATURE",
+                    "description": "Queue live feed, get real-time updates about queue progress.",
+                    "rules": {
+                        "": null
+                    }
+                },
+                {
+                    "name": "Estimated time to consult",
+                    "identity": "ETA_FEATURE",
+                    "description": "Get live eta for appointment",
+                    "rules": {
+                        "": null
+                    }
+                },
+                {
+                    "name": "Save prescriptions",
+                    "identity": "PRESCRIPTION_UPLOAD_FEATURE",
+                    "description": "Upload all doctor prescriptions",
+                    "rules": {
+                        "prescription_limit": 100
+                    }
+                },
+                {
+                    "name": "Advance bookings",
+                    "identity": "ADVANCE_BOOKING_FEATURE",
+                    "description": "Book in advance for doctors that have bookings on same day",
+                    "rules": {
+                        "advance_hours": 12
+                    }
+                },
+                {
+                    "name": "People ahead alert",
+                    "identity": "PEOPLE_AHEAD_TRIGGER_FEATURE",
+                    "description": "Track how many people are ahead of you.",
+                    "rules": {
+                        "": null
+                    }
+                },
+                {
+                    "name": "Pharmacy Discounts",
+                    "identity": "DISCOUNTS",
+                    "description": "Get discount on you medicines",
+                    "rules": {
+                        "": null
+                    }
+                },
+                {
+                    "name": "Estimated time alert",
+                    "identity": "ETA_ALERT",
+                    "description": "Get an alert for delays in estimated time to consult",
+                    "rules": {
+                        "": null
+                    }
+                },
+                {
+                    "name": "Token Status Info",
+                    "identity": "LIVE_TOKEN_FEED_FEATURE",
+                    "description": "Token Feed, get token status updates",
+                    "rules": {
+                        "": null
+                    }
+                },
+                {
+                    "name": "Cancellation Limit",
+                    "identity": "CANCELLATION_LIMIT_FEATURE",
+                    "description": "Consecutive free cancellations allowed to a user",
+                    "rules": {
+                        "cancellation_limit": 6
+                    }
+                }
+            ]
+        },
+        "userPreferences": {
+            "preferenceId": 1762,
+            "userId": 1307,
+            "marketingOptIn": null,
+            "languageId": 1,
+            "subscribedToQueue": null,
+            "totalCancellations": 1,
+            "currentCancellations": 0
+        },
+        "verified": true,
+        "pinSet": false
   }
 }
 ```
@@ -1319,22 +1425,117 @@ curl "http://api.sminq.com/v1/user/login/verify"
   "httpCode": 200,
   "status": {
     "otp": null,
-    "user": {
-      "userId": 29,
-      "userName": "Test",
-      "userEmail": null,
-      "userMobile": "9898989897",
-      "createdOn": null,
-      "isBusinessOwner": null,
-      "userVerified": 1,
-      "userCityId": 1,
-      "countryCode": null,
-      "pin": "0",
-      "appVersion": null,
-      "canBusinessEdit": null
-    },
-    "sessionKey": "dcmn+5mPRA8F/VToB2/Kj1uAhEaV+ljx1Rr/jsz4G/IVacTDhLmdolXB4lw10SCE7y3W1zmd0rGR9bzcvpbYFk5hqJusAmST2N1dbSFODwelnfyZC1L6MkBkB4f4RMlS",
-    "verified": null
+        "user": {
+            "userId": 1307,
+            "userName": "Keya N",
+            "userEmail": "keya.nema@gmail.com",
+            "userMobile": "9158421603",
+            "createdOn": null,
+            "isBusinessOwner": null,
+            "userVerified": 1,
+            "userCityId": 8,
+            "countryCode": null,
+            "pin": "1",
+            "appVersion": null,
+            "canBusinessEdit": null
+        },
+        "authToken": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJLZXlhIE4iLCJpc3MiOiJzbWlucSIsImlhdCI6MTQ5OTY5NjMzOCwibW9iaWxlIjoiOTE1ODQyMTYwMyIsImlkZW50aXR5IjoxMzA3LCJlbWFpbCI6ImtleWEubmVtYUBnbWFpbC5jb20iLCJyb2xlcyI6IlVTRVIiLCJleHAiOjE1MzEyMzIzMzh9.67lumnQKEnxsJPetPp7iQRBsE_HqXhp-TayxtqzYUAQ",
+        "token": null,
+        "userTier": {
+            "tierId": 3,
+            "name": "SMINQ Plus",
+            "description": "Access to all paid features",
+            "validity": 1825,
+            "basePrice": 599,
+            "offerPrice": 499,
+            "tax": 18,
+            "promote": 1,
+            "features": [
+                {
+                    "name": "Real time queue info",
+                    "identity": "LIVE_FEED_FEATURE",
+                    "description": "Queue live feed, get real-time updates about queue progress.",
+                    "rules": {
+                        "": null
+                    }
+                },
+                {
+                    "name": "Estimated time to consult",
+                    "identity": "ETA_FEATURE",
+                    "description": "Get live eta for appointment",
+                    "rules": {
+                        "": null
+                    }
+                },
+                {
+                    "name": "Save prescriptions",
+                    "identity": "PRESCRIPTION_UPLOAD_FEATURE",
+                    "description": "Upload all doctor prescriptions",
+                    "rules": {
+                        "prescription_limit": 100
+                    }
+                },
+                {
+                    "name": "Advance bookings",
+                    "identity": "ADVANCE_BOOKING_FEATURE",
+                    "description": "Book in advance for doctors that have bookings on same day",
+                    "rules": {
+                        "advance_hours": 12
+                    }
+                },
+                {
+                    "name": "People ahead alert",
+                    "identity": "PEOPLE_AHEAD_TRIGGER_FEATURE",
+                    "description": "Track how many people are ahead of you.",
+                    "rules": {
+                        "": null
+                    }
+                },
+                {
+                    "name": "Pharmacy Discounts",
+                    "identity": "DISCOUNTS",
+                    "description": "Get discount on you medicines",
+                    "rules": {
+                        "": null
+                    }
+                },
+                {
+                    "name": "Estimated time alert",
+                    "identity": "ETA_ALERT",
+                    "description": "Get an alert for delays in estimated time to consult",
+                    "rules": {
+                        "": null
+                    }
+                },
+                {
+                    "name": "Token Status Info",
+                    "identity": "LIVE_TOKEN_FEED_FEATURE",
+                    "description": "Token Feed, get token status updates",
+                    "rules": {
+                        "": null
+                    }
+                },
+                {
+                    "name": "Cancellation Limit",
+                    "identity": "CANCELLATION_LIMIT_FEATURE",
+                    "description": "Consecutive free cancellations allowed to a user",
+                    "rules": {
+                        "cancellation_limit": 6
+                    }
+                }
+            ]
+        },
+        "userPreferences": {
+            "preferenceId": 1762,
+            "userId": 1307,
+            "marketingOptIn": null,
+            "languageId": 1,
+            "subscribedToQueue": null,
+            "totalCancellations": 1,
+            "currentCancellations": 0
+        },
+        "verified": null,
+        "pinSet": false
   }
 }
 ```
@@ -1423,23 +1624,118 @@ curl "http://api.sminq.com/v1/user/verify"
   "success": true,
   "httpCode": 200,
   "status": {
-    "otp": null,
-    "user": {
-      "userId": 30,
-      "userName": "Signup",
-      "userEmail": null,
-      "userMobile": "9797979797",
-      "createdOn": null,
-      "isBusinessOwner": null,
-      "userVerified": 0,
-      "userCityId": 1,
-      "countryCode": null,
-      "pin": "0",
-      "appVersion": null,
-      "canBusinessEdit": null
-    },
-    "sessionKey": "p+WdYAo3HQa4qZGQt5sElRsta0ckvwAmuH+4FVZ9Nb7LH9Ph9WW7HtEO0OqiUyHzr/pFgk36aJ3GIf+57oPLnjvMlFYdVHOa+94pjHKQxKglYlVt+AUoylpQRuC1fTb/",
-    "verified": true
+     "otp": null,
+        "user": {
+            "userId": 1307,
+            "userName": "Keya N",
+            "userEmail": "keya.nema@gmail.com",
+            "userMobile": "9158421603",
+            "createdOn": null,
+            "isBusinessOwner": null,
+            "userVerified": 1,
+            "userCityId": 8,
+            "countryCode": null,
+            "pin": "1",
+            "appVersion": null,
+            "canBusinessEdit": null
+        },
+        "authToken": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJLZXlhIE4iLCJpc3MiOiJzbWlucSIsImlhdCI6MTQ5OTY5NjMzOCwibW9iaWxlIjoiOTE1ODQyMTYwMyIsImlkZW50aXR5IjoxMzA3LCJlbWFpbCI6ImtleWEubmVtYUBnbWFpbC5jb20iLCJyb2xlcyI6IlVTRVIiLCJleHAiOjE1MzEyMzIzMzh9.67lumnQKEnxsJPetPp7iQRBsE_HqXhp-TayxtqzYUAQ",
+        "token": null,
+        "userTier": {
+            "tierId": 3,
+            "name": "SMINQ Plus",
+            "description": "Access to all paid features",
+            "validity": 1825,
+            "basePrice": 599,
+            "offerPrice": 499,
+            "tax": 18,
+            "promote": 1,
+            "features": [
+                {
+                    "name": "Real time queue info",
+                    "identity": "LIVE_FEED_FEATURE",
+                    "description": "Queue live feed, get real-time updates about queue progress.",
+                    "rules": {
+                        "": null
+                    }
+                },
+                {
+                    "name": "Estimated time to consult",
+                    "identity": "ETA_FEATURE",
+                    "description": "Get live eta for appointment",
+                    "rules": {
+                        "": null
+                    }
+                },
+                {
+                    "name": "Save prescriptions",
+                    "identity": "PRESCRIPTION_UPLOAD_FEATURE",
+                    "description": "Upload all doctor prescriptions",
+                    "rules": {
+                        "prescription_limit": 100
+                    }
+                },
+                {
+                    "name": "Advance bookings",
+                    "identity": "ADVANCE_BOOKING_FEATURE",
+                    "description": "Book in advance for doctors that have bookings on same day",
+                    "rules": {
+                        "advance_hours": 12
+                    }
+                },
+                {
+                    "name": "People ahead alert",
+                    "identity": "PEOPLE_AHEAD_TRIGGER_FEATURE",
+                    "description": "Track how many people are ahead of you.",
+                    "rules": {
+                        "": null
+                    }
+                },
+                {
+                    "name": "Pharmacy Discounts",
+                    "identity": "DISCOUNTS",
+                    "description": "Get discount on you medicines",
+                    "rules": {
+                        "": null
+                    }
+                },
+                {
+                    "name": "Estimated time alert",
+                    "identity": "ETA_ALERT",
+                    "description": "Get an alert for delays in estimated time to consult",
+                    "rules": {
+                        "": null
+                    }
+                },
+                {
+                    "name": "Token Status Info",
+                    "identity": "LIVE_TOKEN_FEED_FEATURE",
+                    "description": "Token Feed, get token status updates",
+                    "rules": {
+                        "": null
+                    }
+                },
+                {
+                    "name": "Cancellation Limit",
+                    "identity": "CANCELLATION_LIMIT_FEATURE",
+                    "description": "Consecutive free cancellations allowed to a user",
+                    "rules": {
+                        "cancellation_limit": 6
+                    }
+                }
+            ]
+        },
+        "userPreferences": {
+            "preferenceId": 1762,
+            "userId": 1307,
+            "marketingOptIn": null,
+            "languageId": 1,
+            "subscribedToQueue": null,
+            "totalCancellations": 1,
+            "currentCancellations": 0
+        },
+        "verified": true,
+        "pinSet": false
   }
 }
 ```
@@ -2280,6 +2576,13 @@ curl "http://api.sminq.com/v1/queue/profile"
     "cityId": 1,
     "verticalType": "clinic"
     "registrationType": 0 // 0 = regular monetization model; 1 = registration model
+    "location": "Aundh",
+    "registrationStartDate": null,
+    "queueStatus": null,
+    "businessStatus": null,
+    "thumbnail": "https://s3-ap-southeast-1.amazonaws.com/sminq.in/images/staging/thumbnail-queue-101-1497531597360-profile.PNG",
+    "bookingOpensAt": null,
+    "currentCancellations": 0
 }
 ```
 
@@ -2554,7 +2857,10 @@ curl "http://api.sminq.com/v1/user/appointment/status"
       "userAccountSummary": null,
       "userDiscountApplicable": 0
     },
-    "appType": 0
+    "appType": 0,
+    "eta": "19:00:00",
+    "cancellationThreshold": 12, // threshold configured for this queue, in hours
+    "currentCancellations": 0 // total consecutive cancellations done by this user till current time
   }
 }
 ```
@@ -2716,6 +3022,8 @@ curl "http://api.sminq.com/v1/user/preference"
     "userId": 1,
     "languageId": 2,
     "marketingOptIn": null,
+    "totalCancellations": 0,  //only for internal analytics purpose and not to be used by clients
+    "currentCancellations": 0 //total number of consecutive cancellations done by the user
   }
 }
 ```
@@ -6845,6 +7153,66 @@ Parameter | Default | Description
 userId | true | Unique user id
 queueId | true | Unique queue id
 tokenId | false | Unique token id
+
+### Error codes
+
+Code | Description
+--------- | -----------
+110 | Invalid user ID
+413 | Please upgrade plan to use this feature.
+
+## Token Live Feed
+
+> Get feed of a live token.
+
+```shell
+curl "http://api.sminq.com/v1/appointment/feed"
+  -H "Authorization: xxxxxx"
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+    "success": true,
+    "httpCode": 200,
+    "status": {
+        "tierId": 2,
+        "queueId": 101,
+        "feedItems": [
+            {
+                "timestamp": 1501225430320,
+                "feedItem": {
+                    "type": "token_eta",
+                    "message": "Token 1903 eta updated to 12:33:50"
+                }
+            },
+            {
+                "timestamp": 1501225489380,
+                "feedItem": {
+                    "type": "token_eta",
+                    "message": "Token 1903 eta updated to 12:34:49"
+                }
+            }
+        ],
+        "channel": "38563"
+    }
+}
+```
+
+All the available feed/activity of a token, till current time are returned to the client in response. This is a static response and we are not using Pusher for live token feed. Clients will have to refresh every n minutes to get the updated token activity. Response may have "blur" tags if particular events are not applicable for the given user tier.
+
+### HTTP Request
+
+`GET  http://api.sminq.com/v1/appointment/feed?queueId=101&userId=1307&tokenId=31313`
+
+### Query Parameters
+
+Parameter | Default | Description
+--------- | ------- | -----------
+userId | true | Unique user id
+queueId | true | Unique queue id
+tokenId | true | Unique token id
 
 ### Error codes
 
