@@ -2860,7 +2860,8 @@ curl "http://api.sminq.com/v1/user/appointment/status"
     "appType": 0,
     "eta": "19:00:00",
     "cancellationThreshold": 12, // threshold configured for this queue, in hours
-    "currentCancellations": 0 // total consecutive cancellations done by this user till current time
+    "currentCancellations": 0, // total consecutive cancellations done by this user till current time
+    "slotGroupId": 202  // group in which this token belongs
   }
 }
 ```
@@ -4412,7 +4413,16 @@ curl "http://api.sminq.com/v1/split/payment/cash"
       "tokenUserGroup": null,
       "uuid": null,
       "tokenNumber": null
-    }
+    },
+    "paymentGatewayId": null,
+    "charges": [
+      {
+        "billingHead": "freemium",
+        "amount": 299,
+        "billingId": 325,
+        "discount": null
+      }
+    ]
   }
 }
 ```
