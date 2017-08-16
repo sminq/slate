@@ -4840,7 +4840,7 @@ curl "http://api.sminq.com/v1/split/payment/charges"
   -H "Authorization: xxxxxx"
 ```
 
-> The above command returns JSON structured like this:
+> The above command returns JSON structured like this (type = 0):
 
 ```json
 {
@@ -4887,6 +4887,42 @@ curl "http://api.sminq.com/v1/split/payment/charges"
     "grandTotal": 800
   }
 }
+
+```shell
+curl "http://api.sminq.com/v1/split/payment/charges?countryId=1&type=1"
+  -H "Authorization: xxxxxx"
+```
+
+> The above command returns JSON structured like this (type = 1):
+
+```json
+{
+    "success": true,
+    "httpCode": 200,
+    "status": {
+        "serviceCharges": null,
+        "paymentModes": [
+            {
+                "paymentModeName": "Link Payment",
+                "paymentModeIcon": null,
+                "paymentModeCode": "CC",
+                "paymentModeId": 7,
+                "gatewayName": "razorpay"
+            },
+            {
+                "paymentModeName": "Cashless",
+                "paymentModeIcon": null,
+                "paymentModeCode": "CASHLESS",
+                "paymentModeId": 8,
+                "gatewayName": "simpl"
+            }
+        ],
+        "enterAmountFlag": 0,
+        "total": 0,
+        "tax": 0,
+        "grandTotal": 0
+    }
+}
 ```
 
 This endpoint is used to get the business service charges if any.
@@ -4901,6 +4937,7 @@ Parameter | Default | Description
 --------- | ------- | -----------
 queueId | true | Unique business queue ID.
 countryId | true | Unique country ID of the business.
+type | false | System Only = 1 for all internal payment modes like Link and Cashless
 
 
 ## Add Split Online payment
