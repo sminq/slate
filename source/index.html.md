@@ -6912,6 +6912,112 @@ This endpoint fetches all the active configured Freemium plans in the system. Ea
 
 `GET http://api.sminq.com/v1/freemium/user/tiers`
 
+## Get User Freemium tier
+
+> Get User Tier
+
+```shell
+curl "http://api.sminq.com/v1/user/tier"
+  -H "Authorization: xxxxxx"
+```
+
+> The above command returns JSON structured like this (no token id):
+
+```json
+{
+    "success": true,
+    "httpCode": 200,
+    "status": {
+        "tierId": 2,
+        "name": "Sminq Regular",
+        "description": "Access to paid features like Advance bookings etc.",
+        "validity": 365,
+        "basePrice": 349,
+        "offerPrice": 299,
+        "tax": 18,
+        "promote": 0,
+        "features": [
+            {
+                "name": "Real time queue info",
+                "identity": "LIVE_FEED_FEATURE",
+                "description": "Queue live feed, get real-time updates about queue progress.",
+                "rules": {
+                    "": null
+                }
+            },
+            {
+                "name": "Save prescriptions",
+                "identity": "PRESCRIPTION_UPLOAD_FEATURE",
+                "description": "Upload all doctor prescriptions",
+                "rules": {
+                    "prescription_limit": 10
+                }
+            },
+            {
+                "name": "Advance bookings",
+                "identity": "ADVANCE_BOOKING_FEATURE",
+                "description": "Book in advance for doctors that have bookings on same day",
+                "rules": {
+                    "advance_hours": 0
+                }
+            },
+            {
+                "name": "People ahead alert",
+                "identity": "PEOPLE_AHEAD_TRIGGER_FEATURE",
+                "description": "Track how many people are ahead of you.",
+                "rules": {
+                    "": null
+                }
+            },
+            {
+                "name": "Pharmacy Discounts",
+                "identity": "DISCOUNTS",
+                "description": "Get discount on you medicines",
+                "rules": {
+                    "": null
+                }
+            },
+            {
+                "name": "Token Status Info",
+                "identity": "LIVE_TOKEN_FEED_FEATURE",
+                "description": "Token Feed, get token status updates",
+                "rules": {
+                    "": null
+                }
+            },
+            {
+                "name": "Cancellation Limit",
+                "identity": "CANCELLATION_LIMIT_FEATURE",
+                "description": "Consecutive free cancellations allowed to a user",
+                "rules": {
+                    "cancellation_limit": 4
+                }
+            }
+        ],
+        "userValidity": "2018-08-28",
+        "purchaseDate": 1503918427000
+    }
+}
+```
+
+This endpoint returns tier information of the user. If it's a free user, then free tier information will be returned. Apart from tier specific values, user's validity (userValidity) and registration date i.e. the date on which user bought membership (purchaseDate) will also be returned. For free users both the fields will be null.
+
+### HTTP Request
+
+`GET http://api.sminq.com/v1/user/tiers?userId=1307`
+
+### Query Parameters
+
+Parameter | Default | Description
+--------- | ------- | -----------
+userId | false | Unique user id
+
+### Error codes
+
+Code | Description
+--------- | -----------
+110 | Invalid user ID
+
 ## Add Document(Prescription)
 
 > Add Document
